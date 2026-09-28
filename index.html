@@ -2,42 +2,80 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Hell House Cafe | The Ultimate Showpiece Cafe & Lounge • Unnao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Flex House Cafe | Chinese & Pizza Restaurant | Unnao</title>
   
-  <!-- PWA & Device Compatibility -->
+  <!-- SEO & Open Graph Meta Tags -->
+  <meta name="description" content="Welcome to The Flex House Cafe — Unnao's premier showpiece cafe & restaurant. Authentic Handcrafted Pizzas, Crispy Kurkure Momos, Wok Indo-Chinese, Burgers, Pasta & Super Combos. Book your table or order online!">
+  <meta name="keywords" content="The Flex House Cafe, Flex House Unnao, Cafe in Unnao, Pizza in Unnao, Kurkure Momos Unnao, Chinese Restaurant Unnao, PD Nagar Cafe, Nirala Nagar Unnao">
+  <meta name="author" content="The Flex House Cafe">
+  <meta property="og:title" content="The Flex House Cafe — A Taste of Comfort">
+  <meta property="og:description" content="Good Food • Great Mood • Every Time. 5.0 Star Rated Cafe in PD Nagar, Nirala Nagar, Unnao.">
+  <meta property="og:image" content="assets/images/storefront.jpg">
+  <meta property="og:type" content="restaurant">
+
+  <!-- Favicon & PWA App Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/favicon.png">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#ff1e42">
-  <link rel="apple-touch-icon" href="assets/images/logo.jpg">
+  <meta name="theme-color" content="#07090E">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Hell House Cafe">
-  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="FlexHouse">
   <meta name="format-detection" content="telephone=no">
-  <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
 
-  <!-- SEO & Meta -->
-  <meta name="description" content="Hell House Cafe (Hellfire Hidden House) in Hiran Nagar, Unnao. Experience electrifying neon vibes, artisan pizzas, cheesy burgers, exotic mocktails & reserve VIP tables online.">
-  <meta name="keywords" content="Hell House Cafe, Hellfire Hidden House, Unnao Cafe, Hiran Nagar Cafe, Unnao Restaurant, Pizza in Unnao, Table Booking Unnao">
-  <meta property="og:title" content="Hell House Cafe | Neon Cyber Lounge & Restaurant">
-  <meta property="og:description" content="Good Food • Good Mood • Great Vibes. Book tables online and explore our fiery artisan menu.">
-  <meta property="og:image" content="assets/images/logo.jpg">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Schema.org Structured Data for Google Restaurant Search & Rich Snippets -->
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- High-Speed Preconnect for Google Maps Embed (Instant Loading) -->
+  <link rel="preconnect" href="https://www.google.com">
+  <link rel="preconnect" href="https://maps.google.com">
+  <link rel="preconnect" href="https://maps.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google.com">
+  <link rel="dns-prefetch" href="https://maps.google.com">
+
+  <!-- Instant Legacy Cache Invalidation Script -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        for (var r of regs) r.update();
+      });
+    }
+    if ('caches' in window) {
+      caches.keys().then(function(names) {
+        for (var name of names) {
+          if (!name.startsWith('flexhouse-v5')) {
+            caches.delete(name);
+          }
+        }
+      });
+    }
+  </script>
+
+  <!-- Stylesheet (Cache-Busted) -->
+  <link rel="stylesheet" href="assets/css/style.css?v=flexhouse-5.3">
+
+  <!-- Structured Data / JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Restaurant",
-    "name": "Hell House Cafe",
-    "alternateName": "Hellfire Hidden House Cafe",
-    "image": "https://hell-house-cafe.vercel.app/assets/images/logo.jpg",
-    "url": "https://hell-house-cafe.vercel.app",
-    "telephone": "+918874056350",
-    "servesCuisine": ["Cafe", "Fast Food", "Italian", "Pizza", "Burgers", "Beverages"],
-    "priceRange": "₹₹",
+    "name": "The Flex House Cafe",
+    "alternateName": "द फ्लेक्स हाउस कैफे",
+    "image": "assets/images/storefront.jpg",
+    "telephone": "+918400580216",
+    "servesCuisine": ["Pizza", "Chinese", "Fast Food", "Cafe", "Burgers", "Momos"],
+    "priceRange": "₹29 - ₹520",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Hiran Nagar",
+      "streetAddress": "Near Galaxy Hospital, PD Nagar, Nirala Nagar",
       "addressLocality": "Unnao",
       "addressRegion": "Uttar Pradesh",
       "postalCode": "209801",
@@ -45,852 +83,1093 @@
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 26.5471,
-      "longitude": 80.4908
+      "latitude": 26.549,
+      "longitude": 80.488
     },
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        "opens": "11:00",
-        "closes": "23:00"
-      }
-    ],
-    "acceptsReservations": "True"
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "11:00",
+      "closes": "23:30"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "100",
+      "bestRating": "5"
+    }
   }
   </script>
-
-  <!-- Google Fonts: Syne (Luxury Modern), Cinzel (Haute Roman), Outfit & Plus Jakarta Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800;900&family=Righteous&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="assets/css/style.css?v=2.8">
 </head>
 <body>
 
-  <!-- Luxury Cinematic Noise Grain Texture -->
-  <div class="luxury-grain-overlay" aria-hidden="true"></div>
+  <!-- ==========================================================================
+       FULLSCREEN CONTINUOUS AMBIENT BACKGROUND VIDEO (SPACE DESCENT)
+       ========================================================================== -->
+  <div class="site-bg-video-wrapper" aria-hidden="true">
+    <video 
+      id="bgSpaceVideo" 
+      class="site-bg-video" 
+      autoplay 
+      muted 
+      loop 
+      playsinline 
+      webkit-playsinline
+      x5-playsinline
+      disableremoteplayback
+      disablepictureinpicture
+      preload="auto"
+      poster="assets/images/preview-reel-1.png">
+      <source src="assets/videos/cafe-reel-1.mp4" type="video/mp4">
+    </video>
+    <div class="site-bg-video-overlay"></div>
+  </div>
 
-  <!-- Background Animated Ember Canvas -->
-  <canvas id="emberCanvas"></canvas>
+  <!-- Dynamic Ambient Neon Glow Background & Cursor Aura -->
+  <div class="neon-ambient-glow" aria-hidden="true">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+    <div class="glow-orb glow-orb-cursor" id="cursorNeonGlow"></div>
+  </div>
+  <div class="cyber-grid-overlay" aria-hidden="true"></div>
 
-  <!-- Ambient Neon Glowing Orbs -->
-  <div class="ambient-neon-glow glow-orb-1"></div>
-  <div class="ambient-neon-glow glow-orb-2"></div>
-  <div class="ambient-neon-glow glow-orb-3"></div>
-
-  <!-- Mouse Spotlight Glow -->
-  <div class="cursor-spotlight"></div>
-
-  <!-- Toast Notification Container for Order Limits -->
-  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
-
-  <!-- SITE HEADER / NAVBAR -->
-  <header class="site-header" id="siteHeader">
-    <div class="container nav-wrapper">
-      <a href="#hero" class="brand-logo-link">
-        <div class="brand-avatar-box">
-          <img src="assets/images/logo.jpg" alt="Hell House Cafe Devil Logo" width="48" height="48">
-        </div>
-        <div class="brand-name-group">
-          <h1 class="brand-title">HELL <span>HOUSE</span></h1>
-          <div class="brand-badge">
-            <span class="live-dot"></span>
-            <span>OPEN TODAY • UNNAO</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Desktop Nav Links -->
-      <nav aria-label="Main Navigation">
-        <ul class="nav-links">
-          <li><a href="#vibes" class="nav-link">The Vibe</a></li>
-          <li><a href="#menu" class="nav-link">Fiery Menu</a></li>
-          <li><a href="#reservation" class="nav-link">Reserve Table</a></li>
-          <li><a href="#founder" class="nav-link">Meet The Boss</a></li>
-          <li><a href="#gallery" class="nav-link">Board Gallery</a></li>
-          <li><a href="#location" class="nav-link">Location</a></li>
-        </ul>
-      </nav>
-
-      <!-- Header Action Items -->
-      <div class="nav-actions">
-        <!-- PWA Install Button (Auto-detected on Android/Chrome/Windows/Edge) -->
-        <button id="installAppBtn" class="btn-install-app" title="Install Hell House Cafe App" style="display: none;" aria-label="Install App">
-          <i class="fa-solid fa-download"></i>
-          <span>Install App</span>
-        </button>
-
-        <!-- Audio Ambience Synth Toggle -->
-        <button id="soundToggleBtn" class="btn-sound-toggle" title="Toggle Fiery Ambience Audio" aria-label="Toggle sound ambience">
-          <i class="fa-solid fa-volume-xmark"></i>
-        </button>
-
-        <!-- Flex Tray (Cart) Toggle -->
-        <button class="btn-cart-toggle" id="openTrayBtn" title="View Selected Items Tray" aria-label="Open Cart Tray">
-          <i class="fa-solid fa-bag-shopping"></i>
-          <span class="cart-counter" style="display: none;">0</span>
-        </button>
-
-        <!-- Book VIP Table CTA -->
-        <a href="#reservation" class="btn-reserve-nav">
-          <i class="fa-solid fa-calendar-check"></i>
-          <span>Book Table</span>
+  <!-- Announcement & Quick Contact Top Bar -->
+  <div class="top-announcement-bar">
+    <div class="container announcement-container">
+      <div class="announcement-item" id="storeStatusContainer">
+        <span class="status-dot" id="storeLiveDot"></span>
+        <span id="storeLiveText"><strong>OPEN NOW</strong> · Closes 11:30 PM</span>
+      </div>
+      <div class="announcement-item announcement-address" style="color: var(--neon-gold-bright);">
+        <span>📍 Near Galaxy Hospital, PD Nagar, Nirala Nagar, Unnao</span>
+      </div>
+      <div class="announcement-item announcement-contact">
+        <a href="tel:08400580216" style="color: #FFFFFF; text-decoration: none; font-weight: 700;">
+          <span class="desktop-contact-label">📞 Call / WhatsApp: </span>
+          <span class="mobile-contact-label">📞 </span>
+          <span style="color: var(--neon-cyan);">084005 80216</span>
         </a>
-
-        <!-- Mobile Menu Hamburger -->
-        <button class="mobile-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu">
-          <i class="fa-solid fa-bars"></i>
-        </button>
       </div>
-    </div>
-  </header>
-
-  <!-- HERO SECTION - THE HAUTE SHOWPIECE -->
-  <section class="hero-section" id="hero">
-    <div class="container hero-grid">
-      <div class="hero-content">
-        <div class="hero-luxury-crest jump-badge-anim">
-          <span class="crest-diamond">◆</span>
-          <span>HAUTE GASTRONOMY & NEON HAVEN • EST. UNNAO</span>
-          <span class="crest-diamond">◆</span>
-        </div>
-
-        <h2 class="hero-title">
-          <span class="hero-overline">DISCOVER THE SANCTUARY</span>
-          <span class="hero-main-title">HELL <span class="text-luxury-glow">HOUSE</span></span>
-          <span class="hero-subline">HAUTE CAFE & CYBER LOUNGE</span>
-        </h2>
-
-        <p class="hero-subtitle">
-          Where artisanal gourmet mastery meets hypnotic neon ambiance. Hand-stretched fermented sourdough crusts, velvety garlic bechamel, and bespoke glowing mixology crafted for those who demand the extraordinary.
-        </p>
-
-        <div class="hero-cta-group">
-          <a href="#reservation" class="btn-primary-glow luxury-gold-sweep">
-            <i class="fa-solid fa-crown"></i>
-            <span>Reserve VIP Table</span>
-          </a>
-          <a href="#menu" class="btn-secondary-glow">
-            <i class="fa-solid fa-utensils"></i>
-            <span>Explore Tasting Menu</span>
-          </a>
-        </div>
-
-        <!-- Real Cafe Highlights Strip with Gold Accents -->
-        <div class="hero-stats-row">
-          <div class="stat-item">
-            <span class="stat-number">4.9 <span class="highlight">★</span></span>
-            <span class="stat-label">Critics' Hype</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-number">25<span class="highlight">+</span></span>
-            <span class="stat-label">Artisan Recipes</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-number">100<span class="highlight">%</span></span>
-            <span class="stat-label">Pure Veg Craft</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-number">11 <span class="highlight">PM</span></span>
-            <span class="stat-label">Late Night Vibe</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Hero Visual: Jumping Mascot & Floating Badges -->
-      <div class="hero-visual-stage">
-        <div class="mascot-glow-backdrop"></div>
-        <div class="mascot-outer-ring"></div>
-
-        <div class="mascot-card-hero jump-bounce-infinite" title="Hellfire Hidden House Devil Mascot">
-          <img src="assets/images/logo.jpg" alt="Hellfire Hidden House Red Devil Mascot" width="340" height="340">
-        </div>
-
-        <!-- Floating Interactive Badges with Jumping Physics -->
-        <div class="float-card-tag tag-top-left" onclick="location.href='#menu'">
-          <i class="fa-solid fa-pizza-slice"></i>
-          <div>
-            <div>Artisan Pizza</div>
-            <small style="color: var(--neon-amber);">From ₹70</small>
-          </div>
-        </div>
-
-        <div class="float-card-tag tag-bottom-right" onclick="location.href='#reservation'">
-          <i class="fa-solid fa-champagne-glasses"></i>
-          <div>
-            <div>VIP Lounge Pods</div>
-            <small style="color: #10b981;">Instant Booking</small>
-          </div>
-        </div>
-
-        <div class="float-card-tag tag-bottom-left" onclick="location.href='#menu'">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
-          <div>
-            <div>Electric Mocktails</div>
-            <small style="color: var(--neon-gold);">Pure Refreshment</small>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MARQUEE FLEX STRIP -->
-  <div class="marquee-strip">
-    <div class="marquee-track">
-      <div class="marquee-item"><i class="fa-solid fa-fire"></i> HELL HOUSE CAFE</div>
-      <div class="marquee-item amber"><i class="fa-solid fa-bolt"></i> OPPOSITE BANK OF BARODA</div>
-      <div class="marquee-item"><i class="fa-solid fa-pepper-hot"></i> HIRAN NAGAR, UNNAO</div>
-      <div class="marquee-item amber"><i class="fa-solid fa-pizza-slice"></i> HAND-TOSSED ARTISAN PIZZAS</div>
-      <div class="marquee-item"><i class="fa-solid fa-cocktail"></i> NEON GLOWING MOCKTAILS</div>
-      <div class="marquee-item amber"><i class="fa-solid fa-burger"></i> CHEESY LOADED BURGERS</div>
-      <div class="marquee-item"><i class="fa-solid fa-star"></i> CALL +91 8874056350</div>
-      <div class="marquee-item amber"><i class="fa-solid fa-music"></i> GOOD FOOD • GOOD MOOD</div>
-      
-      <!-- Duplicate for infinite seamless scroll -->
-      <div class="marquee-item"><i class="fa-solid fa-fire"></i> HELL HOUSE CAFE</div>
-      <div class="marquee-item amber"><i class="fa-solid fa-bolt"></i> OPPOSITE BANK OF BARODA</div>
-      <div class="marquee-item"><i class="fa-solid fa-pepper-hot"></i> HIRAN NAGAR, UNNAO</div>
-      <div class="marquee-item amber"><i class="fa-solid fa-pizza-slice"></i> HAND-TOSSED ARTISAN PIZZAS</div>
-      <div class="marquee-item"><i class="fa-solid fa-cocktail"></i> NEON GLOWING MOCKTAILS</div>
-      <div class="marquee-item amber"><i class="fa-solid fa-burger"></i> CHEESY LOADED BURGERS</div>
-      <div class="marquee-item"><i class="fa-solid fa-star"></i> CALL +91 8874056350</div>
-      <div class="marquee-item amber"><i class="fa-solid fa-music"></i> GOOD FOOD • GOOD MOOD</div>
     </div>
   </div>
 
-  <!-- THE VIBE / EXPERIENCE SECTION -->
-  <section class="section-wrapper" id="vibes">
+  <!-- Main Sticky Site Header -->
+  <header class="site-header">
     <div class="container">
-      <div class="section-header">
-        <div class="section-tag">
-          <i class="fa-solid fa-sparkles"></i>
-          <span>The Flex Factor</span>
-        </div>
-        <h2 class="section-title">WHY <span>HELL HOUSE</span> HITS DIFFERENT</h2>
-        <p class="section-desc">
-          We didn't just build a regular cafe. We created Unnao’s ultimate destination for aesthetics, deep conversations, birthday bashes, and mouth-watering food.
-        </p>
-      </div>
+      <nav class="nav-inner" aria-label="Main Navigation">
+        <!-- Brand / Logo with Authentic Emblem & Rising Steam -->
+        <a href="#home" class="brand-link" title="The Flex House Cafe Home">
+          <div class="brand-logo-mark">
+            <img src="assets/images/flex-logo.png" alt="The Flex House Cafe Logo" class="brand-logo-img">
+            <div class="brand-logo-steam" aria-hidden="true">
+              <span class="micro-steam ms-1"></span>
+              <span class="micro-steam ms-2"></span>
+            </div>
+            <div class="brand-logo-shimmer" aria-hidden="true"></div>
+          </div>
+          <div class="brand-text-block">
+            <span class="brand-title">The Flex House</span>
+            <span class="brand-subtitle"><span class="brand-accent-dash">—</span> CAFE <span class="brand-accent-dash">—</span></span>
+          </div>
+        </a>
 
-      <div class="vibe-grid">
-        <div class="vibe-card">
-          <div class="vibe-icon-box">
-            <i class="fa-solid fa-camera-retro"></i>
-          </div>
-          <h3 class="vibe-title">Neon Cyber Aesthetic</h3>
-          <p class="vibe-text">
-            Immerse yourself in fiery crimson and amber neon lights. Every corner is carefully designed as a photoshoot hotspot for your Instagram and Snapchat feeds.
-          </p>
-          <div class="vibe-badge">
-            <i class="fa-solid fa-hashtag"></i> Photo-Ready Vibes
-          </div>
-        </div>
+        <!-- Desktop Navigation Links & Mobile Drawer -->
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#flex-showcase" class="nav-link">Showpiece</a></li>
+          <li><a href="#menu" class="nav-link">Menu</a></li>
+          <li><a href="#reservation" class="nav-link">Book Table</a></li>
+          <li><a href="#gallery" class="nav-link">Gallery</a></li>
+          <li><a href="#location" class="nav-link">Location</a></li>
 
-        <div class="vibe-card">
-          <div class="vibe-icon-box">
-            <i class="fa-solid fa-pizza-slice"></i>
-          </div>
-          <h3 class="vibe-title">Sizzling Artisan Kitchen</h3>
-          <p class="vibe-text">
-            From our signature Hell House Special Pizza to decadent molten pasta and momos, every dish is prepared fresh using rich cheeses and premium spice blends.
-          </p>
-          <div class="vibe-badge">
-            <i class="fa-solid fa-check"></i> Pure Veg Perfection
-          </div>
-        </div>
+          <!-- Mobile Drawer Action Buttons (Visible only inside mobile drawer) -->
+          <li class="mobile-drawer-cta">
+            <a href="#reservation" class="btn btn-primary mobile-drawer-btn" style="width: 100%; justify-content: center;">
+              <span>⚡ Book a Table</span>
+            </a>
+          </li>
+          <li class="mobile-drawer-cta">
+            <a href="tel:08400580216" class="btn btn-secondary mobile-drawer-btn" style="width: 100%; justify-content: center;">
+              <span>📞 Call Cafe: 084005 80216</span>
+            </a>
+          </li>
+          <li class="mobile-drawer-cta">
+            <button type="button" class="btn btn-secondary mobile-drawer-btn" id="mobileDrawerTourBtn" style="width: 100%; justify-content: center;">
+              <span>🎬 Watch Cafe Entrance Tour</span>
+            </button>
+          </li>
+        </ul>
 
-        <div class="vibe-card">
-          <div class="vibe-icon-box">
-            <i class="fa-solid fa-cake-candles"></i>
-          </div>
-          <h3 class="vibe-title">Celebrations & Parties</h3>
-          <p class="vibe-text">
-            Planning a birthday bash, anniversary, or squad reunion? Reserve our exclusive party booths with custom lighting and music playlist curation.
-          </p>
-          <div class="vibe-badge">
-            <i class="fa-solid fa-crown"></i> VIP Booking Available
-          </div>
-        </div>
+        <!-- Action Buttons -->
+        <div class="nav-actions">
+          <!-- Install App (PWA) Button -->
+          <button type="button" class="icon-btn" id="pwaInstallBtn" title="Install App on Device" aria-label="Install App" style="display: none; color: var(--neon-cyan); border-color: var(--neon-cyan);">
+            📲
+          </button>
 
-        <div class="vibe-card">
-          <div class="vibe-icon-box">
-            <i class="fa-solid fa-couch"></i>
-          </div>
-          <h3 class="vibe-title">Chill Lounge & Games</h3>
-          <p class="vibe-text">
-            Sink into plush booth seating, catch up with your besties, play board games, and sip chilled thick shakes in an unhurried, cozy ambience.
-          </p>
-          <div class="vibe-badge">
-            <i class="fa-solid fa-heart"></i> Warm Hospitality
-          </div>
-        </div>
-      </div>
+          <!-- Live Tour Toggle Button (Desktop Only) -->
+          <button type="button" class="icon-btn desktop-only-btn" id="headerTourToggleBtn" title="Toggle Live Cafe Tour" aria-label="Live Cafe Tour">
+            🎬
+          </button>
 
-      <!-- Visual Food Showcase Banners -->
-      <div class="showcase-dual-grid">
-        <div class="showcase-banner-card" onclick="location.href='#menu'">
-          <img src="assets/images/pizza-showcase.jpg" alt="Artisan Hellfire Pizza with cheese drip">
-          <div class="showcase-overlay">
-            <span class="showcase-tag">Signature Craving</span>
-            <h3 class="showcase-heading">Hell House Special Pizza</h3>
-            <p class="showcase-subtext">Crisp crust, spicy Moroccan herb infusion, and heavy mozzarella cheese pull.</p>
-          </div>
-        </div>
+          <!-- Sound Toggle -->
+          <button type="button" class="icon-btn" id="soundToggleBtn" title="Toggle Sound Effects" aria-label="Toggle Sound Effects">
+            🔊
+          </button>
 
-        <div class="showcase-banner-card" onclick="location.href='#menu'">
-          <img src="assets/images/mocktail-showcase.jpg" alt="Blue Sky & Crimson Neon Mocktail">
-          <div class="showcase-overlay">
-            <span class="showcase-tag">Electric Chill</span>
-            <h3 class="showcase-heading">Blue Sky & Neon Mocktails</h3>
-            <p class="showcase-subtext">Sparkling curacao, crushed lime, fresh garden mint, and zero compromise on refreshment.</p>
-          </div>
+          <!-- Flex Celebration Mode Button (Desktop Only) -->
+          <button type="button" class="icon-btn desktop-only-btn" id="flexCelebrationBtn" title="Activate Flex Celebration" aria-label="Activate Flex Mode">
+            🔥
+          </button>
+
+          <!-- Cart Trigger -->
+          <button type="button" class="icon-btn cart-trigger-pill" id="cartTriggerBtn" title="View Order Cart" aria-label="View Order Cart">
+            🛒
+            <span class="cart-count-badge" id="cartCountBadge" style="display: none;">0</span>
+          </button>
+
+          <!-- Quick Reserve CTA (Desktop Only) -->
+          <a href="#reservation" class="btn btn-primary btn-jump desktop-only-btn" style="padding: 0.55rem 1.25rem; font-size: 0.88rem;">
+            <span>⚡ Book Table</span>
+          </a>
+
+          <!-- Mobile Nav Toggle Hamburger -->
+          <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+          </button>
         </div>
-      </div>
+      </nav>
     </div>
-  </section>
+  </header>
 
-  <!-- INTERACTIVE DIGITAL MENU SECTION -->
-  <section class="section-wrapper" id="menu">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">
-          <i class="fa-solid fa-fire-burner"></i>
-          <span>Taste The Inferno</span>
-        </div>
-        <h2 class="section-title">OUR <span>FIERY</span> MENU</h2>
-        <p class="section-desc">
-          Crafted with love and served with swagger. Filter by category, toggle pizza sizes, and assemble your order directly into your Flex Tray.
-        </p>
-      </div>
-
-      <!-- Search & Category Filters -->
-      <div class="menu-search-filter-wrapper">
-        <div class="search-input-box">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="menuSearchInput" class="menu-search-input" placeholder="Search any dish (e.g., Margherita, Momos, Oreo Shake, Pasta)..." aria-label="Search Menu Dishes">
-        </div>
-
-        <div class="menu-category-pills" id="categoryPills">
-          <!-- Dynamically populated from menu-data.js -->
-        </div>
-      </div>
-
-      <!-- Menu Items Grid -->
-      <div class="menu-items-grid" id="menuItemsGrid">
-        <!-- Rendered by app.js -->
-      </div>
+  <!-- Marquee Ticker -->
+  <div class="neon-marquee-container" aria-hidden="true">
+    <div class="neon-marquee-track">
+      <div class="marquee-item"><span class="highlight-gold">🔥 THE FLEX HOUSE CAFE</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">🍕 AUTHENTIC HANDCRAFTED PIZZAS <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-cyan">🥟 SIGNATURE CRISPY KURKURE MOMOS</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">🥢 FLAME-WOK INDO-CHINESE & HAKKA NOODLES <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-gold">⚡ 12+ SUPER COMBOS STARTING @ ₹130</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">☕ THICK BLENDED COLD COFFEE <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-gold">⭐ 5.0 STAR RATED ON GOOGLE</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">📍 NEAR GALAXY HOSPITAL, PD NAGAR, UNNAO <span class="marquee-dot">◆</span></div>
+      <!-- Duplicate for seamless infinite loop -->
+      <div class="marquee-item"><span class="highlight-gold">🔥 THE FLEX HOUSE CAFE</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">🍕 AUTHENTIC HANDCRAFTED PIZZAS <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-cyan">🥟 SIGNATURE CRISPY KURKURE MOMOS</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">🥢 FLAME-WOK INDO-CHINESE & HAKKA NOODLES <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-gold">⚡ 12+ SUPER COMBOS STARTING @ ₹130</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">☕ THICK BLENDED COLD COFFEE <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-gold">⭐ 5.0 STAR RATED ON GOOGLE</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">📍 NEAR GALAXY HOSPITAL, PD NAGAR, UNNAO <span class="marquee-dot">◆</span></div>
     </div>
-  </section>
+  </div>
 
-  <!-- TABLE RESERVATION SECTION - "CLIENTS CAN BOOK FROM WEBSITE ONLY" -->
-  <section class="section-wrapper reservation-section" id="reservation">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">
-          <i class="fa-solid fa-calendar-check"></i>
-          <span>Direct VIP Reservation</span>
+  <main id="mainContent">
+    <!-- ==========================================================================
+         HERO SECTION (THE SHOWPIECE ENTRANCE)
+         ========================================================================== -->
+    <section class="hero-section" id="home">
+      <div class="container">
+        <div class="hero-grid">
+          <!-- Left Column: Content -->
+          <div class="hero-content">
+            <div class="hero-pill-badge">
+              <span>👑 UNNAO'S ULTIMATE VIBE & FOOD SHOWPIECE</span>
+            </div>
+            
+            <h1 class="hero-main-title">
+              <span class="hero-neon-sign">THE FLEX HOUSE</span>
+            </h1>
+
+            <div class="hero-subhead font-serif">
+              <span>Chinese & Pizza Restaurant</span>
+            </div>
+
+            <p class="hero-tagline-quote">
+              <em>"GOOD FOOD • GREAT MOOD • EVERY TIME"</em><br>
+              Experience Unnao's most aesthetic neon-lit dining destination with <strong>deliciously fresh pizzas</strong>, <strong>crunchy Kurkure momos</strong>, and <strong>sizzling street-style Chinese</strong>.
+            </p>
+
+            <div class="hero-btn-group">
+              <a href="#reservation" class="btn btn-primary btn-jump" style="font-size: 1.05rem; padding: 0.85rem 1.8rem;">
+                <span>⚡ Reserve a Table</span>
+              </a>
+              <a href="#menu" class="btn btn-secondary" style="font-size: 1.05rem; padding: 0.85rem 1.8rem;">
+                <span>📜 Explore Full Menu</span>
+              </a>
+            </div>
+
+            <!-- Jumping Interactive Category Stickers (Click to jump to category!) -->
+            <div class="jumping-stickers-container">
+              <div class="jump-sticker" data-jump-category="pizza" title="Click to view Pizzas">
+                <span class="jump-icon">🍕</span>
+                <span>Artisan Pizzas</span>
+              </div>
+              <div class="jump-sticker" data-jump-category="momos" title="Click to view Momos">
+                <span class="jump-icon">🥟</span>
+                <span>Kurkure Momos</span>
+              </div>
+              <div class="jump-sticker" data-jump-category="chinese" title="Click to view Chinese">
+                <span class="jump-icon">🥢</span>
+                <span>Hakka Noodles</span>
+              </div>
+              <div class="jump-sticker" data-jump-category="combos" title="Click to view Combos">
+                <span class="jump-icon">⚡</span>
+                <span>Combos from ₹130</span>
+              </div>
+              <div class="jump-sticker" data-jump-category="drinks" title="Click to view Drinks">
+                <span class="jump-icon">☕</span>
+                <span>Cold Coffee</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Visual Showcase (Real Storefront with Neon Frame) -->
+          <div class="hero-visual">
+            <div class="hero-card-stack">
+              <!-- Floating Top Stat -->
+              <div class="hero-floating-stat stat-rating">
+                <span class="stat-rating-icon">⭐</span>
+                <div>
+                  <div class="stat-rating-val">5.0 / 5.0</div>
+                  <div class="stat-rating-label">Google Rating</div>
+                </div>
+              </div>
+
+              <!-- Main Storefront Photo Frame -->
+              <div class="storefront-frame">
+                <img src="assets/images/storefront.jpg" alt="The Flex House Cafe Storefront in Unnao" class="storefront-img">
+                <div class="storefront-badge-bottom">
+                  <div class="storefront-badge-text">
+                    <h4>The Flex House Cafe</h4>
+                    <p>📍 PD Nagar, Nirala Nagar, Unnao</p>
+                  </div>
+                  <span class="menu-badge" style="background: rgba(0, 255, 163, 0.2); border-color: var(--neon-green); color: var(--neon-green);">
+                    Verified Spot
+                  </span>
+                </div>
+              </div>
+
+              <!-- Floating Bottom Stat -->
+              <div class="hero-floating-stat stat-deals">
+                <span style="font-size: 1.6rem;">🔥</span>
+                <div>
+                  <div class="stat-rating-val">12+ Combos</div>
+                  <div class="stat-rating-label">Starting @ ₹130</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <h2 class="section-title">RESERVE YOUR <span>TABLE</span></h2>
-        <p class="section-desc">
-          Skip the queue and secure your favorite booth in advance. Pick your vibe, choose your time, and get instant booking confirmation.
-        </p>
       </div>
+    </section>
 
-      <div class="reservation-card-main">
-        <form id="tableBookingForm">
-          <div class="reservation-form-grid">
+    <!-- ==========================================================================
+         SHOWPIECE STATS COUNTERS
+         ========================================================================== -->
+    <section class="flex-stats-strip">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number neon-gold-text">5.0 ★</div>
+            <div class="stat-label">Google Rating</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number neon-cyan-text">12+</div>
+            <div class="stat-label">Value Combos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number neon-magenta-text">₹29</div>
+            <div class="stat-label">Starting Price</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" style="color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green-glow);">100%</div>
+            <div class="stat-label">Fresh & Pure Veg</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <!-- Party Size Selector -->
-            <div class="form-field-group" style="grid-column: 1 / -1;">
-              <label class="form-label">
-                <i class="fa-solid fa-users"></i> How Many Guests In Your Squad?
-              </label>
-              <div class="chips-selector">
-                <button type="button" class="party-chip active" data-party="2 People">👤 2 People (Couple / Duo)</button>
-                <button type="button" class="party-chip" data-party="3-4 People">👥 3-4 People (Squad)</button>
-                <button type="button" class="party-chip" data-party="5-8 People">🔥 5-8 People (Family / Gang)</button>
-                <button type="button" class="party-chip" data-party="10+ VIP Bash">🎉 10+ Guests (Birthday / Party)</button>
+    <!-- ==========================================================================
+         WHY WE FLEX / SHOWPIECE HIGHLIGHTS
+         ========================================================================== -->
+    <section class="showpiece-gallery-section" id="flex-showcase">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-pill">🔥 The Showpiece Experience</div>
+          <h2 class="section-title">Built For The Flex</h2>
+          <p class="section-desc">We combine premium restaurant aesthetics with mouthwatering flavors and unmatched street prices. Here is why foodies in Unnao obsess over us.</p>
+        </div>
+
+        <div class="showpiece-cards-grid">
+          <!-- Card 1: Artisanal Pizzas -->
+          <article class="showpiece-card">
+            <div class="showpiece-img-box">
+              <img src="assets/images/flex-pizza.jpg" alt="Artisan Cheese Pull Pizza at The Flex House Cafe" class="showpiece-img">
+              <div class="showpiece-overlay">
+                <span class="showpiece-tag">Signature Pizza</span>
+                <h3 class="showpiece-title">Artisan Fresh-Dough Pizzas</h3>
+                <p class="showpiece-caption">Fresh rolled dough, signature herb marinara, and gooey golden mozzarella cheese pulls with succulent paneer cubes.</p>
               </div>
             </div>
+          </article>
 
-            <!-- Vibe / Table Type Preference -->
-            <div class="form-field-group" style="grid-column: 1 / -1;">
-              <label class="form-label">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> Select Seating Vibe & Ambience
-              </label>
-              <div class="vibe-chip-selector">
-                <div class="vibe-slot-card active" data-vibe="Hellfire Neon Lounge">
-                  <i class="fa-solid fa-fire"></i>
-                  <div class="vibe-slot-text">
-                    <span class="vibe-slot-name">Hellfire Neon Lounge</span>
-                    <span class="vibe-slot-desc">Bright neon lights & aesthetic selfie zone</span>
+          <!-- Card 2: Kurkure Momos & Chinese Flame -->
+          <article class="showpiece-card">
+            <div class="showpiece-img-box">
+              <img src="assets/images/flex-momos-noodles.jpg" alt="Kurkure Momos and Hakka Noodles at The Flex House Cafe" class="showpiece-img">
+              <div class="showpiece-overlay">
+                <span class="showpiece-tag" style="color: var(--neon-cyan);">Crunch & Wok Flame</span>
+                <h3 class="showpiece-title">Iconic Kurkure Momos & Noodles</h3>
+                <p class="showpiece-caption">Golden crunchy crumb-coated momos paired with wok-tossed spicy Hakka & Schezwan noodles cooked over roaring flame.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: Burgers, Shakes & Ambiance -->
+          <article class="showpiece-card">
+            <div class="showpiece-img-box">
+              <img src="assets/images/flex-burger-coffee.jpg" alt="Cheesy Burgers and Cold Coffee at The Flex House Cafe" class="showpiece-img">
+              <div class="showpiece-overlay">
+                <span class="showpiece-tag" style="color: var(--neon-magenta);">Chill & Indulge</span>
+                <h3 class="showpiece-title">Cheese Burgers & Frothy Cold Coffee</h3>
+                <p class="showpiece-caption">Towering cheese-melt burgers, spicy Peri-Peri fries, and rich creamy cold coffee served in an atmospheric neon glow.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         ONLINE TABLE RESERVATION STUDIO (CLIENT SELF-BOOKING)
+         ========================================================================== -->
+    <section class="reservation-section" id="reservation">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-pill">⚡ Direct Table Booking</div>
+          <h2 class="section-title">Reserve Your Table Online</h2>
+          <p class="section-desc">Skip the waiting line! Pick your favorite neon ambiance zone, choose your time slot, and receive instant digital confirmation pass.</p>
+        </div>
+
+        <div class="reservation-studio">
+          <form id="tableBookingForm" novalidate>
+            <div class="booking-form-grid">
+              
+              <!-- 1. Select Vibe Zone -->
+              <div class="form-group-full">
+                <label class="form-label">
+                  1. Choose Your Table Ambiance & Vibe <span class="req">*</span>
+                </label>
+                <div class="zone-selector-grid">
+                  <div class="zone-option-card selected" data-zone="Neon Glow Lounge">
+                    <span class="zone-icon">🌌</span>
+                    <span class="zone-name">Neon Glow Lounge</span>
+                    <span class="zone-desc">Dynamic neon vibes, beats & aesthetic selfie lighting</span>
                   </div>
-                </div>
-
-                <div class="vibe-slot-card" data-vibe="Cozy Corner Booth">
-                  <i class="fa-solid fa-couch"></i>
-                  <div class="vibe-slot-text">
-                    <span class="vibe-slot-name">Cozy Corner Booth</span>
-                    <span class="vibe-slot-desc">Intimate, private and low-lit romantic spot</span>
+                  <div class="zone-option-card" data-zone="Cozy VIP Booth">
+                    <span class="zone-icon">🛋️</span>
+                    <span class="zone-name">Cozy VIP Booth</span>
+                    <span class="zone-desc">Plush comfortable booth, intimate privacy & comfort</span>
                   </div>
-                </div>
-
-                <div class="vibe-slot-card" data-vibe="Squad Chill Pod">
-                  <i class="fa-solid fa-gamepad"></i>
-                  <div class="vibe-slot-text">
-                    <span class="vibe-slot-name">Squad Chill Pod</span>
-                    <span class="vibe-slot-desc">Wide tables ideal for board games & chats</span>
+                  <div class="zone-option-card" data-zone="Family Feast Area">
+                    <span class="zone-icon">👨‍👩‍👧‍👦</span>
+                    <span class="zone-name">Family Feast Area</span>
+                    <span class="zone-desc">Spacious tables ideal for family groups & dinners</span>
                   </div>
-                </div>
-
-                <div class="vibe-slot-card" data-vibe="Birthday Celebration Hall">
-                  <i class="fa-solid fa-cake-candles"></i>
-                  <div class="vibe-slot-text">
-                    <span class="vibe-slot-name">Celebration Special</span>
-                    <span class="vibe-slot-desc">Birthday music, party decor setup & space</span>
+                  <div class="zone-option-card" data-zone="Celebration & Flex Corner">
+                    <span class="zone-icon">🎉</span>
+                    <span class="zone-name">Celebration & Flex</span>
+                    <span class="zone-desc">Birthday party setup, group celebrations & fanfare</span>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Date Picker -->
-            <div class="form-field-group">
-              <label for="resDate" class="form-label">
-                <i class="fa-solid fa-calendar-day"></i> Select Reservation Date
-              </label>
-              <input type="date" id="resDate" class="form-control-input" required>
-            </div>
-
-            <!-- Time Slots -->
-            <div class="form-field-group">
-              <label class="form-label">
-                <i class="fa-solid fa-clock"></i> Select Time Slot
-              </label>
-              <div class="time-slot-grid">
-                <button type="button" class="time-slot-btn" data-time="01:00 PM">01:00 PM</button>
-                <button type="button" class="time-slot-btn" data-time="03:30 PM">03:30 PM</button>
-                <button type="button" class="time-slot-btn" data-time="05:30 PM">05:30 PM</button>
-                <button type="button" class="time-slot-btn active" data-time="07:00 PM">07:00 PM</button>
-                <button type="button" class="time-slot-btn" data-time="08:30 PM">08:30 PM</button>
-                <button type="button" class="time-slot-btn" data-time="09:45 PM">09:45 PM</button>
+              <!-- 2. Guest Count Selector -->
+              <div class="form-group-full">
+                <label class="form-label">
+                  2. Number of Guests <span class="req">*</span>
+                </label>
+                <div class="guest-selector-pills">
+                  <div class="guest-pill" data-guests="1 Person">1 Guest</div>
+                  <div class="guest-pill selected" data-guests="2 Guests">2 Guests</div>
+                  <div class="guest-pill" data-guests="3-4 Guests">3-4 Guests</div>
+                  <div class="guest-pill" data-guests="5-6 Guests">5-6 Guests</div>
+                  <div class="guest-pill" data-guests="7-8 Guests">7-8 Guests</div>
+                  <div class="guest-pill" data-guests="8+ VIP Party">8+ Party</div>
+                </div>
               </div>
-            </div>
 
-            <!-- Guest Name -->
-            <div class="form-field-group">
-              <label for="resName" class="form-label">
-                <i class="fa-solid fa-user"></i> Your Full Name
-              </label>
-              <input type="text" id="resName" class="form-control-input" placeholder="e.g. Aditya Sharma" required>
-            </div>
+              <!-- 3. Date Selection -->
+              <div>
+                <label for="bookingDate" class="form-label">
+                  3. Select Date <span class="req">*</span>
+                </label>
+                <input type="date" id="bookingDate" class="form-control" required>
+              </div>
 
-            <!-- Contact Number -->
-            <div class="form-field-group">
-              <label for="resPhone" class="form-label">
-                <i class="fa-solid fa-phone"></i> Mobile Number (WhatsApp)
-              </label>
-              <input type="tel" id="resPhone" class="form-control-input" placeholder="+91 98765 43210" required>
-            </div>
+              <!-- 4. Time Slot Chips -->
+              <div>
+                <label class="form-label">
+                  4. Select Time Slot <span class="req">*</span>
+                </label>
+                <div class="time-slot-grid">
+                  <div class="time-slot-chip" data-time="01:30 PM">01:30 PM</div>
+                  <div class="time-slot-chip" data-time="04:30 PM">04:30 PM</div>
+                  <div class="time-slot-chip" data-time="06:30 PM">06:30 PM</div>
+                  <div class="time-slot-chip" data-time="07:30 PM">07:30 PM</div>
+                  <div class="time-slot-chip selected" data-time="08:00 PM">08:00 PM</div>
+                  <div class="time-slot-chip" data-time="08:45 PM">08:45 PM</div>
+                  <div class="time-slot-chip" data-time="09:30 PM">09:30 PM</div>
+                  <div class="time-slot-chip" data-time="10:15 PM">10:15 PM</div>
+                </div>
+              </div>
 
-            <!-- Special Requests -->
-            <div class="form-field-group" style="grid-column: 1 / -1;">
-              <label for="resNotes" class="form-label">
-                <i class="fa-solid fa-comment-dots"></i> Special Notes / Occasion (Optional)
-              </label>
-              <textarea id="resNotes" class="form-control-textarea" rows="2" placeholder="e.g. Birthday cake cut at 8 PM, please play favorite track, anniversary surprise..."></textarea>
+              <!-- 5. Guest Contact Details -->
+              <div>
+                <label for="bookingName" class="form-label">
+                  5. Your Full Name <span class="req">*</span>
+                </label>
+                <input type="text" id="bookingName" class="form-control" placeholder="e.g. Aditya Sharma" required>
+              </div>
+
+              <div>
+                <label for="bookingPhone" class="form-label">
+                  6. Mobile / WhatsApp Number <span class="req">*</span>
+                </label>
+                <input type="tel" id="bookingPhone" class="form-control" placeholder="e.g. 084005 80216" required>
+              </div>
+
+              <!-- 7. Special Requests / Notes -->
+              <div class="form-group-full">
+                <label for="bookingNotes" class="form-label">
+                  7. Special Occasion / Instructions (Optional)
+                </label>
+                <input type="text" id="bookingNotes" class="form-control" placeholder="e.g. Birthday celebration, High spice pizza, Need quiet booth">
+              </div>
+
             </div>
 
             <!-- Submit Row -->
             <div class="reservation-submit-row">
               <div class="reservation-guarantee">
-                <i class="fa-solid fa-shield-halved"></i>
-                <span>Instant confirmation • Zero booking fee • 100% Guaranteed Table</span>
+                <i>✓</i>
+                <span>Instant Confirmation &bull; Zero Booking Fees &bull; Table Held for 20 Mins</span>
               </div>
-              <button type="submit" class="btn-primary-glow">
-                <i class="fa-solid fa-fire"></i>
-                <span>Confirm VIP Reservation</span>
+              <button type="submit" class="btn btn-primary btn-jump" style="padding: 0.9rem 2.2rem; font-size: 1.05rem;">
+                <span>⚡ Confirm Table Booking Now</span>
               </button>
             </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONFIRMATION MODAL -->
-  <div class="booking-modal-overlay" id="bookingModal" role="dialog" aria-modal="true">
-    <div class="booking-modal-card">
-      <div class="modal-devil-icon">
-        <i class="fa-solid fa-fire-burner"></i>
-      </div>
-      <h3 class="modal-title">Table Reserved!</h3>
-      <p class="modal-subtitle">Your spot at Hell House Cafe is officially booked.</p>
-
-      <div class="modal-ticket-box">
-        <div class="ticket-row">
-          <span class="ticket-label">Booking Code:</span>
-          <span class="ticket-val code" id="ticketToken">HHC-5829</span>
-        </div>
-        <div class="ticket-row">
-          <span class="ticket-label">Guest Name:</span>
-          <span class="ticket-val" id="ticketName">Aditya</span>
-        </div>
-        <div class="ticket-row">
-          <span class="ticket-label">Squad Size:</span>
-          <span class="ticket-val" id="ticketParty">2 People</span>
-        </div>
-        <div class="ticket-row">
-          <span class="ticket-label">Date & Time:</span>
-          <span class="ticket-val" id="ticketDateTime">Today at 7:00 PM</span>
-        </div>
-        <div class="ticket-row">
-          <span class="ticket-label">Seating Vibe:</span>
-          <span class="ticket-val" id="ticketVibe">Hellfire Neon Lounge</span>
-        </div>
-        <div class="ticket-row">
-          <span class="ticket-label">Address:</span>
-          <span class="ticket-val" style="font-size: 0.8rem;">Hiran Nagar (Opp. Bank of Baroda), Unnao</span>
+          </form>
         </div>
       </div>
+    </section>
 
-      <div class="modal-action-btns">
-        <button class="btn-whatsapp-order" id="confirmWhatsAppBtn">
-          <i class="fa-brands fa-whatsapp"></i>
-          <span>Send To Cafe Owner on WhatsApp</span>
-        </button>
-        <button class="btn-secondary-glow" id="closeModalBtn" style="justify-content: center; width: 100%;">
-          <span>Done & Close</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MEET THE FOUNDER / THE BOSS LOUNGE -->
-  <section class="section-wrapper" id="founder">
-    <div class="container">
-      <div class="founder-card">
-        <div class="founder-photo-frame jump-hover">
-          <img src="assets/images/owner.jpg" alt="Founder & Creator of Hell House Cafe" width="400" height="400">
-          <div class="founder-tag-overlay">
-            <i class="fa-solid fa-crown"></i> Founder & Visionary
-          </div>
+    <!-- ==========================================================================
+         AUTHENTIC FULL MENU SECTION (100% ITEMS FROM MENUS)
+         ========================================================================== -->
+    <section class="menu-section" id="menu">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-pill">🍽️ Authentic Menu</div>
+          <h2 class="section-title">The Complete Flex Menu</h2>
+          <p class="section-desc">Every single authentic item, combo, and size pricing straight from The Flex House kitchen. Prepared fresh to order with pure ingredients.</p>
         </div>
 
-        <div class="founder-content">
-          <div class="section-tag" style="align-self: flex-start;">
-            <i class="fa-solid fa-quote-left"></i>
-            <span>The Mind Behind The Fire</span>
-          </div>
-
-          <h3 class="founder-name">WELCOME TO OUR SANCTUARY</h3>
-          <span class="founder-role">HELL HOUSE CAFE • UNNAO</span>
-
-          <div class="founder-quote-box">
-            <p class="founder-quote">
-              “We didn't just want to create another cafe in Unnao. We wanted to build a sanctuary where young dreamers, foodies, and friends can experience world-class neon aesthetics, soulful food, and unforgettable memories without having to travel to metro cities.”
-            </p>
-          </div>
-
-          <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.95rem;">
-            Whether you are dropping by for a quick post-college Maggi and Cold Coffee, or hosting a high-energy birthday celebration, our doors are open with open arms and the hottest vibes.
-          </p>
-
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-            <a href="tel:+918874056350" class="btn-primary-glow" style="padding: 0.75rem 1.6rem; font-size: 0.92rem;">
-              <i class="fa-solid fa-phone"></i>
-              <span>Connect Direct: +91 8874056350</span>
-            </a>
-            <a href="#reservation" class="btn-secondary-glow" style="padding: 0.75rem 1.6rem; font-size: 0.92rem;">
-              <i class="fa-solid fa-calendar-check"></i>
-              <span>Book Table With Us</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- AUTHENTIC MENU BOARD & BOOK SHOWCASE GALLERY -->
-  <section class="section-wrapper" id="gallery">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">
-          <i class="fa-solid fa-images"></i>
-          <span>Authentic Proof</span>
-        </div>
-        <h2 class="section-title">THE <span>ORIGINAL</span> BOARDS</h2>
-        <p class="section-desc">
-          Browse our original high-definition physical chalkboard menu and lounge brochure directly below. Tap any board for full-screen zoom.
-        </p>
-      </div>
-
-      <div class="gallery-grid">
-        <!-- Board 1: Chalkboard Master Menu -->
-        <div class="gallery-item-card lightbox-trigger" data-fullsrc="assets/images/menu-board.jpg">
-          <div class="gallery-thumb-box">
-            <img src="assets/images/menu-board.jpg" alt="Hell House Cafe Chalkboard Menu" loading="lazy">
-            <div class="gallery-zoom-pill">
-              <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
-              <span>Tap to Zoom High-Res</span>
+        <!-- Banner for Original Photographed Menu Sheets -->
+        <div class="authentic-menu-sheet-banner">
+          <div class="authentic-banner-content">
+            <span class="menu-stamp-icon">📜</span>
+            <div>
+              <div class="authentic-banner-title">Authentic Printed Menu Cards Available</div>
+              <div class="authentic-banner-desc">Inspect our official restaurant menu boards with all prices & Combos.</div>
             </div>
           </div>
-          <div class="gallery-item-info">
-            <div class="gallery-card-header">
-              <span class="gallery-pill-tag"><i class="fa-solid fa-chalkboard"></i> Wall Master Menu</span>
-              <span class="gallery-view-hint"><i class="fa-solid fa-expand"></i> Tap to Expand</span>
-            </div>
-            <h4 class="gallery-title">Chalkboard Master Menu</h4>
-            <p class="gallery-desc">Original full wall chalkboard menu displaying all authentic categories, pricing, and signature items.</p>
+          <button type="button" class="btn btn-secondary" id="openMenuPhotosBtn" style="font-size: 0.88rem; padding: 0.6rem 1.25rem;">
+            <span>🔍 View Original Menu Photos</span>
+          </button>
+        </div>
+
+        <!-- Category Filter & Search Header -->
+        <div class="menu-header-bar">
+          <!-- Search Bar -->
+          <div class="menu-search-wrapper">
+            <span class="menu-search-icon">🔍</span>
+            <input type="text" class="menu-search-input" id="menuSearchInput" placeholder="Search pizzas, momos, noodles, combos...">
+          </div>
+
+          <div style="font-size: 0.85rem; color: var(--text-muted);">
+            💡 <em>Select S / M / L or Half / Full to toggle sizes & prices instantly!</em>
           </div>
         </div>
 
-        <!-- Board 2: Official Cafe Brochure -->
-        <div class="gallery-item-card lightbox-trigger" data-fullsrc="assets/images/menu-book.jpg">
-          <div class="gallery-thumb-box">
-            <img src="assets/images/menu-book.jpg" alt="Hell House Cafe Lounge Brochure" loading="lazy">
-            <div class="gallery-zoom-pill">
-              <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
-              <span>Tap to Zoom High-Res</span>
-            </div>
-          </div>
-          <div class="gallery-item-info">
-            <div class="gallery-card-header">
-              <span class="gallery-pill-tag"><i class="fa-solid fa-book-open"></i> Deluxe Book Menu</span>
-              <span class="gallery-view-hint"><i class="fa-solid fa-expand"></i> Tap to Expand</span>
-            </div>
-            <h4 class="gallery-title">Official Cafe Brochure</h4>
-            <p class="gallery-desc">The deluxe black & gold lounge book menu with full appetizer, starter, burger, shake & beverage collections.</p>
-          </div>
+        <!-- Category Tabs -->
+        <div class="category-filter-pills" role="tablist">
+          <button type="button" class="cat-pill active" data-category="combos">
+            <span>🔥 Super Combos</span>
+            <span class="cat-count-badge">12</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="pizza">
+            <span>🍕 Handcrafted Pizzas</span>
+            <span class="cat-count-badge">12</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="chinese">
+            <span>🥢 Chinese Delights</span>
+            <span class="cat-count-badge">10</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="momos">
+            <span>🥟 Sizzling Momos</span>
+            <span class="cat-count-badge">5</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="burgers">
+            <span>🍔 Burgers & Burger Pizza</span>
+            <span class="cat-count-badge">4</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="sandwiches">
+            <span>🥪 Sandwiches & Wraps</span>
+            <span class="cat-count-badge">7</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="maggie-pasta">
+            <span>🍝 Maggie & Pasta</span>
+            <span class="cat-count-badge">7</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="drinks">
+            <span>☕ Beverages & Chillers</span>
+            <span class="cat-count-badge">4</span>
+          </button>
+        </div>
+
+        <!-- Dynamic Menu Cards Grid (Populated by menu-data.js) -->
+        <div class="menu-grid" id="menuGridContainer">
+          <!-- Injected via JavaScript -->
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- LIGHTBOX MODAL FOR ZOOM -->
-  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true">
-    <button class="btn-close-lightbox" id="closeLightboxBtn" aria-label="Close Preview">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-    <div class="lightbox-img-wrapper">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="Menu Full Preview" id="lightboxImg">
-    </div>
-  </div>
-
-  <!-- LOCATION & VISIT DETAILS SECTION -->
-  <section class="section-wrapper" id="location">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">
-          <i class="fa-solid fa-location-dot"></i>
-          <span>Find The Flame</span>
+    <!-- ==========================================================================
+         OFFICIAL PHYSICAL MENU BOARDS
+         ========================================================================== -->
+    <section class="showpiece-gallery-section" id="gallery">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-pill">📜 Official Menu Boards</div>
+          <h2 class="section-title">Physical Cafe Menus</h2>
+          <p class="section-desc">Browse our authentic printed cafe menus — view every ₹130 super combo, handcrafted pizza, crunchy Kurkure momo, and gourmet specialty in its full original layout.</p>
         </div>
-        <h2 class="section-title">VISIT <span>HELL HOUSE</span></h2>
-        <p class="section-desc">
-          Conveniently located in the heart of Unnao, right opposite the Bank of Baroda in Hiran Nagar.
-        </p>
-      </div>
 
-      <div class="location-grid">
-        <!-- Contact Card -->
-        <div class="contact-card-box">
-          <div class="contact-detail-row">
-            <div class="contact-icon-cir">
-              <i class="fa-solid fa-map-location-dot"></i>
+        <div class="showpiece-cards-grid">
+          <!-- Authentic Combo Menu Board -->
+          <article class="showpiece-card menu-board-card" data-menu-target="combo" role="button" tabindex="0" aria-label="Open Super Savings Combo Menu in full size">
+            <div class="menu-board-header">
+              <span class="showpiece-tag" style="color: var(--neon-cyan);">Value Combos • Starting ₹130</span>
+              <h3 class="showpiece-title">Super Savings Combos Menu</h3>
             </div>
-            <div class="contact-info-text">
-              <h4>Exact Address</h4>
-              <p>Hiran Nagar (Opposite Bank of Baroda), Unnao, Uttar Pradesh, India</p>
+            <div class="showpiece-img-box">
+              <img src="assets/images/combo-menu.jpg" alt="Official Super Savings Combo Menu Sheet at The Flex House Cafe" class="showpiece-img" loading="lazy">
+            </div>
+            <div class="menu-board-footer">
+              <span class="menu-board-pill">⚡ 10+ Party Combos</span>
+              <span class="menu-board-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to View Fullscreen</span>
+            </div>
+          </article>
+
+          <!-- Authentic Main Menu Board -->
+          <article class="showpiece-card menu-board-card" data-menu-target="main" role="button" tabindex="0" aria-label="Open TFH Gourmet Menu in full size">
+            <div class="menu-board-header">
+              <span class="showpiece-tag" style="color: var(--neon-gold-bright);">Regal Selection • Full Dine-in</span>
+              <h3 class="showpiece-title">TFH Gourmet Main Menu</h3>
+            </div>
+            <div class="showpiece-img-box">
+              <img src="assets/images/main-menu.jpg" alt="Official Gourmet Main Menu Sheet with Gold Borders at The Flex House Cafe" class="showpiece-img" loading="lazy">
+            </div>
+            <div class="menu-board-footer">
+              <span class="menu-board-pill">🍕 Pizzas, Chinese & Momos</span>
+              <span class="menu-board-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to View Fullscreen</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         CUSTOMER REVIEWS & 5.0 RATING SHOWPIECE
+         ========================================================================== -->
+    <section class="reviews-section">
+      <div class="container">
+        <div class="section-head">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 0.85rem;">
+            <div class="section-pill">⭐ 5.0 Star Rated</div>
+            <span class="live-sync-pill" id="reviewsSyncPill"><span class="status-dot"></span> Synced with Google Maps</span>
+          </div>
+          <h2 class="section-title">What Unnao Says About Us</h2>
+          <p class="section-desc">Our customers love the unmatched food taste, pocket-friendly combos, and aesthetic neon ambiance.</p>
+        </div>
+
+        <div class="reviews-grid" id="reviewsGrid">
+          <div class="review-card">
+            <div class="review-card-top">
+              <div class="review-stars">★★★★★</div>
+              <span class="review-google-badge"><i class="fa-brands fa-google"></i> Google</span>
+            </div>
+            <p class="review-quote">"The Kurkure momos here are hands down the crunchiest in all of Unnao! The ₹130 pizza + burger combo is unbeatable value. Perfect spot to chill with friends."</p>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar">AS</div>
+              <div class="reviewer-info">
+                <h5>Aditya S.</h5>
+                <span>Unnao Local Guide • 5.0 Review</span>
+              </div>
             </div>
           </div>
 
-          <div class="contact-detail-row">
-            <div class="contact-icon-cir">
-              <i class="fa-solid fa-phone-volume"></i>
+          <div class="review-card">
+            <div class="review-card-top">
+              <div class="review-stars">★★★★★</div>
+              <span class="review-google-badge"><i class="fa-brands fa-google"></i> Google</span>
             </div>
-            <div class="contact-info-text">
-              <h4>Direct Call & WhatsApp</h4>
-              <p><a href="tel:+918874056350" style="color: var(--neon-amber); font-weight: 700;">+91 8874056350</a></p>
-            </div>
-          </div>
-
-          <div class="contact-detail-row">
-            <div class="contact-icon-cir">
-              <i class="fa-solid fa-clock"></i>
-            </div>
-            <div class="contact-info-text">
-              <h4>Opening Hours</h4>
-              <p>11:00 AM – 11:00 PM (Monday – Sunday, All 7 Days)</p>
+            <p class="review-quote">"Dil Ka Margherita and Spicy Paneer Pizza are absolute fire! The cheese pull is real and toppings are super fresh. Love the neon vibe and quick service."</p>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar" style="background: linear-gradient(135deg, var(--neon-cyan), #0099FF);">PK</div>
+              <div class="reviewer-info">
+                <h5>Priya K.</h5>
+                <span>Verified Visitor • 5.0 Review</span>
+              </div>
             </div>
           </div>
 
-          <div class="contact-detail-row">
-            <div class="contact-icon-cir">
-              <i class="fa-solid fa-motorcycle"></i>
+          <div class="review-card">
+            <div class="review-card-top">
+              <div class="review-stars">★★★★★</div>
+              <span class="review-google-badge"><i class="fa-brands fa-google"></i> Google</span>
             </div>
-            <div class="contact-info-text">
-              <h4>Services</h4>
-              <p>Dine-in Lounge • Takeaway • WhatsApp Table Reservation • Party Space</p>
+            <p class="review-quote">"Finally a modern cafe in PD Nagar with top-tier aesthetics and actually delicious Chinese! Hakka noodles with honey chilli potato is our weekend ritual."</p>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar" style="background: linear-gradient(135deg, var(--neon-magenta), #9900FF); color: #fff;">RV</div>
+              <div class="reviewer-info">
+                <h5>Rohan V.</h5>
+                <span>Food Enthusiast • 5.0 Review</span>
+              </div>
             </div>
-          </div>
-
-          <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-            <a href="https://maps.google.com/?q=Hiran+Nagar+Opposite+Bank+of+Baroda+Unnao+Uttar+Pradesh" target="_blank" rel="noopener" class="btn-primary-glow" style="padding: 0.75rem 1.6rem; font-size: 0.95rem;">
-              <i class="fa-solid fa-diamond-turn-right"></i>
-              <span>Get Directions</span>
-            </a>
-            <a href="https://wa.me/918874056350" target="_blank" rel="noopener" class="btn-secondary-glow" style="padding: 0.75rem 1.6rem; font-size: 0.95rem;">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>WhatsApp Direct</span>
-            </a>
           </div>
         </div>
 
-        <!-- Styled Dark Map Box -->
-        <div class="map-card-wrapper">
-          <div class="map-overlay-badge">
-            <i class="fa-solid fa-fire"></i>
-            <span>Hell House Cafe • Hiran Nagar, Unnao</span>
-          </div>
-          <!-- Google Maps Embed for Unnao Hiran Nagar area -->
-          <iframe 
-            title="Hell House Cafe Location Map"
-            src="https://maps.google.com/maps?q=Hiran+Nagar+Unnao+Uttar+Pradesh&t=&z=15&ie=UTF8&iwloc=&output=embed"
-            loading="lazy" 
-            allowfullscreen>
-          </iframe>
+        <!-- Google Reviews Action Bar -->
+        <div class="reviews-action-cta">
+          <a href="https://maps.app.goo.gl/kS8d6xCMx64cDsP26" target="_blank" rel="noopener noreferrer" class="btn btn-secondary review-google-btn">
+            <i class="fa-brands fa-google"></i>
+            <span>Rate Us 5-Stars on Google Maps</span>
+          </a>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- SLIDE-OVER FLEX TRAY (CART DRAWER) -->
-  <div class="tray-backdrop" id="trayBackdrop"></div>
-  <aside class="tray-drawer" id="trayDrawer" aria-label="Order Cart Tray">
-    <div class="tray-header">
-      <div class="tray-header-title">
-        <i class="fa-solid fa-fire"></i>
-        <span>YOUR FLEX TRAY</span>
-      </div>
-      <button class="btn-close-tray" id="closeTrayBtn" aria-label="Close Tray">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
+    <!-- ==========================================================================
+         LOCATION, TIMINGS & CONTACT SECTION
+         ========================================================================== -->
+    <section class="location-section" id="location">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-pill">📍 Visit The Cafe</div>
+          <h2 class="section-title">Location & Working Hours</h2>
+          <p class="section-desc">Easy to reach in PD Nagar, Nirala Nagar near Galaxy Hospital. Dine-in, Takeaway, and Table Booking available daily.</p>
+        </div>
 
-    <!-- Batch Limit Indicator (Limit of 10) -->
-    <div class="tray-batch-indicator" id="trayBatchIndicator">
-      <div class="batch-indicator-header">
-        <span class="batch-indicator-label"><i class="fa-solid fa-layer-group"></i> Batch Limit</span>
-        <span class="batch-indicator-count" id="batchIndicatorCount">0 / 10 Items</span>
-      </div>
-      <div class="batch-progress-bar">
-        <div class="batch-progress-fill" id="batchProgressFill" style="width: 0%;"></div>
-      </div>
-      <div class="batch-limit-notice" id="batchLimitNotice" style="display: none;">
-        <i class="fa-solid fa-triangle-exclamation"></i> Limit reached, order more in next batch.
-      </div>
-    </div>
+        <div class="location-grid">
+          <!-- Information Card -->
+          <div class="location-info-card">
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+                <h3 style="font-size: 1.5rem; color: #FFFFFF;">The Flex House Cafe</h3>
+                <span class="menu-badge" style="background: rgba(255, 183, 3, 0.15); border-color: var(--neon-gold); color: var(--neon-gold-bright);">
+                  Open Daily
+                </span>
+              </div>
 
-    <div class="tray-items-container" id="trayItemsContainer">
-      <!-- Items dynamically injected by app.js -->
-    </div>
+              <div class="loc-detail-list">
+                <!-- Address -->
+                <div class="loc-item">
+                  <div class="loc-icon-bubble">📍</div>
+                  <div class="loc-text">
+                    <h4>Exact Address</h4>
+                    <p>Near Galaxy Hospital, PD Nagar, Nirala Nagar, Unnao, Uttar Pradesh 209801</p>
+                    <button type="button" class="plus-code-chip" id="copyPlusCodeBtn" title="Click to Copy Plus Code">
+                      <span>📌 Plus Code: GFGJ+99 Unnao, Uttar Pradesh</span>
+                    </button>
+                    <span id="plusCodeFeedback" style="display: none; font-size: 0.78rem; color: var(--neon-green); margin-left: 0.5rem; font-weight: 700;"></span>
+                  </div>
+                </div>
 
-    <div class="tray-footer">
-      <div class="tray-total-row">
-        <span class="tray-total-label">Subtotal Estimate:</span>
-        <span class="tray-total-val" id="trayTotalVal">₹0</span>
+                <!-- Timings -->
+                <div class="loc-item">
+                  <div class="loc-icon-bubble" style="border-color: var(--neon-cyan); color: var(--neon-cyan); background: rgba(0, 240, 255, 0.1);">⏰</div>
+                  <div class="loc-text">
+                    <h4>Operating Hours</h4>
+                    <p><strong style="color: var(--neon-green);">Open 7 Days a Week:</strong> 11:00 AM – 11:30 PM</p>
+                    <p style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.2rem;">Last kitchen order accepted at 11:00 PM</p>
+                  </div>
+                </div>
+
+                <!-- Phone -->
+                <div class="loc-item">
+                  <div class="loc-icon-bubble" style="border-color: var(--neon-magenta); color: var(--neon-magenta); background: rgba(255, 0, 127, 0.1);">📞</div>
+                  <div class="loc-text">
+                    <h4>Direct Phone & WhatsApp</h4>
+                    <p>
+                      <a href="tel:08400580216" style="color: #FFFFFF; font-weight: 700; text-decoration: none; font-size: 1.15rem;">
+                        084005 80216
+                      </a>
+                    </p>
+                    <p style="font-size: 0.8rem; color: var(--text-dim);">For table bookings, takeaway orders, and private celebrations</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CTAs -->
+            <div class="loc-cta-row">
+              <a href="https://maps.app.goo.gl/kS8d6xCMx64cDsP26" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="flex: 1;">
+                <span>🗺️ Get GPS Directions</span>
+              </a>
+              <a href="https://wa.me/918400580216?text=Hello%20The%20Flex%20House%20Cafe%21%20I%20want%20to%20visit%20your%20cafe." target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="flex: 1;">
+                <span>💬 WhatsApp Us</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Embedded Map (Zero-Delay Instant Loading) -->
+          <div class="map-embed-wrapper" id="mapWrapper">
+            <!-- Instant Zero-Delay Pinpoint & Radar Skeleton -->
+            <div class="map-skeleton" id="mapSkeleton" aria-hidden="true">
+              <div class="map-skeleton-radar">
+                <div class="radar-circle radar-circle-1"></div>
+                <div class="radar-circle radar-circle-2"></div>
+                <div class="radar-circle radar-circle-3"></div>
+                <div class="radar-pin">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+              </div>
+              <div class="map-skeleton-info">
+                <span class="map-skeleton-badge">
+                  <span class="status-dot"></span> LIVE GPS PINPOINT
+                </span>
+                <h4 class="map-skeleton-title">The Flex House Cafe</h4>
+                <p class="map-skeleton-address">Near Galaxy Hospital, PD Nagar, Nirala Nagar, Unnao</p>
+                <a href="https://maps.app.goo.gl/kS8d6xCMx64cDsP26" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm map-instant-btn">
+                  <i class="fa-solid fa-diamond-turn-right"></i> Open in Google Maps
+                </a>
+              </div>
+            </div>
+
+            <iframe 
+              id="googleMapIframe"
+              src="https://maps.google.com/maps?q=The+flex+house+cafe,+near+galaxy+hospital,+PD+Nagar,+Nirala+Nagar,+Unnao&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+              title="The Flex House Cafe Location Map in Unnao"
+              allowfullscreen="" 
+              loading="eager" 
+              fetchpriority="low"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
       </div>
-      <button class="btn-whatsapp-order" id="whatsappOrderBtn">
-        <i class="fa-brands fa-whatsapp"></i>
-        <span>Send Order To Cafe via WhatsApp</span>
-      </button>
-    </div>
-  </aside>
+    </section>
+  </main>
 
-  <!-- SITE FOOTER -->
+  <!-- ==========================================================================
+       SITE FOOTER
+       ========================================================================== -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
-          <h3>HELL <span>HOUSE</span> CAFE</h3>
+        <!-- Col 1: Brand -->
+        <div class="footer-brand-col">
+          <div class="brand-link" style="margin-bottom: 0.5rem;">
+            <div class="brand-logo-mark">
+              <span>TFH</span>
+            </div>
+            <div class="brand-text-block">
+              <span class="brand-title">The Flex House</span>
+              <span class="brand-subtitle">Chinese & Pizza Restaurant</span>
+            </div>
+          </div>
           <p>
-            Hellfire Hidden House • Restaurant & Cafe. Unnao’s hottest neon spot for artisan pizzas, loaded burgers, sizzlers, mocktails and chill celebrations.
+            <em>"A Taste of Comfort • Good Food • Great Mood • Every Time."</em> Unnao's go-to destination for artisanal pizzas, crispy Kurkure momos, and vibrant celebrations.
           </p>
-          <div class="social-links-bar">
-            <a href="https://wa.me/918874056350" target="_blank" rel="noopener" class="social-link-btn" aria-label="WhatsApp">
-              <i class="fa-brands fa-whatsapp"></i>
+          <div class="footer-social-links">
+            <a href="https://wa.me/918400580216" target="_blank" rel="noopener noreferrer" class="icon-btn" title="WhatsApp Chat" aria-label="WhatsApp">
+              💬
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener" class="social-link-btn" aria-label="Instagram">
-              <i class="fa-brands fa-instagram"></i>
+            <a href="tel:08400580216" class="icon-btn" title="Phone Call" aria-label="Phone Call">
+              📞
             </a>
-            <a href="tel:+918874056350" class="social-link-btn" aria-label="Phone Call">
-              <i class="fa-solid fa-phone"></i>
-            </a>
-            <a href="#location" class="social-link-btn" aria-label="Location Map">
-              <i class="fa-solid fa-map-location-dot"></i>
+            <a href="https://maps.app.goo.gl/kS8d6xCMx64cDsP26" target="_blank" rel="noopener noreferrer" class="icon-btn" title="Google Maps" aria-label="Google Maps">
+              📍
             </a>
           </div>
         </div>
 
-        <div class="footer-links-col">
-          <h4>Quick Navigation</h4>
+        <!-- Col 2: Quick Links -->
+        <div>
+          <h4 class="footer-heading">Quick Navigation</h4>
           <ul class="footer-links-list">
-            <li><a href="#hero">Back to Top</a></li>
-            <li><a href="#vibes">The Flex Factor</a></li>
-            <li><a href="#menu">Digital Menu</a></li>
-            <li><a href="#reservation">Table Booking</a></li>
-            <li><a href="#founder">Meet The Boss</a></li>
-            <li><a href="#gallery">Original Menu Board</a></li>
+            <li><a href="#home">Home Showpiece</a></li>
+            <li><a href="#flex-showcase">Why We Flex</a></li>
+            <li><a href="#menu">Authentic Menu</a></li>
+            <li><a href="#reservation">Book Table Online</a></li>
+            <li><a href="#gallery">Vibe Gallery</a></li>
+            <li><a href="#location">Find Our Cafe</a></li>
           </ul>
         </div>
 
-        <div class="footer-links-col">
-          <h4>Cafe Details</h4>
+        <!-- Col 3: Popular Specialties -->
+        <div>
+          <h4 class="footer-heading">Specialties</h4>
           <ul class="footer-links-list">
-            <li style="color: var(--text-muted);"><i class="fa-solid fa-location-dot" style="color: var(--neon-red); margin-right: 6px;"></i> Hiran Nagar, Unnao (UP)</li>
-            <li style="color: var(--text-muted);"><i class="fa-solid fa-phone" style="color: var(--neon-amber); margin-right: 6px;"></i> +91 8874056350</li>
-            <li style="color: var(--text-muted);"><i class="fa-solid fa-clock" style="color: var(--neon-red); margin-right: 6px;"></i> 11:00 AM – 11:00 PM</li>
-            <li style="color: var(--text-muted);"><i class="fa-solid fa-leaf" style="color: #10b981; margin-right: 6px;"></i> 100% Pure Veg Delicacies</li>
+            <li><a href="#menu">Super Combos (₹130)</a></li>
+            <li><a href="#menu">Artisan Paneer Pizza</a></li>
+            <li><a href="#menu">Kurkure Momos</a></li>
+            <li><a href="#menu">Hakka & Schezwan Noodles</a></li>
+            <li><a href="#menu">Burger Pizza Hybrid</a></li>
+            <li><a href="#menu">Chilled Cold Coffee</a></li>
           </ul>
+        </div>
+
+        <!-- Col 4: Timings & Address Card -->
+        <div>
+          <h4 class="footer-heading">Visit Us</h4>
+          <div class="footer-hours-card">
+            <div class="footer-hours-row">
+              <span style="color: var(--text-muted);">Monday - Sunday:</span>
+              <strong style="color: var(--neon-gold-bright);">11:00 AM - 11:30 PM</strong>
+            </div>
+            <div class="footer-hours-row">
+              <span style="color: var(--text-muted);">Status:</span>
+              <span style="color: var(--neon-green); font-weight: 700;">Open Today</span>
+            </div>
+            <div class="footer-hours-row">
+              <span style="color: var(--text-muted);">Address:</span>
+              <span style="color: #fff; font-size: 0.8rem; text-align: right;">PD Nagar, Nirala Nagar, Unnao</span>
+            </div>
+            <div class="footer-hours-row" style="margin-top: 0.4rem; padding-top: 0.6rem;">
+              <a href="tel:08400580216" style="color: var(--neon-cyan); font-weight: 800; text-decoration: none; width: 100%; text-align: center; display: block;">
+                📞 084005 80216
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="footer-bottom-strip">
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
         <div>
-          © 2026 Hell House Cafe (Hellfire Hidden House). All Rights Reserved.
+          &copy; <span id="currentYear">2026</span> <strong>The Flex House Cafe</strong>. All rights reserved.
         </div>
-        <div style="display: flex; gap: 1rem;">
-          <span>Good Food • Good Mood • Great Vibes</span>
+        <div>
+          Crafted with Neon Energy for Unnao's Favorite Cafe &bull; 5.0 ★ Rated
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- MOBILE STICKY QUICK ACTION BAR (ENHANCED FOR ALL PHONES & TABLETS) -->
-  <div class="mobile-sticky-bar">
-    <div class="mobile-action-flex">
-      <button id="mobileInstallBtn" class="mobile-btn install" style="display: none;" aria-label="Install App to Home Screen">
-        <i class="fa-solid fa-download"></i> Install App
-      </button>
-      <a href="#reservation" class="mobile-btn book">
-        <i class="fa-solid fa-calendar-check"></i> Book Table
-      </a>
-      <a href="tel:+918874056350" class="mobile-btn call">
-        <i class="fa-solid fa-phone"></i> Call Cafe
-      </a>
+  <!-- ==========================================================================
+       SHOPPING CART / ORDER DRAWER
+       ========================================================================== -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay" aria-hidden="true">
+    <aside class="cart-drawer" aria-label="Shopping Cart">
+      <div class="cart-header">
+        <div class="cart-title-wrap">
+          <span style="font-size: 1.4rem;">🛒</span>
+          <h3>Your Flex Order</h3>
+        </div>
+        <button type="button" class="icon-btn" id="cartCloseBtn" aria-label="Close Cart">✕</button>
+      </div>
+
+      <div class="cart-items-scroll" id="cartItemsList">
+        <!-- Rendered via JS -->
+      </div>
+
+      <div class="cart-footer">
+        <!-- Order Type Selector -->
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.4rem;">
+            Order Type:
+          </label>
+          <div style="display: flex; gap: 0.75rem;">
+            <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.85rem; cursor: pointer;">
+              <input type="radio" name="orderType" value="Dine-In" checked> Dine-In
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.85rem; cursor: pointer;">
+              <input type="radio" name="orderType" value="Takeaway"> Takeaway
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.85rem; cursor: pointer;">
+              <input type="radio" name="orderType" value="Delivery"> Local Delivery
+            </label>
+          </div>
+        </div>
+
+        <div class="cart-total-row">
+          <span>Subtotal:</span>
+          <span class="cart-total-amount" id="cartSubtotalAmount">₹0</span>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="checkoutWhatsAppBtn" style="width: 100%; font-size: 1rem; padding: 0.85rem;">
+          <span>💬 Send Order via WhatsApp</span>
+        </button>
+        <p style="font-size: 0.74rem; color: var(--text-dim); text-align: center; margin-top: 0.5rem;">
+          Orders are sent directly to The Flex House counter at 084005 80216.
+        </p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: TABLE RESERVATION CONFIRMATION (VIP PASS)
+       ========================================================================== -->
+  <div class="modal-dialog-backdrop" id="bookingModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalBookingTitle">
+    <div class="modal-card-box">
+      <button type="button" class="modal-close-btn" id="bookingModalClose" aria-label="Close Reservation Pass">✕</button>
+      
+      <div class="vip-ticket-pass">
+        <div class="ticket-header">
+          <div class="ticket-badge-pill">
+            <span>✓ TABLE RESERVED</span>
+          </div>
+          <h3 id="modalBookingTitle" style="font-size: 1.4rem; color: #FFFFFF; margin-bottom: 0.3rem;">The Flex House VIP Pass</h3>
+          <div class="ticket-booking-id" id="modalTicketId">TFH-0000</div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">Please present this confirmation when you arrive</p>
+        </div>
+
+        <div class="ticket-details-grid">
+          <div class="ticket-detail-item">
+            <h6>Guest Name</h6>
+            <p id="modalTicketName">-</p>
+          </div>
+          <div class="ticket-detail-item">
+            <h6>Contact Phone</h6>
+            <p id="modalTicketPhone">-</p>
+          </div>
+          <div class="ticket-detail-item">
+            <h6>Reservation Date</h6>
+            <p id="modalTicketDate">-</p>
+          </div>
+          <div class="ticket-detail-item">
+            <h6>Time Slot</h6>
+            <p id="modalTicketTime">-</p>
+          </div>
+          <div class="ticket-detail-item">
+            <h6>Number of Guests</h6>
+            <p id="modalTicketGuests">-</p>
+          </div>
+          <div class="ticket-detail-item">
+            <h6>Ambiance Zone</h6>
+            <p id="modalTicketZone">-</p>
+          </div>
+        </div>
+
+        <div class="ticket-note-box">
+          📍 <strong>The Flex House Cafe:</strong> Near Galaxy Hospital, PD Nagar, Nirala Nagar, Unnao.<br>
+          <em>Your table will be held for 20 minutes from the reserved time slot.</em>
+        </div>
+
+        <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
+          <button type="button" class="btn btn-primary" id="sendWhatsAppBookingBtn" style="flex: 1;">
+            <span>💬 Send Confirmation to WhatsApp</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script src="assets/js/menu-data.js?v=2.8"></script>
-  <script src="assets/js/app.js?v=2.8"></script>
+  <!-- ==========================================================================
+       MODAL: ORIGINAL MENU PHOTOS LIGHTBOX
+       ========================================================================== -->
+  <div class="modal-dialog-backdrop" id="menuLightboxModal" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="modal-card-box modal-lightbox-box">
+      <button type="button" class="modal-close-btn" id="lightboxModalClose" aria-label="Close Lightbox">✕</button>
+
+      <div style="margin-bottom: 1rem;">
+        <h3 id="lightboxTitle" style="font-size: 1.3rem; color: #FFFFFF; margin-bottom: 0.5rem;">Authentic Menu Cards</h3>
+        <div class="lightbox-tab-buttons">
+          <button type="button" class="btn btn-secondary lightbox-tab-btn active" data-menu-photo="combo">
+            <span>🔥 Combo Menu Sheet</span>
+          </button>
+          <button type="button" class="btn btn-secondary lightbox-tab-btn" data-menu-photo="main">
+            <span>📜 Main Dishes Menu Sheet</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="lightbox-img-wrapper">
+        <img src="assets/images/combo-menu.jpg" alt="Official Menu Sheet of The Flex House Cafe" class="lightbox-img" id="lightboxActiveImg">
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Tour Backdrop when Maximized -->
+  <div class="fc-window-backdrop" id="fcWindowBackdrop" aria-hidden="true"></div>
+
+  <!-- ==========================================================================
+       FLOATING STYLISH CAFE ENTRANCE / TOUR WINDOW (HOVERING AT BOTTOM)
+       ========================================================================== -->
+  <aside class="floating-cafe-window" id="floatingCafeWindow" aria-label="Live Cafe Entrance Tour">
+    <div class="fc-window-header" id="fcWindowHeader">
+      <div class="fc-window-title">
+        <span class="fc-live-dot"></span>
+        <span class="fc-title-text">⚡ CAFE ENTRANCE & LOUNGE</span>
+      </div>
+      <div class="fc-window-actions">
+        <button type="button" class="fc-action-btn" id="fcAudioBtn" title="Toggle Sound" aria-label="Toggle Sound">
+          <i class="fa-solid fa-volume-xmark"></i>
+        </button>
+        <button type="button" class="fc-action-btn" id="fcMaximizeBtn" title="Maximize Video" aria-label="Maximize Video">
+          <i class="fa-solid fa-expand"></i>
+        </button>
+        <button type="button" class="fc-action-btn" id="fcMinimizeBtn" title="Minimize Window" aria-label="Minimize Window">
+          <i class="fa-solid fa-minus"></i>
+        </button>
+        <button type="button" class="fc-action-btn" id="fcCloseBtn" title="Close Window" aria-label="Close Window">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="fc-video-frame" id="fcVideoFrame">
+      <video 
+        id="fcEntranceVideo" 
+        class="fc-video-element" 
+        autoplay 
+        muted 
+        loop 
+        playsinline 
+        webkit-playsinline
+        preload="auto"
+        poster="assets/images/preview-reel-2.png">
+        <source src="assets/videos/cafe-reel-2.mp4" type="video/mp4">
+      </video>
+      <div class="fc-video-caption">
+        <span>📍 Neon Vibe Lounge • Unnao</span>
+        <div class="fc-caption-tags">
+          <button type="button" class="fc-fullscreen-chip" id="fcFullscreenChip" title="Device Fullscreen" aria-label="Device Fullscreen">
+            <i class="fa-solid fa-up-right-and-down-left-from-center"></i> Fullscreen
+          </button>
+          <span class="fc-badge-pill">4K LIVE</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Minimized Floating Tour Pill (for mobile or when minimized) -->
+  <button type="button" class="floating-tour-pill" id="floatingTourPill" style="display: none;" title="Open Cafe Entrance Tour" aria-label="Open Cafe Tour">
+    <span class="fc-live-dot"></span>
+    <i class="fa-solid fa-film"></i>
+    <span>Cafe Tour</span>
+  </button>
+
+  <!-- Scripts (Cache-Busted) -->
+  <script src="assets/js/menu-data.js?v=flexhouse-5.3"></script>
+  <script src="assets/js/app.js?v=flexhouse-5.3"></script>
 </body>
 </html>

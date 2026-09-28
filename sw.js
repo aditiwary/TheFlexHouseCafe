@@ -1,20 +1,25 @@
-const CACHE_NAME = 'hell-house-cafe-v2.8';
+const CACHE_NAME = 'flexhouse-v5.3';
 const STATIC_ASSETS = [
-  './',
-  './index.html',
-  './manifest.json',
-  './assets/css/style.css',
-  './assets/js/menu-data.js',
-  './assets/js/app.js',
-  './assets/images/logo.jpg',
-  './assets/images/owner.jpg',
-  './assets/images/menu-board.jpg',
-  './assets/images/menu-book.jpg',
-  './assets/images/pizza-showcase.jpg',
-  './assets/images/mocktail-showcase.jpg'
+  '/',
+  '/index.html?v=flexhouse-5.3',
+  '/manifest.json?v=flexhouse-5.3',
+  '/assets/css/style.css?v=flexhouse-5.3',
+  '/assets/data/reviews.json?v=flexhouse-5.0',
+  '/assets/js/menu-data.js?v=flexhouse-5.3',
+  '/assets/js/app.js?v=flexhouse-5.3',
+  '/assets/images/flex-logo.png',
+  '/assets/images/flex-logo.svg',
+  '/assets/images/favicon.png',
+  '/assets/images/favicon-32x32.png',
+  '/assets/images/storefront.jpg',
+  '/assets/images/flex-pizza.jpg',
+  '/assets/images/flex-momos-noodles.jpg',
+  '/assets/images/flex-burger-coffee.jpg',
+  '/assets/images/combo-menu.jpg',
+  '/assets/images/main-menu.jpg'
 ];
 
-// Install: Cache core application shell
+// Install: Cache core application shell & skip waiting immediately
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
@@ -24,7 +29,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate: Clean up old caches immediately and claim clients
+// Activate: Clean up ALL legacy caches instantly
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -39,44 +44,28 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: Network-First for HTML navigation so updates are instant; Stale-While-Revalidate for static assets
+// Fetch: Strict Network-First Strategy ensuring freshest assets
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
-  if (url.origin !== self.location.origin) return;
 
-  // Navigation requests (HTML pages): Network-First with Cache fallback
-  if (event.request.mode === 'navigate' || event.request.destination === 'document' || url.pathname === '/' || url.pathname.endsWith('.html')) {
+  if (url.origin === self.location.origin) {
     event.respondWith(
       fetch(event.request)
         .then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseClone);
+            });
           }
           return networkResponse;
         })
-        .catch(() => caches.match(event.request).then((cached) => cached || caches.match('/index.html')))
+        .catch(() => {
+          // Offline fallback only when network fails
+          return caches.match(event.request);
+        })
     );
-    return;
   }
-
-  // Static Assets (CSS, JS, Images, Fonts): Stale-While-Revalidate
-  event.respondWith(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.match(event.request).then((cachedResponse) => {
-        const fetchPromise = fetch(event.request)
-          .then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              cache.put(event.request, networkResponse.clone());
-            }
-            return networkResponse;
-          })
-          .catch(() => cachedResponse);
-
-        return cachedResponse || fetchPromise;
-      });
-    })
-  );
 });
