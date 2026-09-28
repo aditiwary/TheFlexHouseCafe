@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Flex House Cafe | Chinese & Pizza Restaurant | Unnao</title>
+  
+  <!-- SEO & Open Graph Meta Tags -->
+  <meta name="description" content="Welcome to The Flex House Cafe — Unnao's premier showpiece cafe & restaurant. Authentic Handcrafted Pizzas, Crispy Kurkure Momos, Wok Indo-Chinese, Burgers, Pasta & Super Combos. Book your table or order online!">
+  <meta name="keywords" content="The Flex House Cafe, Flex House Unnao, Cafe in Unnao, Pizza in Unnao, Kurkure Momos Unnao, Chinese Restaurant Unnao, PD Nagar Cafe, Nirala Nagar Unnao">
+  <meta name="author" content="The Flex House Cafe">
+  <meta property="og:title" content="The Flex House Cafe — A Taste of Comfort">
+  <meta property="og:description" content="Good Food • Great Mood • Every Time. 5.0 Star Rated Cafe in PD Nagar, Nirala Nagar, Unnao.">
+  <meta property="og:image" content="assets/images/storefront.jpg">
+  <meta property="og:type" content="restaurant">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Structured Data / JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "The Flex House Cafe",
+    "alternateName": "द फ्लेक्स हाउस कैफे",
+    "image": "assets/images/storefront.jpg",
+    "telephone": "+918400580216",
+    "servesCuisine": ["Pizza", "Chinese", "Fast Food", "Cafe", "Burgers", "Momos"],
+    "priceRange": "₹29 - ₹520",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Near Galaxy Hospital, PD Nagar, Nirala Nagar",
+      "addressLocality": "Unnao",
+      "addressRegion": "Uttar Pradesh",
+      "postalCode": "209801",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 26.549,
+      "longitude": 80.488
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "11:00",
+      "closes": "23:30"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "100",
+      "bestRating": "5"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Dynamic Ambient Neon Glow Background & Cursor Aura -->
+  <div class="neon-ambient-glow" aria-hidden="true">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+    <div class="glow-orb glow-orb-cursor" id="cursorNeonGlow"></div>
+  </div>
+  <div class="cyber-grid-overlay" aria-hidden="true"></div>
+
+  <!-- Announcement & Quick Contact Top Bar -->
+  <div class="top-announcement-bar">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 0.5rem;">
+      <div class="announcement-item" id="storeStatusContainer">
+        <span class="status-dot" id="storeLiveDot"></span>
+        <span id="storeLiveText"><strong>OPEN NOW</strong> · Closes 11:30 PM</span>
+      </div>
+      <div class="announcement-item" style="color: var(--neon-gold-bright);">
+        <span>📍 Near Galaxy Hospital, PD Nagar, Nirala Nagar, Unnao</span>
+      </div>
+      <div class="announcement-item">
+        <a href="tel:08400580216" style="color: #FFFFFF; text-decoration: none; font-weight: 700;">
+          📞 Call / WhatsApp: <span style="color: var(--neon-cyan);">084005 80216</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Sticky Site Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav-inner" aria-label="Main Navigation">
+        <!-- Brand / Logo -->
+        <a href="#home" class="brand-link">
+          <div class="brand-logo-mark">
+            <span>TFH</span>
+          </div>
+          <div class="brand-text-block">
+            <span class="brand-title">The Flex House</span>
+            <span class="brand-subtitle">Chinese & Pizza Restaurant</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#flex-showcase" class="nav-link">Showpiece</a></li>
+          <li><a href="#menu" class="nav-link">Full Menu</a></li>
+          <li><a href="#reservation" class="nav-link">Book a Table</a></li>
+          <li><a href="#gallery" class="nav-link">Vibe Gallery</a></li>
+          <li><a href="#location" class="nav-link">Contact & Maps</a></li>
+        </ul>
+
+        <!-- Action Buttons -->
+        <div class="nav-actions">
+          <!-- Sound Toggle -->
+          <button type="button" class="icon-btn" id="soundToggleBtn" title="Toggle Sound Effects" aria-label="Toggle Sound Effects">
+            🔊
+          </button>
+
+          <!-- Flex Celebration Mode Button -->
+          <button type="button" class="icon-btn" id="flexCelebrationBtn" title="Activate Flex Celebration" aria-label="Activate Flex Mode">
+            🔥
+          </button>
+
+          <!-- Cart Trigger -->
+          <button type="button" class="icon-btn cart-trigger-pill" id="cartTriggerBtn" title="View Order Cart" aria-label="View Order Cart">
+            🛒
+            <span class="cart-count-badge" id="cartCountBadge" style="display: none;">0</span>
+          </button>
+
+          <!-- Quick Reserve CTA -->
+          <a href="#reservation" class="btn btn-primary btn-jump" style="padding: 0.55rem 1.25rem; font-size: 0.88rem;">
+            <span>⚡ Book Table</span>
+          </a>
+
+          <!-- Mobile Nav Toggle -->
+          <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu">
+            ☰
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Marquee Ticker -->
+  <div class="neon-marquee-container" aria-hidden="true">
+    <div class="neon-marquee-track">
+      <div class="marquee-item"><span class="highlight-gold">🔥 THE FLEX HOUSE CAFE</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">🍕 AUTHENTIC HANDCRAFTED PIZZAS <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-cyan">🥟 SIGNATURE CRISPY KURKURE MOMOS</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">🥢 FLAME-WOK INDO-CHINESE & HAKKA NOODLES <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-magenta">⚡ 12+ SUPER COMBOS STARTING @ ₹130</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">☕ THICK BLENDED COLD COFFEE <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-gold">⭐ 5.0 STAR RATED ON GOOGLE</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">📍 NEAR GALAXY HOSPITAL, PD NAGAR, UNNAO <span class="marquee-dot">◆</span></div>
+      <!-- Duplicate for seamless infinite loop -->
+      <div class="marquee-item"><span class="highlight-gold">🔥 THE FLEX HOUSE CAFE</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">🍕 AUTHENTIC HANDCRAFTED PIZZAS <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-cyan">🥟 SIGNATURE CRISPY KURKURE MOMOS</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">🥢 FLAME-WOK INDO-CHINESE & HAKKA NOODLES <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-magenta">⚡ 12+ SUPER COMBOS STARTING @ ₹130</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">☕ THICK BLENDED COLD COFFEE <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-gold">⭐ 5.0 STAR RATED ON GOOGLE</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">📍 NEAR GALAXY HOSPITAL, PD NAGAR, UNNAO <span class="marquee-dot">◆</span></div>
+    </div>
+  </div>
+
+  <main id="mainContent">
+    <!-- ==========================================================================
+         HERO SECTION (THE SHOWPIECE ENTRANCE)
+         ========================================================================== -->
+    <section class="hero-section" id="home">
+      <div class="container">
+        <div class="hero-grid">
+          <!-- Left Column: Content -->
+          <div class="hero-content">
+            <div class="hero-pill-badge">
+              <span>👑 UNNAO'S ULTIMATE VIBE & FOOD SHOWPIECE</span>
+            </div>
+            
+            <h1 class="hero-main-title">
+              <span class="hero-neon-sign">THE FLEX HOUSE</span>
+            </h1>
+
+            <div class="hero-subhead font-serif">
+              <span>Chinese & Pizza Restaurant</span>
+            </div>
+
+            <p class="hero-tagline-quote">
+              <em>"GOOD FOOD • GREAT MOOD • EVERY TIME"</em><br>
+              Experience Unnao's most aesthetic neon-lit dining destination with <strong>deliciously fresh pizzas</strong>, <strong>crunchy Kurkure momos</strong>, and <strong>sizzling street-style Chinese</strong>.
+            </p>
+
+            <div class="hero-btn-group">
+              <a href="#reservation" class="btn btn-primary btn-jump" style="font-size: 1.05rem; padding: 0.85rem 1.8rem;">
+                <span>⚡ Reserve a Table</span>
+              </a>
+              <a href="#menu" class="btn btn-secondary" style="font-size: 1.05rem; padding: 0.85rem 1.8rem;">
+                <span>📜 Explore Full Menu</span>
+              </a>
+            </div>
+
+            <!-- Jumping Interactive Category Stickers (Click to jump to category!) -->
+            <div class="jumping-stickers-container">
+              <div class="jump-sticker" data-jump-category="pizza" title="Click to view Pizzas">
+                <span class="jump-icon">🍕</span>
+                <span>Artisan Pizzas</span>
+              </div>
+              <div class="jump-sticker" data-jump-category="momos" title="Click to view Momos">
+                <span class="jump-icon">🥟</span>
+                <span>Kurkure Momos</span>
+              </div>
+              <div class="jump-sticker" data-jump-category="chinese" title="Click to view Chinese">
+                <span class="jump-icon">🥢</span>
+                <span>Hakka Noodles</span>
+              </div>
+              <div class="jump-sticker" data-jump-category="combos" title="Click to view Combos">
+                <span class="jump-icon">⚡</span>
+                <span>Combos from ₹130</span>
+              </div>
+              <div class="jump-sticker" data-jump-category="drinks" title="Click to view Drinks">
+                <span class="jump-icon">☕</span>
+                <span>Cold Coffee</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Visual Showcase (Real Storefront with Neon Frame) -->
+          <div class="hero-visual">
+            <div class="hero-card-stack">
+              <!-- Floating Top Stat -->
+              <div class="hero-floating-stat stat-rating">
+                <span class="stat-rating-icon">⭐</span>
+                <div>
+                  <div class="stat-rating-val">5.0 / 5.0</div>
+                  <div class="stat-rating-label">Google Rating</div>
+                </div>
+              </div>
+
+              <!-- Main Storefront Photo Frame -->
+              <div class="storefront-frame">
+                <img src="assets/images/storefront.jpg" alt="The Flex House Cafe Storefront in Unnao" class="storefront-img">
+                <div class="storefront-badge-bottom">
+                  <div class="storefront-badge-text">
+                    <h4>The Flex House Cafe</h4>
+                    <p>📍 PD Nagar, Nirala Nagar, Unnao</p>
+                  </div>
+                  <span class="menu-badge" style="background: rgba(0, 255, 163, 0.2); border-color: var(--neon-green); color: var(--neon-green);">
+                    Verified Spot
+                  </span>
+                </div>
+              </div>
+
+              <!-- Floating Bottom Stat -->
+              <div class="hero-floating-stat stat-deals">
+                <span style="font-size: 1.6rem;">🔥</span>
+                <div>
+                  <div class="stat-rating-val">12+ Combos</div>
+                  <div class="stat-rating-label">Starting @ ₹130</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SHOWPIECE STATS COUNTERS
+         ========================================================================== -->
+    <section class="flex-stats-strip">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number neon-gold-text">5.0 ★</div>
+            <div class="stat-label">Google Rating</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number neon-cyan-text">12+</div>
+            <div class="stat-label">Value Combos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number neon-magenta-text">₹29</div>
+            <div class="stat-label">Starting Price</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" style="color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green-glow);">100%</div>
+            <div class="stat-label">Fresh & Pure Veg</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         WHY WE FLEX / SHOWPIECE HIGHLIGHTS
+         ========================================================================== -->
+    <section class="showpiece-gallery-section" id="flex-showcase">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-pill">🔥 The Showpiece Experience</div>
+          <h2 class="section-title">Built For The Flex</h2>
+          <p class="section-desc">We combine premium restaurant aesthetics with mouthwatering flavors and unmatched street prices. Here is why foodies in Unnao obsess over us.</p>
+        </div>
+
+        <div class="showpiece-cards-grid">
+          <!-- Card 1: Artisanal Pizzas -->
+          <article class="showpiece-card">
+            <div class="showpiece-img-box">
+              <img src="assets/images/flex-pizza.jpg" alt="Artisan Cheese Pull Pizza at The Flex House Cafe" class="showpiece-img">
+              <div class="showpiece-overlay">
+                <span class="showpiece-tag">Signature Pizza</span>
+                <h3 class="showpiece-title">Artisan Fresh-Dough Pizzas</h3>
+                <p class="showpiece-caption">Fresh rolled dough, signature herb marinara, and gooey golden mozzarella cheese pulls with succulent paneer cubes.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Kurkure Momos & Chinese Flame -->
+          <article class="showpiece-card">
+            <div class="showpiece-img-box">
+              <img src="assets/images/flex-momos-noodles.jpg" alt="Kurkure Momos and Hakka Noodles at The Flex House Cafe" class="showpiece-img">
+              <div class="showpiece-overlay">
+                <span class="showpiece-tag" style="color: var(--neon-cyan);">Crunch & Wok Flame</span>
+                <h3 class="showpiece-title">Iconic Kurkure Momos & Noodles</h3>
+                <p class="showpiece-caption">Golden crunchy crumb-coated momos paired with wok-tossed spicy Hakka & Schezwan noodles cooked over roaring flame.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: Burgers, Shakes & Ambiance -->
+          <article class="showpiece-card">
+            <div class="showpiece-img-box">
+              <img src="assets/images/flex-burger-coffee.jpg" alt="Cheesy Burgers and Cold Coffee at The Flex House Cafe" class="showpiece-img">
+              <div class="showpiece-overlay">
+                <span class="showpiece-tag" style="color: var(--neon-magenta);">Chill & Indulge</span>
+                <h3 class="showpiece-title">Cheese Burgers & Frothy Cold Coffee</h3>
+                <p class="showpiece-caption">Towering cheese-melt burgers, spicy Peri-Peri fries, and rich creamy cold coffee served in an atmospheric neon glow.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         ONLINE TABLE RESERVATION STUDIO (CLIENT SELF-BOOKING)
+         ========================================================================== -->
+    <section class="reservation-section" id="reservation">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-pill">⚡ Direct Table Booking</div>
+          <h2 class="section-title">Reserve Your Table Online</h2>
+          <p class="section-desc">Skip the waiting line! Pick your favorite neon ambiance zone, choose your time slot, and receive instant digital confirmation pass.</p>
+        </div>
+
+        <div class="reservation-studio">
+          <form id="tableBookingForm" novalidate>
+            <div class="booking-form-grid">
+              
+              <!-- 1. Select Vibe Zone -->
+              <div class="form-group-full">
+                <label class="form-label">
+                  1. Choose Your Table Ambiance & Vibe <span class="req">*</span>
+                </label>
+                <div class="zone-selector-grid">
+                  <div class="zone-option-card selected" data-zone="Neon Glow Lounge">
+                    <span class="zone-icon">🌌</span>
+                    <span class="zone-name">Neon Glow Lounge</span>
+                    <span class="zone-desc">Dynamic neon vibes, beats & aesthetic selfie lighting</span>
+                  </div>
+                  <div class="zone-option-card" data-zone="Cozy VIP Booth">
+                    <span class="zone-icon">🛋️</span>
+                    <span class="zone-name">Cozy VIP Booth</span>
+                    <span class="zone-desc">Plush comfortable booth, intimate privacy & comfort</span>
+                  </div>
+                  <div class="zone-option-card" data-zone="Family Feast Area">
+                    <span class="zone-icon">👨‍👩‍👧‍👦</span>
+                    <span class="zone-name">Family Feast Area</span>
+                    <span class="zone-desc">Spacious tables ideal for family groups & dinners</span>
+                  </div>
+                  <div class="zone-option-card" data-zone="Celebration & Flex Corner">
+                    <span class="zone-icon">🎉</span>
+                    <span class="zone-name">Celebration & Flex</span>
+                    <span class="zone-desc">Birthday party setup, group celebrations & fanfare</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2. Guest Count Selector -->
+              <div class="form-group-full">
+                <label class="form-label">
+                  2. Number of Guests <span class="req">*</span>
+                </label>
+                <div class="guest-selector-pills">
+                  <div class="guest-pill" data-guests="1 Person">1 Guest</div>
+                  <div class="guest-pill selected" data-guests="2 Guests">2 Guests</div>
+                  <div class="guest-pill" data-guests="3-4 Guests">3-4 Guests</div>
+                  <div class="guest-pill" data-guests="5-6 Guests">5-6 Guests</div>
+                  <div class="guest-pill" data-guests="7-8 Guests">7-8 Guests</div>
+                  <div class="guest-pill" data-guests="8+ VIP Party">8+ Party</div>
+                </div>
+              </div>
+
+              <!-- 3. Date Selection -->
+              <div>
+                <label for="bookingDate" class="form-label">
+                  3. Select Date <span class="req">*</span>
+                </label>
+                <input type="date" id="bookingDate" class="form-control" required>
+              </div>
+
+              <!-- 4. Time Slot Chips -->
+              <div>
+                <label class="form-label">
+                  4. Select Time Slot <span class="req">*</span>
+                </label>
+                <div class="time-slot-grid">
+                  <div class="time-slot-chip" data-time="01:30 PM">01:30 PM</div>
+                  <div class="time-slot-chip" data-time="04:30 PM">04:30 PM</div>
+                  <div class="time-slot-chip" data-time="06:30 PM">06:30 PM</div>
+                  <div class="time-slot-chip" data-time="07:30 PM">07:30 PM</div>
+                  <div class="time-slot-chip selected" data-time="08:00 PM">08:00 PM</div>
+                  <div class="time-slot-chip" data-time="08:45 PM">08:45 PM</div>
+                  <div class="time-slot-chip" data-time="09:30 PM">09:30 PM</div>
+                  <div class="time-slot-chip" data-time="10:15 PM">10:15 PM</div>
+                </div>
+              </div>
+
+              <!-- 5. Guest Contact Details -->
+              <div>
+                <label for="bookingName" class="form-label">
+                  5. Your Full Name <span class="req">*</span>
+                </label>
+                <input type="text" id="bookingName" class="form-control" placeholder="e.g. Aditya Sharma" required>
+              </div>
+
+              <div>
+                <label for="bookingPhone" class="form-label">
+                  6. Mobile / WhatsApp Number <span class="req">*</span>
+                </label>
+                <input type="tel" id="bookingPhone" class="form-control" placeholder="e.g. 084005 80216" required>
+              </div>
+
+              <!-- 7. Special Requests / Notes -->
+              <div class="form-group-full">
+                <label for="bookingNotes" class="form-label">
+                  7. Special Occasion / Instructions (Optional)
+                </label>
+                <input type="text" id="bookingNotes" class="form-control" placeholder="e.g. Birthday celebration, High spice pizza, Need quiet booth">
+              </div>
+
+            </div>
+
+            <!-- Submit Row -->
+            <div class="reservation-submit-row">
+              <div class="reservation-guarantee">
+                <i>✓</i>
+                <span>Instant Confirmation &bull; Zero Booking Fees &bull; Table Held for 20 Mins</span>
+              </div>
+              <button type="submit" class="btn btn-primary btn-jump" style="padding: 0.9rem 2.2rem; font-size: 1.05rem;">
+                <span>⚡ Confirm Table Booking Now</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         AUTHENTIC FULL MENU SECTION (100% ITEMS FROM MENUS)
+         ========================================================================== -->
+    <section class="menu-section" id="menu">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-pill">🍽️ Authentic Menu</div>
+          <h2 class="section-title">The Complete Flex Menu</h2>
+          <p class="section-desc">Every single authentic item, combo, and size pricing straight from The Flex House kitchen. Prepared fresh to order with pure ingredients.</p>
+        </div>
+
+        <!-- Banner for Original Photographed Menu Sheets -->
+        <div class="authentic-menu-sheet-banner">
+          <div class="authentic-banner-content">
+            <span class="menu-stamp-icon">📜</span>
+            <div>
+              <div class="authentic-banner-title">Authentic Printed Menu Cards Available</div>
+              <div class="authentic-banner-desc">Inspect our official restaurant menu boards with all prices & Combos.</div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-secondary" id="openMenuPhotosBtn" style="font-size: 0.88rem; padding: 0.6rem 1.25rem;">
+            <span>🔍 View Original Menu Photos</span>
+          </button>
+        </div>
+
+        <!-- Category Filter & Search Header -->
+        <div class="menu-header-bar">
+          <!-- Search Bar -->
+          <div class="menu-search-wrapper">
+            <span class="menu-search-icon">🔍</span>
+            <input type="text" class="menu-search-input" id="menuSearchInput" placeholder="Search pizzas, momos, noodles, combos...">
+          </div>
+
+          <div style="font-size: 0.85rem; color: var(--text-muted);">
+            💡 <em>Select S / M / L or Half / Full to toggle sizes & prices instantly!</em>
+          </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-filter-pills" role="tablist">
+          <button type="button" class="cat-pill active" data-category="combos">
+            <span>🔥 Super Combos</span>
+            <span class="cat-count-badge">12</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="pizza">
+            <span>🍕 Handcrafted Pizzas</span>
+            <span class="cat-count-badge">12</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="chinese">
+            <span>🥢 Chinese Delights</span>
+            <span class="cat-count-badge">10</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="momos">
+            <span>🥟 Sizzling Momos</span>
+            <span class="cat-count-badge">5</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="burgers">
+            <span>🍔 Burgers & Burger Pizza</span>
+            <span class="cat-count-badge">4</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="sandwiches">
+            <span>🥪 Sandwiches & Wraps</span>
+            <span class="cat-count-badge">7</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="maggie-pasta">
+            <span>🍝 Maggie & Pasta</span>
+            <span class="cat-count-badge">7</span>
+          </button>
+          <button type="button" class="cat-pill" data-category="drinks">
+            <span>☕ Beverages & Chillers</span>
+            <span class="cat-count-badge">4</span>
+          </button>
+        </div>
+
+        <!-- Dynamic Menu Cards Grid (Populated by menu-data.js) -->
+        <div class="menu-grid" id="menuGridContainer">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         VIBE GALLERY & STOREFRONT SPOTLIGHT
+         ========================================================================== -->
+    <section class="showpiece-gallery-section" id="gallery">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-pill">📸 The Flex Vibe</div>
+          <h2 class="section-title">Visual Tour & Storefront</h2>
+          <p class="section-desc">From our glowing storefront signage to sizzling tawa platters, here's a glimpse into the warm ambiance that awaits you.</p>
+        </div>
+
+        <div class="showpiece-cards-grid">
+          <!-- Real Storefront Sunset Photo -->
+          <article class="showpiece-card">
+            <div class="showpiece-img-box">
+              <img src="assets/images/storefront.jpg" alt="Real Storefront Photo of The Flex House Cafe at Sunset" class="showpiece-img">
+              <div class="showpiece-overlay">
+                <span class="showpiece-tag">The Actual Cafe</span>
+                <h3 class="showpiece-title">Our Welcoming Entrance</h3>
+                <p class="showpiece-caption">Located in Nirala Nagar, PD Nagar, Unnao with beautiful festive lights and warm evening vibes.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Authentic Menu Showcase -->
+          <article class="showpiece-card">
+            <div class="showpiece-img-box">
+              <img src="assets/images/combo-menu.jpg" alt="Authentic Combo Menu Sheet at The Flex House Cafe" class="showpiece-img">
+              <div class="showpiece-overlay">
+                <span class="showpiece-tag" style="color: var(--neon-cyan);">Value Combos</span>
+                <h3 class="showpiece-title">Super Savings Combos</h3>
+                <p class="showpiece-caption">Packed feast combinations starting from just ₹130 with cold drinks and fresh sides.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Authentic Main Menu Board -->
+          <article class="showpiece-card">
+            <div class="showpiece-img-box">
+              <img src="assets/images/main-menu.jpg" alt="Authentic Main Menu Sheet with Gold Borders" class="showpiece-img">
+              <div class="showpiece-overlay">
+                <span class="showpiece-tag" style="color: var(--neon-gold-bright);">Regal Selection</span>
+                <h3 class="showpiece-title">TFH Gourmet Menu</h3>
+                <p class="showpiece-caption">Handcrafted with care — our signature pizzas, Kurkure momos, wraps, and pasta.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         CUSTOMER REVIEWS & 5.0 RATING SHOWPIECE
+         ========================================================================== -->
+    <section class="reviews-section">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-pill">⭐ 5.0 Star Rated</div>
+          <h2 class="section-title">What Unnao Says About Us</h2>
+          <p class="section-desc">Our customers love the unmatched food taste, pocket-friendly combos, and aesthetic neon ambiance.</p>
+        </div>
+
+        <div class="reviews-grid">
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-quote">"The Kurkure momos here are hands down the crunchiest in all of Unnao! The ₹130 pizza + burger combo is unbeatable value. Perfect spot to chill with friends."</p>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar">AS</div>
+              <div class="reviewer-info">
+                <h5>Aditya S.</h5>
+                <span>Unnao Local Guide • 5.0 Review</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-quote">"Dil Ka Margherita and Spicy Paneer Pizza are absolute fire! The cheese pull is real and toppings are super fresh. Love the neon vibe and quick service."</p>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar" style="background: linear-gradient(135deg, var(--neon-cyan), #0099FF);">PK</div>
+              <div class="reviewer-info">
+                <h5>Priya K.</h5>
+                <span>Verified Visitor • 5.0 Review</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-quote">"Finally a modern cafe in PD Nagar with top-tier aesthetics and actually delicious Chinese! Hakka noodles with honey chilli potato is our weekend ritual."</p>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar" style="background: linear-gradient(135deg, var(--neon-magenta), #9900FF); color: #fff;">RV</div>
+              <div class="reviewer-info">
+                <h5>Rohan V.</h5>
+                <span>Food Enthusiast • 5.0 Review</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         LOCATION, TIMINGS & CONTACT SECTION
+         ========================================================================== -->
+    <section class="location-section" id="location">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-pill">📍 Visit The Cafe</div>
+          <h2 class="section-title">Location & Working Hours</h2>
+          <p class="section-desc">Easy to reach in PD Nagar, Nirala Nagar near Galaxy Hospital. Dine-in, Takeaway, and Table Booking available daily.</p>
+        </div>
+
+        <div class="location-grid">
+          <!-- Information Card -->
+          <div class="location-info-card">
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+                <h3 style="font-size: 1.5rem; color: #FFFFFF;">The Flex House Cafe</h3>
+                <span class="menu-badge" style="background: rgba(255, 183, 3, 0.15); border-color: var(--neon-gold); color: var(--neon-gold-bright);">
+                  Open Daily
+                </span>
+              </div>
+
+              <div class="loc-detail-list">
+                <!-- Address -->
+                <div class="loc-item">
+                  <div class="loc-icon-bubble">📍</div>
+                  <div class="loc-text">
+                    <h4>Exact Address</h4>
+                    <p>Near Galaxy Hospital, PD Nagar, Nirala Nagar, Unnao, Uttar Pradesh 209801</p>
+                    <button type="button" class="plus-code-chip" id="copyPlusCodeBtn" title="Click to Copy Plus Code">
+                      <span>📌 Plus Code: GFGJ+99 Unnao, Uttar Pradesh</span>
+                    </button>
+                    <span id="plusCodeFeedback" style="display: none; font-size: 0.78rem; color: var(--neon-green); margin-left: 0.5rem; font-weight: 700;"></span>
+                  </div>
+                </div>
+
+                <!-- Timings -->
+                <div class="loc-item">
+                  <div class="loc-icon-bubble" style="border-color: var(--neon-cyan); color: var(--neon-cyan); background: rgba(0, 240, 255, 0.1);">⏰</div>
+                  <div class="loc-text">
+                    <h4>Operating Hours</h4>
+                    <p><strong style="color: var(--neon-green);">Open 7 Days a Week:</strong> 11:00 AM – 11:30 PM</p>
+                    <p style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.2rem;">Last kitchen order accepted at 11:00 PM</p>
+                  </div>
+                </div>
+
+                <!-- Phone -->
+                <div class="loc-item">
+                  <div class="loc-icon-bubble" style="border-color: var(--neon-magenta); color: var(--neon-magenta); background: rgba(255, 0, 127, 0.1);">📞</div>
+                  <div class="loc-text">
+                    <h4>Direct Phone & WhatsApp</h4>
+                    <p>
+                      <a href="tel:08400580216" style="color: #FFFFFF; font-weight: 700; text-decoration: none; font-size: 1.15rem;">
+                        084005 80216
+                      </a>
+                    </p>
+                    <p style="font-size: 0.8rem; color: var(--text-dim);">For table bookings, takeaway orders, and private celebrations</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CTAs -->
+            <div class="loc-cta-row">
+              <a href="https://maps.google.com/?q=GFGJ%2B99+Unnao,+Uttar+Pradesh" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="flex: 1;">
+                <span>🗺️ Get GPS Directions</span>
+              </a>
+              <a href="https://wa.me/918400580216?text=Hello%20The%20Flex%20House%20Cafe%21%20I%20want%20to%20visit%20your%20cafe." target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="flex: 1;">
+                <span>💬 WhatsApp Us</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Embedded Map -->
+          <div class="map-embed-wrapper">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14300.0!2d80.488!3d26.549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDMyJzU2LjQiTiA4MMKwMjknMTYuOCJF!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin" 
+              title="The Flex House Cafe Location Map in Unnao"
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       SITE FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Col 1: Brand -->
+        <div class="footer-brand-col">
+          <div class="brand-link" style="margin-bottom: 0.5rem;">
+            <div class="brand-logo-mark">
+              <span>TFH</span>
+            </div>
+            <div class="brand-text-block">
+              <span class="brand-title">The Flex House</span>
+              <span class="brand-subtitle">Chinese & Pizza Restaurant</span>
+            </div>
+          </div>
+          <p>
+            <em>"A Taste of Comfort • Good Food • Great Mood • Every Time."</em> Unnao's go-to destination for artisanal pizzas, crispy Kurkure momos, and vibrant celebrations.
+          </p>
+          <div class="footer-social-links">
+            <a href="https://wa.me/918400580216" target="_blank" rel="noopener noreferrer" class="icon-btn" title="WhatsApp Chat" aria-label="WhatsApp">
+              💬
+            </a>
+            <a href="tel:08400580216" class="icon-btn" title="Phone Call" aria-label="Phone Call">
+              📞
+            </a>
+            <a href="https://maps.google.com/?q=GFGJ%2B99+Unnao,+Uttar+Pradesh" target="_blank" rel="noopener noreferrer" class="icon-btn" title="Google Maps" aria-label="Google Maps">
+              📍
+            </a>
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div>
+          <h4 class="footer-heading">Quick Navigation</h4>
+          <ul class="footer-links-list">
+            <li><a href="#home">Home Showpiece</a></li>
+            <li><a href="#flex-showcase">Why We Flex</a></li>
+            <li><a href="#menu">Authentic Menu</a></li>
+            <li><a href="#reservation">Book Table Online</a></li>
+            <li><a href="#gallery">Vibe Gallery</a></li>
+            <li><a href="#location">Find Our Cafe</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Popular Specialties -->
+        <div>
+          <h4 class="footer-heading">Specialties</h4>
+          <ul class="footer-links-list">
+            <li><a href="#menu">Super Combos (₹130)</a></li>
+            <li><a href="#menu">Artisan Paneer Pizza</a></li>
+            <li><a href="#menu">Kurkure Momos</a></li>
+            <li><a href="#menu">Hakka & Schezwan Noodles</a></li>
+            <li><a href="#menu">Burger Pizza Hybrid</a></li>
+            <li><a href="#menu">Chilled Cold Coffee</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Timings & Address Card -->
+        <div>
+          <h4 class="footer-heading">Visit Us</h4>
+          <div class="footer-hours-card">
+            <div class="footer-hours-row">
+              <span style="color: var(--text-muted);">Monday - Sunday:</span>
+              <strong style="color: var(--neon-gold-bright);">11:00 AM - 11:30 PM</strong>
+            </div>
+            <div class="footer-hours-row">
+              <span style="color: var(--text-muted);">Status:</span>
+              <span style="color: var(--neon-green); font-weight: 700;">Open Today</span>
+            </div>
+            <div class="footer-hours-row">
+              <span style="color: var(--text-muted);">Address:</span>
+              <span style="color: #fff; font-size: 0.8rem; text-align: right;">PD Nagar, Nirala Nagar, Unnao</span>
+            </div>
+            <div class="footer-hours-row" style="margin-top: 0.4rem; padding-top: 0.6rem;">
+              <a href="tel:08400580216" style="color: var(--neon-cyan); font-weight: 800; text-decoration: none; width: 100%; text-align: center; display: block;">
+                📞 084005 80216
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div>
+          &copy; <span id="currentYear">2026</span> <strong>The Flex House Cafe</strong>. All rights reserved.
+        </div>
+        <div>
+          Crafted with Neon Energy for Unnao's Favorite Cafe &bull; 5.0 ★ Rated
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       SHOPPING CART / ORDER DRAWER
+       ========================================================================== -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay" aria-hidden="true">
+    <aside class="cart-drawer" aria-label="Shopping Cart">
+      <div class="cart-header">
+        <div class="cart-title-wrap">
+          <span style="font-size: 1.4rem;">🛒</span>
+          <h3>Your Flex Order</h3>
+        </div>
+        <button type="button" class="icon-btn" id="cartCloseBtn" aria-label="Close Cart">✕</button>
+      </div>
+
+      <div class="cart-items-scroll" id="cartItemsList">
+        <!-- Rendered via JS -->
+      </div>
+
+      <div class="cart-footer">
+        <!-- Order Type Selector -->
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.4rem;">
+            Order Type:
+          </label>
+          <div style="display: flex; gap: 0.75rem;">
+            <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.85rem; cursor: pointer;">
+              <input type="radio" name="orderType" value="Dine-In" checked> Dine-In
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.85rem; cursor: pointer;">
+              <input type="radio" name="orderType" value="Takeaway"> Takeaway
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.85rem; cursor: pointer;">
+              <input type="radio" name="orderType" value="Delivery"> Local Delivery
+            </label>
+          </div>
+        </div>
+
+        <div class="cart-total-row">
+          <span>Subtotal:</span>
+          <span class="cart-total-amount" id="cartSubtotalAmount">₹0</span>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="checkoutWhatsAppBtn" style="width: 100%; font-size: 1rem; padding: 0.85rem;">
+          <span>💬 Send Order via WhatsApp</span>
+        </button>
+        <p style="font-size: 0.74rem; color: var(--text-dim); text-align: center; margin-top: 0.5rem;">
+          Orders are sent directly to The Flex House counter at 084005 80216.
+        </p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: TABLE RESERVATION CONFIRMATION (VIP PASS)
+       ========================================================================== -->
+  <div class="modal-dialog-backdrop" id="bookingModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalBookingTitle">
+    <div class="modal-card-box">
+      <button type="button" class="modal-close-btn" id="bookingModalClose" aria-label="Close Reservation Pass">✕</button>
+      
+      <div class="vip-ticket-pass">
+        <div class="ticket-header">
+          <div class="ticket-badge-pill">
+            <span>✓ TABLE RESERVED</span>
+          </div>
+          <h3 id="modalBookingTitle" style="font-size: 1.4rem; color: #FFFFFF; margin-bottom: 0.3rem;">The Flex House VIP Pass</h3>
+          <div class="ticket-booking-id" id="modalTicketId">TFH-0000</div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">Please present this confirmation when you arrive</p>
+        </div>
+
+        <div class="ticket-details-grid">
+          <div class="ticket-detail-item">
+            <h6>Guest Name</h6>
+            <p id="modalTicketName">-</p>
+          </div>
+          <div class="ticket-detail-item">
+            <h6>Contact Phone</h6>
+            <p id="modalTicketPhone">-</p>
+          </div>
+          <div class="ticket-detail-item">
+            <h6>Reservation Date</h6>
+            <p id="modalTicketDate">-</p>
+          </div>
+          <div class="ticket-detail-item">
+            <h6>Time Slot</h6>
+            <p id="modalTicketTime">-</p>
+          </div>
+          <div class="ticket-detail-item">
+            <h6>Number of Guests</h6>
+            <p id="modalTicketGuests">-</p>
+          </div>
+          <div class="ticket-detail-item">
+            <h6>Ambiance Zone</h6>
+            <p id="modalTicketZone">-</p>
+          </div>
+        </div>
+
+        <div class="ticket-note-box">
+          📍 <strong>The Flex House Cafe:</strong> Near Galaxy Hospital, PD Nagar, Nirala Nagar, Unnao.<br>
+          <em>Your table will be held for 20 minutes from the reserved time slot.</em>
+        </div>
+
+        <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
+          <button type="button" class="btn btn-primary" id="sendWhatsAppBookingBtn" style="flex: 1;">
+            <span>💬 Send Confirmation to WhatsApp</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: ORIGINAL MENU PHOTOS LIGHTBOX
+       ========================================================================== -->
+  <div class="modal-dialog-backdrop" id="menuLightboxModal" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="modal-card-box modal-lightbox-box">
+      <button type="button" class="modal-close-btn" id="lightboxModalClose" aria-label="Close Lightbox">✕</button>
+
+      <div style="margin-bottom: 1rem;">
+        <h3 id="lightboxTitle" style="font-size: 1.3rem; color: #FFFFFF; margin-bottom: 0.5rem;">Authentic Menu Cards</h3>
+        <div class="lightbox-tab-buttons">
+          <button type="button" class="btn btn-secondary lightbox-tab-btn active" data-menu-photo="combo">
+            <span>🔥 Combo Menu Sheet</span>
+          </button>
+          <button type="button" class="btn btn-secondary lightbox-tab-btn" data-menu-photo="main">
+            <span>📜 Main Dishes Menu Sheet</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="lightbox-img-wrapper">
+        <img src="assets/images/combo-menu.jpg" alt="Official Menu Sheet of The Flex House Cafe" class="lightbox-img" id="lightboxActiveImg">
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/menu-data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
