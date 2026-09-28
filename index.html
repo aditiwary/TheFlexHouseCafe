@@ -14,6 +14,11 @@
   <meta property="og:image" content="assets/images/storefront.jpg">
   <meta property="og:type" content="restaurant">
 
+  <!-- Favicon Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/favicon.png">
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,6 +68,9 @@
 </head>
 <body>
 
+  <!-- Top Scroll Progress Indicator -->
+  <div class="scroll-progress-bar" id="scrollProgressBar" aria-hidden="true"></div>
+
   <!-- Dynamic Ambient Neon Glow Background & Cursor Aura -->
   <div class="neon-ambient-glow" aria-hidden="true">
     <div class="glow-orb glow-orb-1"></div>
@@ -94,20 +102,26 @@
   <header class="site-header">
     <div class="container">
       <nav class="nav-inner" aria-label="Main Navigation">
-        <!-- Brand / Logo -->
-        <a href="#home" class="brand-link">
+        <!-- Brand / Logo with Authentic Emblem & Rising Steam -->
+        <a href="#home" class="brand-link" title="The Flex House Cafe Home">
           <div class="brand-logo-mark">
-            <span>TFH</span>
+            <img src="assets/images/flex-logo.png" alt="The Flex House Cafe Logo" class="brand-logo-img">
+            <div class="brand-logo-steam" aria-hidden="true">
+              <span class="micro-steam ms-1"></span>
+              <span class="micro-steam ms-2"></span>
+            </div>
+            <div class="brand-logo-shimmer" aria-hidden="true"></div>
           </div>
           <div class="brand-text-block">
             <span class="brand-title">The Flex House</span>
-            <span class="brand-subtitle">Chinese & Pizza Restaurant</span>
+            <span class="brand-subtitle"><span class="brand-accent-dash">—</span> CAFE <span class="brand-accent-dash">—</span></span>
           </div>
         </a>
 
         <!-- Desktop Navigation Links -->
         <ul class="nav-links" id="navLinks">
           <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#flex-cinema" class="nav-link">🎬 Cinema Reels</a></li>
           <li><a href="#flex-showcase" class="nav-link">Showpiece</a></li>
           <li><a href="#menu" class="nav-link">Full Menu</a></li>
           <li><a href="#reservation" class="nav-link">Book a Table</a></li>
@@ -179,6 +193,26 @@
         <div class="hero-grid">
           <!-- Left Column: Content -->
           <div class="hero-content">
+            <!-- Luxury Animated Brand Crest Emblem -->
+            <div class="hero-brand-crest" id="heroBrandCrest" title="The Flex House Cafe Official Emblem">
+              <div class="crest-emblem-wrap">
+                <img src="assets/images/flex-logo.png" alt="The Flex House Cafe Official Crest" class="crest-logo-img">
+                <div class="crest-pulse-ring" aria-hidden="true"></div>
+                <div class="crest-steam-container" aria-hidden="true">
+                  <span class="steam-particle s-1"></span>
+                  <span class="steam-particle s-2"></span>
+                  <span class="steam-particle s-3"></span>
+                </div>
+              </div>
+              <div class="crest-meta">
+                <div class="crest-badge-top">
+                  <span class="crest-star">★</span> <span>OFFICIAL BRAND CREST</span> <span class="crest-star">★</span>
+                </div>
+                <div class="crest-title">THE FLEX HOUSE CAFE</div>
+                <div class="crest-tagline">Artisan Pizzas • Kurkure Momos • Indo-Chinese</div>
+              </div>
+            </div>
+
             <div class="hero-pill-badge">
               <span>👑 UNNAO'S ULTIMATE VIBE & FOOD SHOWPIECE</span>
             </div>
@@ -199,6 +233,9 @@
             <div class="hero-btn-group">
               <a href="#reservation" class="btn btn-primary btn-jump" style="font-size: 1.05rem; padding: 0.85rem 1.8rem;">
                 <span>⚡ Reserve a Table</span>
+              </a>
+              <a href="#flex-cinema" class="btn btn-cinema-glow btn-jump" style="font-size: 1.05rem; padding: 0.85rem 1.8rem;">
+                <span>🎬 Watch 4K Cinema Stream</span>
               </a>
               <a href="#menu" class="btn btn-secondary" style="font-size: 1.05rem; padding: 0.85rem 1.8rem;">
                 <span>📜 Explore Full Menu</span>
@@ -273,24 +310,190 @@
     <!-- ==========================================================================
          SHOWPIECE STATS COUNTERS
          ========================================================================== -->
-    <section class="flex-stats-strip">
+    <section class="flex-stats-strip reveal-on-scroll">
       <div class="container">
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-number neon-gold-text">5.0 ★</div>
+            <div class="stat-number neon-gold-text" data-target="5.0">5.0 ★</div>
             <div class="stat-label">Google Rating</div>
           </div>
           <div class="stat-card">
-            <div class="stat-number neon-cyan-text">12+</div>
+            <div class="stat-number neon-cyan-text" data-target="12">12+</div>
             <div class="stat-label">Value Combos</div>
           </div>
           <div class="stat-card">
-            <div class="stat-number neon-magenta-text">₹29</div>
+            <div class="stat-number neon-magenta-text" data-target="29">₹29</div>
             <div class="stat-label">Starting Price</div>
           </div>
           <div class="stat-card">
-            <div class="stat-number" style="color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green-glow);">100%</div>
+            <div class="stat-number" style="color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green-glow);" data-target="100">100%</div>
             <div class="stat-label">Fresh & Pure Veg</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         CINEMA & LIVE REEL STREAM SHOWCASE
+         ========================================================================== -->
+    <section class="cinema-stream-section reveal-on-scroll" id="flex-cinema">
+      <div class="cinema-ambient-glow" id="cinemaBackdropGlow" aria-hidden="true"></div>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-pill cinema-pill">
+            <span class="live-recording-dot"></span>
+            <span>4K CINEMA STREAM & SIZZLE REELS</span>
+          </div>
+          <h2 class="section-title">Experience The Sizzle In Real-Time</h2>
+          <p class="section-desc">From smoking hot wok tosses to velvety cheese pulls and our glowing evening neon ambiance — stream the live vibe of The Flex House Cafe.</p>
+        </div>
+
+        <!-- Cinema Player Card with Dynamic Reactive Glow -->
+        <div class="cinema-player-card" id="cinemaPlayerCard">
+          <!-- Top Stream Status Bar -->
+          <div class="cinema-toolbar">
+            <div class="cinema-channel-info">
+              <span class="channel-badge" id="activeChannelBadge">TFH REEL 01</span>
+              <span class="stream-title" id="activeStreamTitle">🍕 Signature Cheese Pull & Handcrafted Pizza</span>
+              <span class="stream-quality-tag">ULTRA HD 60FPS</span>
+            </div>
+            <div class="cinema-toolbar-actions">
+              <!-- Upload Video CTA Button -->
+              <button type="button" class="btn-cinema-upload" id="openVideoUploadModalBtn" title="Upload and stream your own video file">
+                <span>📤 Upload & Stream Video</span>
+              </button>
+              <!-- Video Architecture Options Info Button -->
+              <button type="button" class="btn-cinema-info" id="openVideoHostingGuideBtn" title="Learn video hosting and streaming options">
+                <span>ℹ️ Streaming Guide</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Video Display Container -->
+          <div class="cinema-screen-wrap" id="cinemaScreenWrap">
+            <!-- Native HTML5 Video Element -->
+            <video 
+              id="mainCinemaVideo" 
+              class="cinema-video-element" 
+              autoplay 
+              muted 
+              loop 
+              playsinline
+              preload="auto"
+              poster="assets/images/flex-pizza.jpg">
+              <source src="" type="video/mp4" id="cinemaVideoSource">
+              Your browser does not support HTML5 video streaming.
+            </video>
+
+            <!-- Video Ambient Canvas (Samples Video Colors & Emits Living Light) -->
+            <canvas id="cinemaAmbientCanvas" class="cinema-ambient-canvas" aria-hidden="true"></canvas>
+
+            <!-- Embedded Stream iFrame (Used for YouTube / Vimeo Links) -->
+            <div class="cinema-iframe-wrap" id="cinemaIframeWrap" style="display: none;">
+              <iframe id="cinemaIframe" src="" title="Video Stream" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <!-- Video Overlay Canvas for Generative Food Sizzle & Ambient Visuals -->
+            <div class="cinema-interactive-overlay" id="cinemaInteractiveOverlay">
+              <div class="cinema-play-center-btn" id="cinemaCenterPlayBtn" aria-label="Play / Pause Stream">
+                <span class="play-icon" id="centerPlayIcon">▶</span>
+              </div>
+            </div>
+
+            <!-- Custom Cinema Controls Bar -->
+            <div class="cinema-controls-bar" id="cinemaControlsBar">
+              <div class="controls-left">
+                <button type="button" class="ctrl-btn" id="ctrlPlayPause" aria-label="Play / Pause" title="Play / Pause">⏸</button>
+                <button type="button" class="ctrl-btn" id="ctrlMuteToggle" aria-label="Mute / Unmute" title="Mute / Unmute">🔊</button>
+                <div class="video-volume-slider-wrap" title="Adjust Volume">
+                  <input type="range" class="volume-slider" id="ctrlVolumeSlider" min="0" max="1" step="0.05" value="1" aria-label="Volume">
+                </div>
+                <span class="video-time-display" id="ctrlTimeDisplay">00:00 / 00:30</span>
+              </div>
+
+              <!-- Stream Progress Scrub Bar -->
+              <div class="video-scrubber-wrap" id="videoScrubberWrap" title="Click to Seek">
+                <div class="video-scrubber-track" id="videoScrubberTrack">
+                  <div class="video-scrubber-buffered" id="videoScrubberBuffered"></div>
+                  <div class="video-scrubber-fill" id="videoScrubberFill"></div>
+                  <div class="video-scrubber-handle" id="videoScrubberHandle"></div>
+                </div>
+              </div>
+
+              <div class="controls-right">
+                <span class="stream-live-pill" id="streamLivePill"><span class="pulsing-red-dot"></span> LIVE LOOP</span>
+                <button type="button" class="ctrl-btn" id="ctrlLoopToggle" title="Toggle Infinite Loop">🔁</button>
+                <button type="button" class="ctrl-btn" id="ctrlFullscreen" aria-label="Fullscreen" title="Toggle Fullscreen">⛶</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Channel / Reel Switcher Tabs -->
+          <div class="cinema-reels-switcher" role="tablist">
+            <button type="button" class="reel-pill active" data-reel-id="pizza" data-title="🍕 Signature Artisan Pizza & Cheese Pull" data-poster="assets/images/flex-pizza.jpg">
+              <span class="reel-emoji">🍕</span>
+              <div class="reel-meta">
+                <strong>01. Artisan Pizzas</strong>
+                <span>Gooey Cheese Pull & Fresh Dough</span>
+              </div>
+            </button>
+            <button type="button" class="reel-pill" data-reel-id="momos" data-title="🥟 Crispy Kurkure Momos & Flame-Wok Toss" data-poster="assets/images/flex-momos-noodles.jpg">
+              <span class="reel-emoji">🥟</span>
+              <div class="reel-meta">
+                <strong>02. Kurkure Momos & Wok</strong>
+                <span>High Heat Sizzle & Crunchy Flakes</span>
+              </div>
+            </button>
+            <button type="button" class="reel-pill" data-reel-id="cafe-vibe" data-title="✨ Evening Neon Glow & Cafe Dining Atmosphere" data-poster="assets/images/storefront.jpg">
+              <span class="reel-emoji">✨</span>
+              <div class="reel-meta">
+                <strong>03. Neon Night Vibes</strong>
+                <span>Aesthetic Lighting & Warm Tables</span>
+              </div>
+            </button>
+            <button type="button" class="reel-pill" data-reel-id="burgers" data-title="🍔 Loaded Smash Burgers & Thick Cold Coffee" data-poster="assets/images/flex-burger-coffee.jpg">
+              <span class="reel-emoji">🍔</span>
+              <div class="reel-meta">
+                <strong>04. Burgers & Coffee</strong>
+                <span>Gourmet Buns & Creamy Brew</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Streaming Architecture Feature Bar -->
+        <div class="video-quick-options-strip">
+          <div class="opt-card" id="cardOptYoutube" role="button" tabindex="0">
+            <div class="opt-icon">⚡</div>
+            <div class="opt-text">
+              <h4>Free Unlimited Hosting</h4>
+              <p>YouTube / Vimeo Embed with custom zero-branding UI.</p>
+            </div>
+            <span class="opt-tag">100% Free</span>
+          </div>
+          <div class="opt-card" id="cardOptCdn" role="button" tabindex="0">
+            <div class="opt-icon">🚀</div>
+            <div class="opt-text">
+              <h4>Ultra-Fast Edge CDN</h4>
+              <p>Bunny.net or Cloudflare Stream with Adaptive HLS.</p>
+            </div>
+            <span class="opt-tag">Sub-Second</span>
+          </div>
+          <div class="opt-card" id="cardOptS3" role="button" tabindex="0">
+            <div class="opt-icon">☁️</div>
+            <div class="opt-text">
+              <h4>Direct Cloud Storage</h4>
+              <p>Supabase / AWS S3 + CloudFront with MP4 range streaming.</p>
+            </div>
+            <span class="opt-tag">Self-Hosted</span>
+          </div>
+          <div class="opt-card" id="cardOptLocal" role="button" tabindex="0">
+            <div class="opt-icon">🎥</div>
+            <div class="opt-text">
+              <h4>Instant In-Browser Upload</h4>
+              <p>Drop any video from your phone or PC to test live!</p>
+            </div>
+            <span class="opt-tag">Test Now</span>
           </div>
         </div>
       </div>
@@ -752,11 +955,11 @@
         <div class="footer-brand-col">
           <div class="brand-link" style="margin-bottom: 0.5rem;">
             <div class="brand-logo-mark">
-              <span>TFH</span>
+              <img src="assets/images/flex-logo.png" alt="The Flex House Cafe Logo" class="brand-logo-img">
             </div>
             <div class="brand-text-block">
               <span class="brand-title">The Flex House</span>
-              <span class="brand-subtitle">Chinese & Pizza Restaurant</span>
+              <span class="brand-subtitle"><span class="brand-accent-dash">—</span> CAFE <span class="brand-accent-dash">—</span></span>
             </div>
           </div>
           <p>
@@ -968,6 +1171,212 @@
 
       <div class="lightbox-img-wrapper">
         <img src="assets/images/combo-menu.jpg" alt="Official Menu Sheet of The Flex House Cafe" class="lightbox-img" id="lightboxActiveImg">
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: VIDEO UPLOAD & LIVE STREAM STUDIO
+       ========================================================================== -->
+  <div class="modal-dialog-backdrop" id="videoUploadModal" role="dialog" aria-modal="true" aria-labelledby="videoUploadModalTitle">
+    <div class="modal-card-box modal-video-studio-box">
+      <button type="button" class="modal-close-btn" id="videoUploadModalClose" aria-label="Close Studio">✕</button>
+
+      <div class="video-studio-header">
+        <div class="section-pill" style="margin-bottom: 0.5rem;">
+          <span>🎥 TFH CINEMA STUDIO</span>
+        </div>
+        <h3 id="videoUploadModalTitle" style="font-size: 1.4rem; color: #FFFFFF; margin-bottom: 0.3rem;">
+          Upload & Stream Your Video
+        </h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          Stream any local food reel, kitchen tour, or paste an external HLS / MP4 / YouTube link to stream immediately on the website.
+        </p>
+      </div>
+
+      <!-- Studio Mode Tabs -->
+      <div class="studio-tabs-row" role="tablist">
+        <button type="button" class="studio-tab-btn active" id="tabUploadLocal" data-tab="local">
+          <span>📁 Local File Upload</span>
+        </button>
+        <button type="button" class="studio-tab-btn" id="tabStreamUrl" data-tab="url">
+          <span>🔗 Direct Stream URL</span>
+        </button>
+        <button type="button" class="studio-tab-btn" id="tabEmbedSocial" data-tab="embed">
+          <span>▶️ YouTube / Social</span>
+        </button>
+      </div>
+
+      <!-- Tab Pane 1: Local File Drag & Drop -->
+      <div class="studio-tab-pane active" id="paneUploadLocal">
+        <div class="video-dropzone" id="videoDropZone">
+          <input type="file" id="videoFileInput" accept="video/mp4,video/webm,video/quicktime,video/ogg" style="display: none;">
+          <div class="dropzone-icon">📹</div>
+          <h4>Drag & Drop your video file here</h4>
+          <p>Supports MP4, WebM, MOV files from your phone or PC (Instant In-Browser Streaming)</p>
+          <button type="button" class="btn btn-primary" id="btnTriggerFilePicker" style="margin-top: 1rem; padding: 0.65rem 1.4rem;">
+            <span>Browse Video File</span>
+          </button>
+        </div>
+
+        <div class="video-file-meta" id="videoFileMeta" style="display: none;">
+          <div class="file-meta-item">
+            <span class="meta-label">Selected File:</span>
+            <strong class="meta-val" id="metaFileName">-</strong>
+          </div>
+          <div class="file-meta-item">
+            <span class="meta-label">File Size:</span>
+            <strong class="meta-val" id="metaFileSize">-</strong>
+          </div>
+          <div class="file-meta-item">
+            <span class="meta-label">Stream Status:</span>
+            <span class="meta-status-pill">Ready to Stream</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Pane 2: Direct Video URL (HLS / MP4 / Cloudflare / BunnyCDN) -->
+      <div class="studio-tab-pane" id="paneStreamUrl" style="display: none;">
+        <div class="studio-input-group">
+          <label for="directVideoUrlInput" class="studio-label">Direct MP4 or HLS (.m3u8) Stream URL:</label>
+          <div class="input-with-action">
+            <input type="url" id="directVideoUrlInput" class="studio-text-input" placeholder="https://cdn.your-cafe.com/video/reels/pizza-cheese-pull.mp4">
+            <button type="button" class="btn btn-primary" id="applyDirectUrlBtn">
+              <span>Stream Link</span>
+            </button>
+          </div>
+          <p class="input-hint">
+            💡 Compatible with Cloudflare Stream, Bunny.net, Supabase Storage, AWS S3, or any public video URL.
+          </p>
+        </div>
+      </div>
+
+      <!-- Tab Pane 3: YouTube / Vimeo Embed -->
+      <div class="studio-tab-pane" id="paneEmbedSocial" style="display: none;">
+        <div class="studio-input-group">
+          <label for="socialVideoUrlInput" class="studio-label">YouTube Shorts / Video or Vimeo URL:</label>
+          <div class="input-with-action">
+            <input type="url" id="socialVideoUrlInput" class="studio-text-input" placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/...">
+            <button type="button" class="btn btn-primary" id="applySocialUrlBtn">
+              <span>Embed Stream</span>
+            </button>
+          </div>
+          <p class="input-hint">
+            💡 Zero server hosting costs. Unlimited viewers globally with auto-adaptive mobile resolution.
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="studio-actions-footer">
+        <button type="button" class="btn btn-secondary" id="closeStudioBtn">
+          <span>Cancel</span>
+        </button>
+        <button type="button" class="btn btn-primary" id="openGuideFromStudioBtn">
+          <span>📘 Read Streaming Architecture Guide</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: COMPREHENSIVE VIDEO STREAMING ARCHITECTURE & OPTIONS GUIDE
+       ========================================================================== -->
+  <div class="modal-dialog-backdrop" id="videoGuideModal" role="dialog" aria-modal="true" aria-labelledby="videoGuideModalTitle">
+    <div class="modal-card-box modal-guide-box">
+      <button type="button" class="modal-close-btn" id="videoGuideModalClose" aria-label="Close Guide">✕</button>
+
+      <div class="guide-header">
+        <div class="section-pill" style="margin-bottom: 0.5rem;">
+          <span>📘 ARCHITECTURE & HOSTING GUIDE</span>
+        </div>
+        <h3 id="videoGuideModalTitle" style="font-size: 1.5rem; color: #FFFFFF; margin-bottom: 0.3rem;">
+          How to Upload & Stream Video on Your Cafe Website
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">
+          Compare the 4 recommended production architectures for uploading, hosting, and streaming video smoothly without lag or high server bills.
+        </p>
+      </div>
+
+      <div class="guide-cards-grid">
+        <!-- Option 1: YouTube / Vimeo (Best for 95% of Cafes) -->
+        <div class="guide-option-card highlighted-option">
+          <div class="guide-card-badge">RECOMMENDED FOR CAFES</div>
+          <div class="guide-card-icon">⚡</div>
+          <h4>Option 1: YouTube (Unlisted) or Vimeo Embed</h4>
+          <p class="guide-card-summary">
+            Upload your cafe reels to YouTube as <strong>"Unlisted"</strong> (only visible on your website) and embed via an optimized iframe.
+          </p>
+          <ul class="guide-bullets">
+            <li><strong>Cost:</strong> 100% Free forever (unlimited views & bandwidth).</li>
+            <li><strong>Streaming Engine:</strong> Google's global CDN with automatic 360p / 720p / 1080p / 4K adaptive bitrate.</li>
+            <li><strong>How to use:</strong> Upload reel on YouTube Studio → Copy link → Paste into TFH Cinema Player!</li>
+          </ul>
+        </div>
+
+        <!-- Option 2: Cloudflare Stream / Bunny.net Stream -->
+        <div class="guide-option-card">
+          <div class="guide-card-badge">PRO CINEMATIC CHOICE</div>
+          <div class="guide-card-icon">🚀</div>
+          <h4>Option 2: Cloudflare Stream or Bunny.net Stream</h4>
+          <p class="guide-card-summary">
+            Dedicated video streaming cloud designed for clean, white-label websites with zero third-party branding.
+          </p>
+          <ul class="guide-bullets">
+            <li><strong>Cost:</strong> Bunny.net: ~$0.005 / GB; Cloudflare Stream: ~$5 / month.</li>
+            <li><strong>Streaming Engine:</strong> Real HLS (.m3u8) / DASH with instant sub-second start time.</li>
+            <li><strong>How to use:</strong> Upload MP4 in Bunny or Cloudflare dashboard → copy HLS stream URL → paste into site.</li>
+          </ul>
+        </div>
+
+        <!-- Option 3: AWS S3 + CloudFront or Supabase Storage -->
+        <div class="guide-option-card">
+          <div class="guide-card-badge">SELF-HOSTED STORAGE</div>
+          <div class="guide-card-icon">☁️</div>
+          <h4>Option 3: AWS S3 + CloudFront / Supabase Storage</h4>
+          <p class="guide-card-summary">
+            Upload optimized MP4/WebM files to cloud object storage behind a CDN edge cache.
+          </p>
+          <ul class="guide-bullets">
+            <li><strong>Cost:</strong> Free tier on Supabase (1GB); AWS S3 pennies per gigabyte.</li>
+            <li><strong>Streaming Engine:</strong> Native HTML5 Range Requests (HTTP 206 Partial Content).</li>
+            <li><strong>Best practice:</strong> Compress video using Handbrake/ffmpeg with H.264 CRF 22 + faststart flag for instant playback.</li>
+          </ul>
+        </div>
+
+        <!-- Option 4: Instant In-Browser Upload (For Demos & Local Testing) -->
+        <div class="guide-option-card">
+          <div class="guide-card-badge">ZERO BACKEND REQUIRED</div>
+          <div class="guide-card-icon">🎥</div>
+          <h4>Option 4: In-Browser Client-Side Streaming</h4>
+          <p class="guide-card-summary">
+            Our built-in uploader uses the browser's native File API and <code>URL.createObjectURL()</code>.
+          </p>
+          <ul class="guide-bullets">
+            <li><strong>Cost:</strong> 100% Free, runs entirely inside the client's browser.</li>
+            <li><strong>Instant preview:</strong> You can drop any MP4 right now into the TFH Cinema Studio above and watch it stream!</li>
+            <li><strong>Next step:</strong> When ready to make it permanent for all website visitors, choose Option 1 (YouTube) or Option 2 (Bunny/Cloudflare).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="guide-code-box">
+        <div class="code-box-header">
+          <span>💡 Quick Code Implementation in HTML:</span>
+        </div>
+        <pre><code>&lt;!-- Option A: Pure HTML5 Video with CDN Stream --&gt;
+&lt;video autoplay muted loop playsinline poster="assets/images/flex-pizza.jpg"&gt;
+  &lt;source src="https://vz-xxxx.b-cdn.net/xxxx/play_720p.mp4" type="video/mp4"&gt;
+&lt;/video&gt;
+
+&lt;!-- Option B: YouTube Embed with Zero Distraction --&gt;
+&lt;iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID" allow="autoplay; fullscreen"&gt;&lt;/iframe&gt;</code></pre>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button type="button" class="btn btn-primary" id="guideCloseAndUploadBtn" style="padding: 0.75rem 2rem;">
+          <span>⚡ Got it, Try Live Upload & Stream Now!</span>
+        </button>
       </div>
     </div>
   </div>

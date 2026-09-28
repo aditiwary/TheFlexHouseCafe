@@ -728,6 +728,598 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ==========================================================================
+  // TOP SCROLL PROGRESS BAR
+  // ==========================================================================
+  const scrollProgressBar = document.getElementById('scrollProgressBar');
+  if (scrollProgressBar) {
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+      scrollProgressBar.style.width = `${scrolled}%`;
+    }, { passive: true });
+  }
+
+  // ==========================================================================
+  // SCROLL REVEAL OBSERVER (SMOOTH ENTRANCE ANIMATIONS)
+  // ==========================================================================
+  const revealElements = document.querySelectorAll('.reveal-on-scroll');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+  } else {
+    revealElements.forEach(el => el.classList.add('revealed'));
+  }
+
+  // ==========================================================================
+  // ANIMATED STATS COUNTER ON SCROLL
+  // ==========================================================================
+  const statsStrip = document.querySelector('.flex-stats-strip');
+  let statsCounted = false;
+  if (statsStrip && 'IntersectionObserver' in window) {
+    const statsObserver = new IntersectionObserver((entries) => {
+      if (entries[0] && entries[0].isIntersecting && !statsCounted) {
+        statsCounted = true;
+        document.querySelectorAll('.stat-number').forEach(stat => {
+          const target = parseFloat(stat.dataset.target);
+          if (isNaN(target)) return;
+          const isDecimal = target % 1 !== 0;
+          let current = 0;
+          const step = target / 35;
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+            if (isDecimal) {
+              stat.textContent = `${current.toFixed(1)} ★`;
+            } else if (target === 100) {
+              stat.textContent = `${Math.floor(current)}%`;
+            } else if (target === 29) {
+              stat.textContent = `₹${Math.floor(current)}`;
+            } else {
+              stat.textContent = `${Math.floor(current)}+`;
+            }
+          }, 30);
+        });
+      }
+    }, { threshold: 0.3 });
+    statsObserver.observe(statsStrip);
+  }
+
+  // ==========================================================================
+  // INTERACTIVE 3D CARD TILT ON MOUSE HOVER
+  // ==========================================================================
+  const tiltCards = document.querySelectorAll('.showpiece-card, .storefront-frame, .cinema-player-card, .hero-brand-crest');
+  tiltCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -5;
+      const rotateY = ((x - centerX) / centerX) * 5;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // ==========================================================================
+  // CINEMA & LIVE REEL STREAM ENGINE
+  // ==========================================================================
+  const cinemaVideo = document.getElementById('mainCinemaVideo');
+  const cinemaCanvas = document.getElementById('cinemaAmbientCanvas');
+  const cinemaIframeWrap = document.getElementById('cinemaIframeWrap');
+  const cinemaIframe = document.getElementById('cinemaIframe');
+  const cinemaBackdropGlow = document.getElementById('cinemaBackdropGlow');
+  const cinemaOverlay = document.getElementById('cinemaInteractiveOverlay');
+  const centerPlayIcon = document.getElementById('centerPlayIcon');
+  const ctrlPlayPause = document.getElementById('ctrlPlayPause');
+  const ctrlMuteToggle = document.getElementById('ctrlMuteToggle');
+  const ctrlVolumeSlider = document.getElementById('ctrlVolumeSlider');
+  const ctrlTimeDisplay = document.getElementById('ctrlTimeDisplay');
+  const videoScrubberWrap = document.getElementById('videoScrubberWrap');
+  const videoScrubberFill = document.getElementById('videoScrubberFill');
+  const videoScrubberBuffered = document.getElementById('videoScrubberBuffered');
+  const videoScrubberHandle = document.getElementById('videoScrubberHandle');
+  const ctrlLoopToggle = document.getElementById('ctrlLoopToggle');
+  const ctrlFullscreen = document.getElementById('ctrlFullscreen');
+  const streamScreenWrap = document.getElementById('cinemaScreenWrap');
+  const activeStreamTitle = document.getElementById('activeStreamTitle');
+  const activeChannelBadge = document.getElementById('activeChannelBadge');
+  const reelPills = document.querySelectorAll('.reel-pill');
+
+  // Video Modals
+  const openVideoUploadModalBtn = document.getElementById('openVideoUploadModalBtn');
+  const openVideoHostingGuideBtn = document.getElementById('openVideoHostingGuideBtn');
+  const videoUploadModal = document.getElementById('videoUploadModal');
+  const videoUploadModalClose = document.getElementById('videoUploadModalClose');
+  const closeStudioBtn = document.getElementById('closeStudioBtn');
+  const videoGuideModal = document.getElementById('videoGuideModal');
+  const videoGuideModalClose = document.getElementById('videoGuideModalClose');
+  const openGuideFromStudioBtn = document.getElementById('openGuideFromStudioBtn');
+  const guideCloseAndUploadBtn = document.getElementById('guideCloseAndUploadBtn');
+  const videoDropZone = document.getElementById('videoDropZone');
+  const videoFileInput = document.getElementById('videoFileInput');
+  const btnTriggerFilePicker = document.getElementById('btnTriggerFilePicker');
+  const videoFileMeta = document.getElementById('videoFileMeta');
+  const metaFileName = document.getElementById('metaFileName');
+  const metaFileSize = document.getElementById('metaFileSize');
+  const directVideoUrlInput = document.getElementById('directVideoUrlInput');
+  const applyDirectUrlBtn = document.getElementById('applyDirectUrlBtn');
+  const socialVideoUrlInput = document.getElementById('socialVideoUrlInput');
+  const applySocialUrlBtn = document.getElementById('applySocialUrlBtn');
+  const studioTabBtns = document.querySelectorAll('.studio-tab-btn');
+
+  // Reel Configuration Data
+  const REEL_CONFIGS = {
+    pizza: {
+      id: 'pizza',
+      badge: 'TFH REEL 01',
+      title: '🍕 Signature Artisan Pizza & Cheese Pull',
+      poster: 'assets/images/flex-pizza.jpg',
+      glow: 'rgba(255, 183, 3, 0.45)',
+      themeColor: '#FFB703'
+    },
+    momos: {
+      id: 'momos',
+      badge: 'TFH REEL 02',
+      title: '🥟 Crispy Kurkure Momos & Flame-Wok Toss',
+      poster: 'assets/images/flex-momos-noodles.jpg',
+      glow: 'rgba(0, 240, 255, 0.4)',
+      themeColor: '#00F0FF'
+    },
+    'cafe-vibe': {
+      id: 'cafe-vibe',
+      badge: 'TFH REEL 03',
+      title: '✨ Evening Neon Glow & Cafe Dining Atmosphere',
+      poster: 'assets/images/storefront.jpg',
+      glow: 'rgba(255, 0, 127, 0.4)',
+      themeColor: '#FF007F'
+    },
+    burgers: {
+      id: 'burgers',
+      badge: 'TFH REEL 04',
+      title: '🍔 Loaded Smash Burgers & Thick Cold Coffee',
+      poster: 'assets/images/flex-burger-coffee.jpg',
+      glow: 'rgba(255, 183, 3, 0.35)',
+      themeColor: '#FFD166'
+    }
+  };
+
+  let activeReelKey = 'pizza';
+  let isCustomVideoLoaded = false;
+
+  // Generative Canvas Visualizer (Ambient Sizzle & Neon Lights)
+  let canvasCtx = null;
+  let canvasParticles = [];
+
+  function initCinemaCanvas() {
+    if (!cinemaCanvas) return;
+    canvasCtx = cinemaCanvas.getContext('2d');
+    resizeCinemaCanvas();
+    window.addEventListener('resize', resizeCinemaCanvas, { passive: true });
+
+    // Spawn ambient light particles
+    canvasParticles = [];
+    for (let i = 0; i < 35; i++) {
+      canvasParticles.push({
+        x: Math.random() * (cinemaCanvas.width || 800),
+        y: Math.random() * (cinemaCanvas.height || 450),
+        r: Math.random() * 4 + 1.5,
+        dx: (Math.random() - 0.5) * 0.8,
+        dy: -Math.random() * 1.5 - 0.5,
+        alpha: Math.random() * 0.7 + 0.3,
+        color: Math.random() > 0.5 ? '#FFB703' : '#00F0FF'
+      });
+    }
+
+    renderCinemaCanvas();
+  }
+
+  function resizeCinemaCanvas() {
+    if (!cinemaCanvas || !streamScreenWrap) return;
+    cinemaCanvas.width = streamScreenWrap.clientWidth || 960;
+    cinemaCanvas.height = streamScreenWrap.clientHeight || 540;
+  }
+
+  function renderCinemaCanvas() {
+    if (!canvasCtx || !cinemaCanvas) return;
+
+    canvasCtx.clearRect(0, 0, cinemaCanvas.width, cinemaCanvas.height);
+
+    // Draw subtle rising particles
+    canvasParticles.forEach(p => {
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.y < 0) {
+        p.y = cinemaCanvas.height + 10;
+        p.x = Math.random() * cinemaCanvas.width;
+      }
+
+      canvasCtx.beginPath();
+      canvasCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      canvasCtx.fillStyle = p.color;
+      canvasCtx.globalAlpha = p.alpha * 0.6;
+      canvasCtx.shadowBlur = 10;
+      canvasCtx.shadowColor = p.color;
+      canvasCtx.fill();
+    });
+    canvasCtx.globalAlpha = 1.0;
+    canvasCtx.shadowBlur = 0;
+
+    requestAnimationFrame(renderCinemaCanvas);
+  }
+
+  initCinemaCanvas();
+
+  // Switch Reel
+  function switchReel(reelKey) {
+    const config = REEL_CONFIGS[reelKey];
+    if (!config) return;
+
+    activeReelKey = reelKey;
+
+    reelPills.forEach(pill => {
+      pill.classList.toggle('active', pill.dataset.reelId === reelKey);
+    });
+
+    if (activeStreamTitle) activeStreamTitle.textContent = config.title;
+    if (activeChannelBadge) activeChannelBadge.textContent = config.badge;
+
+    if (cinemaBackdropGlow) {
+      cinemaBackdropGlow.style.background = `radial-gradient(ellipse at center, ${config.glow} 0%, rgba(0, 240, 255, 0.1) 40%, transparent 70%)`;
+    }
+
+    if (cinemaVideo) {
+      cinemaVideo.poster = config.poster;
+      if (!isCustomVideoLoaded) {
+        cinemaVideo.currentTime = 0;
+      }
+    }
+
+    soundEngine.click();
+  }
+
+  reelPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      switchReel(pill.dataset.reelId);
+    });
+  });
+
+  // Play / Pause Toggle
+  function toggleCinemaPlay() {
+    if (!cinemaVideo) return;
+
+    if (cinemaVideo.paused) {
+      cinemaVideo.play().then(() => {
+        updatePlayState(true);
+      }).catch(err => {
+        console.warn('Playback deferred', err);
+        updatePlayState(false);
+      });
+    } else {
+      cinemaVideo.pause();
+      updatePlayState(false);
+    }
+  }
+
+  function updatePlayState(isPlaying) {
+    if (ctrlPlayPause) ctrlPlayPause.textContent = isPlaying ? '⏸' : '▶';
+    if (centerPlayIcon) centerPlayIcon.textContent = isPlaying ? '⏸' : '▶';
+    if (cinemaOverlay) {
+      cinemaOverlay.style.opacity = isPlaying ? '0' : '1';
+      cinemaOverlay.style.pointerEvents = isPlaying ? 'none' : 'auto';
+    }
+  }
+
+  if (cinemaOverlay) cinemaOverlay.addEventListener('click', toggleCinemaPlay);
+  if (ctrlPlayPause) ctrlPlayPause.addEventListener('click', toggleCinemaPlay);
+
+  if (cinemaVideo) {
+    cinemaVideo.addEventListener('play', () => updatePlayState(true));
+    cinemaVideo.addEventListener('pause', () => updatePlayState(false));
+
+    // Time update & Scrubber
+    cinemaVideo.addEventListener('timeupdate', () => {
+      const cur = cinemaVideo.currentTime || 0;
+      const dur = cinemaVideo.duration || 30;
+      const pct = (cur / dur) * 100;
+
+      if (videoScrubberFill) videoScrubberFill.style.width = `${pct}%`;
+      if (videoScrubberHandle) videoScrubberHandle.style.left = `${pct}%`;
+
+      const formatTime = (sec) => {
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      };
+
+      if (ctrlTimeDisplay) {
+        ctrlTimeDisplay.textContent = `${formatTime(cur)} / ${formatTime(dur)}`;
+      }
+    });
+
+    cinemaVideo.addEventListener('progress', () => {
+      if (cinemaVideo.buffered.length > 0 && videoScrubberBuffered) {
+        const bufferedEnd = cinemaVideo.buffered.end(cinemaVideo.buffered.length - 1);
+        const dur = cinemaVideo.duration || 30;
+        videoScrubberBuffered.style.width = `${(bufferedEnd / dur) * 100}%`;
+      }
+    });
+  }
+
+  // Scrubber Seek
+  if (videoScrubberWrap && cinemaVideo) {
+    videoScrubberWrap.addEventListener('click', (e) => {
+      const rect = videoScrubberWrap.getBoundingClientRect();
+      const clickPos = (e.clientX - rect.left) / rect.width;
+      const dur = cinemaVideo.duration || 30;
+      cinemaVideo.currentTime = clickPos * dur;
+    });
+  }
+
+  // Mute / Unmute & Volume
+  if (ctrlMuteToggle && cinemaVideo) {
+    ctrlMuteToggle.addEventListener('click', () => {
+      cinemaVideo.muted = !cinemaVideo.muted;
+      ctrlMuteToggle.textContent = cinemaVideo.muted ? '🔇' : '🔊';
+      if (ctrlVolumeSlider) ctrlVolumeSlider.value = cinemaVideo.muted ? 0 : (cinemaVideo.volume || 1);
+    });
+  }
+
+  if (ctrlVolumeSlider && cinemaVideo) {
+    ctrlVolumeSlider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      cinemaVideo.volume = val;
+      cinemaVideo.muted = val === 0;
+      if (ctrlMuteToggle) ctrlMuteToggle.textContent = val === 0 ? '🔇' : '🔊';
+    });
+  }
+
+  // Loop Toggle
+  if (ctrlLoopToggle && cinemaVideo) {
+    ctrlLoopToggle.addEventListener('click', () => {
+      cinemaVideo.loop = !cinemaVideo.loop;
+      ctrlLoopToggle.style.color = cinemaVideo.loop ? 'var(--neon-green)' : '#FFFFFF';
+      showQuickNotification(cinemaVideo.loop ? '🔁 Video Loop Enabled' : 'Video Loop Disabled');
+    });
+  }
+
+  // Fullscreen
+  if (ctrlFullscreen && streamScreenWrap) {
+    ctrlFullscreen.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        streamScreenWrap.requestFullscreen().catch(err => {
+          console.warn('Fullscreen error:', err);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    });
+  }
+
+  // ==========================================================================
+  // VIDEO UPLOAD & STUDIO MODAL HANDLERS
+  // ==========================================================================
+  function openStudioModal(activeTab = 'local') {
+    if (!videoUploadModal) return;
+    videoUploadModal.classList.add('active');
+    switchStudioTab(activeTab);
+    soundEngine.click();
+  }
+
+  function closeStudioModal() {
+    if (!videoUploadModal) return;
+    videoUploadModal.classList.remove('active');
+  }
+
+  function openGuideModal() {
+    if (!videoGuideModal) return;
+    videoGuideModal.classList.add('active');
+    soundEngine.click();
+  }
+
+  function closeGuideModal() {
+    if (!videoGuideModal) return;
+    videoGuideModal.classList.remove('active');
+  }
+
+  if (openVideoUploadModalBtn) openVideoUploadModalBtn.addEventListener('click', () => openStudioModal('local'));
+  if (openVideoHostingGuideBtn) openVideoHostingGuideBtn.addEventListener('click', openGuideModal);
+  if (videoUploadModalClose) videoUploadModalClose.addEventListener('click', closeStudioModal);
+  if (closeStudioBtn) closeStudioBtn.addEventListener('click', closeStudioModal);
+  if (videoGuideModalClose) videoGuideModalClose.addEventListener('click', closeGuideModal);
+
+  if (openGuideFromStudioBtn) {
+    openGuideFromStudioBtn.addEventListener('click', () => {
+      closeStudioModal();
+      openGuideModal();
+    });
+  }
+
+  if (guideCloseAndUploadBtn) {
+    guideCloseAndUploadBtn.addEventListener('click', () => {
+      closeGuideModal();
+      openStudioModal('local');
+    });
+  }
+
+  // Quick Option Cards click bindings
+  const cardOptYoutube = document.getElementById('cardOptYoutube');
+  const cardOptCdn = document.getElementById('cardOptCdn');
+  const cardOptS3 = document.getElementById('cardOptS3');
+  const cardOptLocal = document.getElementById('cardOptLocal');
+
+  if (cardOptYoutube) cardOptYoutube.addEventListener('click', () => openStudioModal('embed'));
+  if (cardOptCdn) cardOptCdn.addEventListener('click', openGuideModal);
+  if (cardOptS3) cardOptS3.addEventListener('click', openGuideModal);
+  if (cardOptLocal) cardOptLocal.addEventListener('click', () => openStudioModal('local'));
+
+  // Studio Mode Tabs
+  function switchStudioTab(tabKey) {
+    studioTabBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === tabKey);
+    });
+
+    const paneLocal = document.getElementById('paneUploadLocal');
+    const paneUrl = document.getElementById('paneStreamUrl');
+    const paneEmbed = document.getElementById('paneEmbedSocial');
+
+    if (paneLocal) paneLocal.style.display = tabKey === 'local' ? 'block' : 'none';
+    if (paneUrl) paneUrl.style.display = tabKey === 'url' ? 'block' : 'none';
+    if (paneEmbed) paneEmbed.style.display = tabKey === 'embed' ? 'block' : 'none';
+  }
+
+  studioTabBtns.forEach(btn => {
+    btn.addEventListener('click', () => switchStudioTab(btn.dataset.tab));
+  });
+
+  // Local File Upload & Drag-and-Drop
+  if (btnTriggerFilePicker && videoFileInput) {
+    btnTriggerFilePicker.addEventListener('click', (e) => {
+      e.stopPropagation();
+      videoFileInput.click();
+    });
+  }
+
+  if (videoDropZone && videoFileInput) {
+    videoDropZone.addEventListener('click', () => videoFileInput.click());
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      videoDropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        videoDropZone.classList.add('dragover');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      videoDropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        videoDropZone.classList.remove('dragover');
+      }, false);
+    });
+
+    videoDropZone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files && files.length > 0) {
+        handleLocalVideoFile(files[0]);
+      }
+    });
+
+    videoFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        handleLocalVideoFile(e.target.files[0]);
+      }
+    });
+  }
+
+  function handleLocalVideoFile(file) {
+    if (!file || !file.type.startsWith('video/')) {
+      alert('Please select a valid video file (MP4, WebM, MOV).');
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    if (cinemaVideo) {
+      cinemaVideo.src = objectUrl;
+      cinemaVideo.muted = false;
+      cinemaVideo.load();
+      cinemaVideo.play().catch(e => console.log('Autoplay handled', e));
+
+      isCustomVideoLoaded = true;
+
+      if (cinemaIframeWrap) cinemaIframeWrap.style.display = 'none';
+      if (cinemaVideo) cinemaVideo.style.display = 'block';
+
+      if (activeStreamTitle) activeStreamTitle.textContent = `🎬 Custom Stream: ${file.name}`;
+      if (activeChannelBadge) activeChannelBadge.textContent = 'LOCAL STREAM';
+
+      if (videoFileMeta) videoFileMeta.style.display = 'flex';
+      if (metaFileName) metaFileName.textContent = file.name;
+      if (metaFileSize) metaFileSize.textContent = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+
+      showQuickNotification(`🎥 Live Stream Started: ${file.name}!`);
+      setTimeout(closeStudioModal, 800);
+      soundEngine.fanfare();
+    }
+  }
+
+  // Direct URL Streaming
+  if (applyDirectUrlBtn && directVideoUrlInput) {
+    applyDirectUrlBtn.addEventListener('click', () => {
+      const url = directVideoUrlInput.value.trim();
+      if (!url) return;
+
+      if (cinemaVideo) {
+        cinemaVideo.src = url;
+        cinemaVideo.muted = false;
+        cinemaVideo.load();
+        cinemaVideo.play().catch(e => console.log('Autoplay handled', e));
+
+        isCustomVideoLoaded = true;
+
+        if (cinemaIframeWrap) cinemaIframeWrap.style.display = 'none';
+        if (cinemaVideo) cinemaVideo.style.display = 'block';
+
+        if (activeStreamTitle) activeStreamTitle.textContent = `🌐 CDN Stream: ${url.split('/').pop() || 'Live URL'}`;
+        if (activeChannelBadge) activeChannelBadge.textContent = 'HLS / CDN';
+
+        showQuickNotification('🌐 Streaming from Direct CDN URL!');
+        closeStudioModal();
+        soundEngine.fanfare();
+      }
+    });
+  }
+
+  // YouTube / Social Embed Stream
+  if (applySocialUrlBtn && socialVideoUrlInput) {
+    applySocialUrlBtn.addEventListener('click', () => {
+      const rawUrl = socialVideoUrlInput.value.trim();
+      if (!rawUrl) return;
+
+      let embedUrl = '';
+      const ytMatch = rawUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([\w-]{11})/);
+      if (ytMatch && ytMatch[1]) {
+        embedUrl = `https://www.youtube-nocookie.com/embed/${ytMatch[1]}?autoplay=1&mute=0&rel=0&loop=1&playlist=${ytMatch[1]}`;
+      } else if (rawUrl.includes('vimeo.com/')) {
+        const vimeoId = rawUrl.split('/').filter(Boolean).pop();
+        embedUrl = `https://player.vimeo.com/video/${vimeoId}?autoplay=1&loop=1`;
+      } else {
+        embedUrl = rawUrl;
+      }
+
+      if (cinemaIframe && cinemaIframeWrap) {
+        cinemaIframe.src = embedUrl;
+        cinemaIframeWrap.style.display = 'block';
+        if (cinemaVideo) cinemaVideo.pause();
+
+        if (activeStreamTitle) activeStreamTitle.textContent = '▶️ Streaming Social Cinema Reel';
+        if (activeChannelBadge) activeChannelBadge.textContent = 'YOUTUBE / SOCIAL';
+
+        showQuickNotification('▶️ Embedded Stream Active!');
+        closeStudioModal();
+        soundEngine.fanfare();
+      }
+    });
+  }
+
   // Initial Render
   renderMenuItems();
   updateCartUI();
