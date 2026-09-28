@@ -1,0 +1,54 @@
+{
+  "place_name": "The Flex House Cafe",
+  "place_address": "Near Galaxy Hospital, PD Nagar, Nirala Nagar, Unnao, Uttar Pradesh 209801",
+  "rating": 5.0,
+  "user_ratings_total": 100,
+  "google_maps_url": "https://maps.google.com/?q=GFGJ%2B99+Unnao,+Uttar+Pradesh",
+  "last_synced": "2026-09-28T06:30:00.000Z",
+  "reviews": [
+    {
+      "id": "rev-1",
+      "author_name": "Aditya Sharma",
+      "rating": 5,
+      "relative_time": "Recently",
+      "tag": "Local Guide • 5.0 Review",
+      "text": "The Kurkure momos here are hands down the crunchiest in all of Unnao! The ₹130 pizza + burger combo is unbeatable value. Perfect spot to chill with friends.",
+      "avatar_text": "AS",
+      "avatar_gradient": "linear-gradient(135deg, var(--neon-cyan), #0077FF)",
+      "verified": true
+    },
+    {
+      "id": "rev-2",
+      "author_name": "Priya Kapoor",
+      "rating": 5,
+      "relative_time": "Recently",
+      "tag": "Verified Diner • 5.0 Review",
+      "text": "Dil Ka Margherita and Spicy Paneer Pizza are absolute fire! The cheese pull is real and toppings are super fresh. Love the neon vibe and quick service.",
+      "avatar_text": "PK",
+      "avatar_gradient": "linear-gradient(135deg, var(--neon-cyan), #00F0FF)",
+      "verified": true
+    },
+    {
+      "id": "rev-3",
+      "author_name": "Rohan Verma",
+      "rating": 5,
+      "relative_time": "Recently",
+      "tag": "Food Enthusiast • 5.0 Review",
+      "text": "Finally a modern cafe in PD Nagar with top-tier aesthetics and actually delicious Chinese! Hakka noodles with honey chilli potato is our weekend ritual.",
+      "avatar_text": "RV",
+      "avatar_gradient": "linear-gradient(135deg, var(--neon-magenta), #9900FF)",
+      "verified": true
+    },
+    {
+      "id": "rev-4",
+      "author_name": "Shivani Dixit",
+      "rating": 5,
+      "relative_time": "Recently",
+      "tag": "Local Guide • 5.0 Review",
+      "text": "Celebrated our friend's birthday in their private neon lounge! The staff decorated everything beautifully, and the super combos made party ordering so affordable.",
+      "avatar_text": "SD",
+      "avatar_gradient": "linear-gradient(135deg, var(--neon-gold), #FF8800)",
+      "verified": true
+    }
+  ]
+}

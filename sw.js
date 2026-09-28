@@ -1,9 +1,10 @@
-const CACHE_NAME = 'flex-house-cafe-v2.1';
+const CACHE_NAME = 'flex-house-cafe-v2.2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
   '/assets/css/style.css',
+  '/assets/data/reviews.json',
   '/assets/js/menu-data.js',
   '/assets/js/app.js',
   '/assets/images/flex-logo.png',

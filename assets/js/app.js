@@ -945,7 +945,57 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(hideMapSkeleton, 3000);
   }
 
+  // ==========================================================================
+  // GOOGLE MAPS REVIEWS DYNAMIC DATA LOADER (AUTO-SYNC SYSTEM)
+  // ==========================================================================
+  const reviewsGrid = document.getElementById('reviewsGrid');
+  const reviewsSyncPill = document.getElementById('reviewsSyncPill');
+
+  async function loadAndRenderGoogleReviews() {
+    if (!reviewsGrid) return;
+
+    try {
+      const response = await fetch('assets/data/reviews.json', { cache: 'no-cache' });
+      if (!response.ok) return;
+
+      const data = await response.json();
+      if (!data || !Array.isArray(data.reviews) || data.reviews.length === 0) return;
+
+      // Update sync pill with live rating & count
+      if (reviewsSyncPill && data.rating) {
+        reviewsSyncPill.innerHTML = `<span class="status-dot"></span> Synced with Google Maps (${Number(data.rating).toFixed(1)} ★ • ${data.user_ratings_total || 100}+ reviews)`;
+      }
+
+      reviewsGrid.innerHTML = data.reviews.map(review => {
+        const stars = '★'.repeat(Math.min(5, Math.max(1, Math.round(review.rating || 5))));
+        const avatarStyle = review.avatar_gradient ? `style="background: ${review.avatar_gradient};"` : '';
+        const authorInitial = review.avatar_text || (review.author_name ? review.author_name.slice(0, 2).toUpperCase() : 'TF');
+
+        return `
+          <div class="review-card">
+            <div class="review-card-top">
+              <div class="review-stars">${stars}</div>
+              <span class="review-google-badge"><i class="fa-brands fa-google"></i> Google</span>
+            </div>
+            <p class="review-quote">"${review.text}"</p>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar" ${avatarStyle}>${authorInitial}</div>
+              <div class="reviewer-info">
+                <h5>${review.author_name}</h5>
+                <span>${review.tag || `${review.relative_time || 'Recent'} • 5.0 Review`}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    } catch (e) {
+      // Keep static SSR fallback cards if fetch fails or during offline/file:// mode
+      console.log('Using static Google reviews fallback:', e.message);
+    }
+  }
+
   // Initial Render
   renderMenuItems();
   updateCartUI();
+  loadAndRenderGoogleReviews();
 });

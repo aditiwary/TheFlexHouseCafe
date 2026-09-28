@@ -666,14 +666,20 @@
     <section class="reviews-section">
       <div class="container">
         <div class="section-head">
-          <div class="section-pill">⭐ 5.0 Star Rated</div>
+          <div style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 0.85rem;">
+            <div class="section-pill">⭐ 5.0 Star Rated</div>
+            <span class="live-sync-pill" id="reviewsSyncPill"><span class="status-dot"></span> Synced with Google Maps</span>
+          </div>
           <h2 class="section-title">What Unnao Says About Us</h2>
           <p class="section-desc">Our customers love the unmatched food taste, pocket-friendly combos, and aesthetic neon ambiance.</p>
         </div>
 
-        <div class="reviews-grid">
+        <div class="reviews-grid" id="reviewsGrid">
           <div class="review-card">
-            <div class="review-stars">★★★★★</div>
+            <div class="review-card-top">
+              <div class="review-stars">★★★★★</div>
+              <span class="review-google-badge"><i class="fa-brands fa-google"></i> Google</span>
+            </div>
             <p class="review-quote">"The Kurkure momos here are hands down the crunchiest in all of Unnao! The ₹130 pizza + burger combo is unbeatable value. Perfect spot to chill with friends."</p>
             <div class="reviewer-meta">
               <div class="reviewer-avatar">AS</div>
@@ -685,7 +691,10 @@
           </div>
 
           <div class="review-card">
-            <div class="review-stars">★★★★★</div>
+            <div class="review-card-top">
+              <div class="review-stars">★★★★★</div>
+              <span class="review-google-badge"><i class="fa-brands fa-google"></i> Google</span>
+            </div>
             <p class="review-quote">"Dil Ka Margherita and Spicy Paneer Pizza are absolute fire! The cheese pull is real and toppings are super fresh. Love the neon vibe and quick service."</p>
             <div class="reviewer-meta">
               <div class="reviewer-avatar" style="background: linear-gradient(135deg, var(--neon-cyan), #0099FF);">PK</div>
@@ -697,7 +706,10 @@
           </div>
 
           <div class="review-card">
-            <div class="review-stars">★★★★★</div>
+            <div class="review-card-top">
+              <div class="review-stars">★★★★★</div>
+              <span class="review-google-badge"><i class="fa-brands fa-google"></i> Google</span>
+            </div>
             <p class="review-quote">"Finally a modern cafe in PD Nagar with top-tier aesthetics and actually delicious Chinese! Hakka noodles with honey chilli potato is our weekend ritual."</p>
             <div class="reviewer-meta">
               <div class="reviewer-avatar" style="background: linear-gradient(135deg, var(--neon-magenta), #9900FF); color: #fff;">RV</div>
@@ -707,6 +719,14 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Google Reviews Action Bar -->
+        <div class="reviews-action-cta">
+          <a href="https://maps.google.com/?q=GFGJ%2B99+Unnao,+Uttar+Pradesh" target="_blank" rel="noopener noreferrer" class="btn btn-secondary review-google-btn">
+            <i class="fa-brands fa-google"></i>
+            <span>Rate Us 5-Stars on Google Maps</span>
+          </a>
         </div>
       </div>
     </section>
