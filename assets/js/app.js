@@ -688,6 +688,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Tap on physical menu cards to open fullscreen lightbox
+  document.querySelectorAll('.menu-board-card').forEach(card => {
+    card.addEventListener('click', () => {
+      soundEngine.click();
+      const targetMenu = card.dataset.menuTarget || 'combo';
+      if (lightboxTabBtns) {
+        lightboxTabBtns.forEach(btn => {
+          if (btn.dataset.menuPhoto === targetMenu) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+      }
+      if (lightboxImg) {
+        lightboxImg.src = targetMenu === 'combo' ? 'assets/images/combo-menu.jpg' : 'assets/images/main-menu.jpg';
+      }
+      if (menuLightboxModal) {
+        menuLightboxModal.classList.add('open');
+      }
+    });
+
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
+    });
+  });
+
   // Confetti Animation for Celebrations & Flex Mode
   function triggerConfetti() {
     const colors = ['#FFB703', '#FB8500', '#00F0FF', '#00E5FF', '#FFD166', '#00FFA3', '#FFFFFF'];
@@ -759,16 +789,61 @@ document.addEventListener('DOMContentLoaded', () => {
   const navOpenTourBtn = document.getElementById('navOpenTourBtn');
   const headerTourToggleBtn = document.getElementById('headerTourToggleBtn');
 
-  // Configure background video properties for seamless mobile Safari / Chrome autoplay
+  // Configure background video properties for seamless nonstop looping
   if (bgSpaceVideo) {
     bgSpaceVideo.muted = true;
     bgSpaceVideo.defaultMuted = true;
     bgSpaceVideo.playsInline = true;
+    bgSpaceVideo.loop = true;
+    bgSpaceVideo.setAttribute('loop', '');
+    bgSpaceVideo.setAttribute('playsinline', '');
+    bgSpaceVideo.setAttribute('webkit-playsinline', '');
+
+    const resumeBgVideo = () => {
+      if (bgSpaceVideo.paused && !document.hidden) {
+        bgSpaceVideo.play().catch(() => {});
+      }
+    };
+
+    // Immediate play attempt
+    bgSpaceVideo.play().catch(() => {});
+
+    // Guarantee continuous loop: if ended event triggers or video approaches finish, restart seamlessly
+    bgSpaceVideo.addEventListener('ended', () => {
+      bgSpaceVideo.currentTime = 0;
+      bgSpaceVideo.play().catch(() => {});
+    });
+
+    // Seamless loop fallback if mobile browser doesn't loop automatically
+    bgSpaceVideo.addEventListener('timeupdate', () => {
+      if (bgSpaceVideo.duration && bgSpaceVideo.currentTime >= bgSpaceVideo.duration - 0.2) {
+        bgSpaceVideo.currentTime = 0;
+        bgSpaceVideo.play().catch(() => {});
+      }
+    });
+
+    // If browser auto-pauses while page is active, resume immediately
+    bgSpaceVideo.addEventListener('pause', () => {
+      if (!document.hidden) {
+        bgSpaceVideo.play().catch(() => {});
+      }
+    });
+
+    // Watchdog heartbeat: verify continuous playback every 1.5 seconds
+    setInterval(resumeBgVideo, 1500);
+
+    // Resume on any interaction or scroll
+    ['click', 'touchstart', 'scroll', 'pointerdown'].forEach(evt => {
+      window.addEventListener(evt, resumeBgVideo, { passive: true });
+    });
   }
+
   if (fcEntranceVideo) {
     fcEntranceVideo.muted = true;
     fcEntranceVideo.defaultMuted = true;
     fcEntranceVideo.playsInline = true;
+    fcEntranceVideo.loop = true;
+    fcEntranceVideo.setAttribute('loop', '');
   }
 
   // Mobile initial state: minimize floating tour so it never obstructs the mobile viewport
@@ -789,16 +864,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
-
-  // Ensure autoplay on first user interaction if blocked by mobile browser policies
-  const tryStartAutoplay = () => {
-    if (bgSpaceVideo && bgSpaceVideo.paused) bgSpaceVideo.play().catch(() => {});
-    if (fcEntranceVideo && fcEntranceVideo.paused) fcEntranceVideo.play().catch(() => {});
-    document.removeEventListener('click', tryStartAutoplay);
-    document.removeEventListener('touchstart', tryStartAutoplay);
-  };
-  document.addEventListener('click', tryStartAutoplay, { once: true });
-  document.addEventListener('touchstart', tryStartAutoplay, { once: true, passive: true });
 
   // 2. Floating Cafe Entrance Window Controls & Maximize Mode
   function setFloatingTourMaximized(isMax) {

@@ -60,7 +60,7 @@
   </script>
 
   <!-- Stylesheet (Cache-Busted) -->
-  <link rel="stylesheet" href="assets/css/style.css?v=flexhouse-5.1">
+  <link rel="stylesheet" href="assets/css/style.css?v=flexhouse-5.3">
 
   <!-- Structured Data / JSON-LD -->
   <script type="application/ld+json">
@@ -115,6 +115,7 @@
       loop 
       playsinline 
       webkit-playsinline
+      x5-playsinline
       disableremoteplayback
       disablepictureinpicture
       preload="auto"
@@ -650,50 +651,44 @@
     </section>
 
     <!-- ==========================================================================
-         VIBE GALLERY & STOREFRONT SPOTLIGHT
+         OFFICIAL PHYSICAL MENU BOARDS
          ========================================================================== -->
     <section class="showpiece-gallery-section" id="gallery">
       <div class="container">
         <div class="section-head">
-          <div class="section-pill">📸 The Flex Vibe</div>
-          <h2 class="section-title">Visual Tour & Storefront</h2>
-          <p class="section-desc">From our glowing storefront signage to sizzling tawa platters, here's a glimpse into the warm ambiance that awaits you.</p>
+          <div class="section-pill">📜 Official Menu Boards</div>
+          <h2 class="section-title">Physical Cafe Menus</h2>
+          <p class="section-desc">Browse our authentic printed cafe menus — view every ₹130 super combo, handcrafted pizza, crunchy Kurkure momo, and gourmet specialty in its full original layout.</p>
         </div>
 
         <div class="showpiece-cards-grid">
-          <!-- Real Storefront Sunset Photo -->
-          <article class="showpiece-card">
-            <div class="showpiece-img-box">
-              <img src="assets/images/storefront.jpg" alt="Real Storefront Photo of The Flex House Cafe at Sunset" class="showpiece-img">
-              <div class="showpiece-overlay">
-                <span class="showpiece-tag">The Actual Cafe</span>
-                <h3 class="showpiece-title">Our Welcoming Entrance</h3>
-                <p class="showpiece-caption">Located in Nirala Nagar, PD Nagar, Unnao with beautiful festive lights and warm evening vibes.</p>
-              </div>
+          <!-- Authentic Combo Menu Board -->
+          <article class="showpiece-card menu-board-card" data-menu-target="combo" role="button" tabindex="0" aria-label="Open Super Savings Combo Menu in full size">
+            <div class="menu-board-header">
+              <span class="showpiece-tag" style="color: var(--neon-cyan);">Value Combos • Starting ₹130</span>
+              <h3 class="showpiece-title">Super Savings Combos Menu</h3>
             </div>
-          </article>
-
-          <!-- Authentic Menu Showcase -->
-          <article class="showpiece-card">
             <div class="showpiece-img-box">
-              <img src="assets/images/combo-menu.jpg" alt="Authentic Combo Menu Sheet at The Flex House Cafe" class="showpiece-img">
-              <div class="showpiece-overlay">
-                <span class="showpiece-tag" style="color: var(--neon-cyan);">Value Combos</span>
-                <h3 class="showpiece-title">Super Savings Combos</h3>
-                <p class="showpiece-caption">Packed feast combinations starting from just ₹130 with cold drinks and fresh sides.</p>
-              </div>
+              <img src="assets/images/combo-menu.jpg" alt="Official Super Savings Combo Menu Sheet at The Flex House Cafe" class="showpiece-img" loading="lazy">
+            </div>
+            <div class="menu-board-footer">
+              <span class="menu-board-pill">⚡ 10+ Party Combos</span>
+              <span class="menu-board-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to View Fullscreen</span>
             </div>
           </article>
 
           <!-- Authentic Main Menu Board -->
-          <article class="showpiece-card">
+          <article class="showpiece-card menu-board-card" data-menu-target="main" role="button" tabindex="0" aria-label="Open TFH Gourmet Menu in full size">
+            <div class="menu-board-header">
+              <span class="showpiece-tag" style="color: var(--neon-gold-bright);">Regal Selection • Full Dine-in</span>
+              <h3 class="showpiece-title">TFH Gourmet Main Menu</h3>
+            </div>
             <div class="showpiece-img-box">
-              <img src="assets/images/main-menu.jpg" alt="Authentic Main Menu Sheet with Gold Borders" class="showpiece-img">
-              <div class="showpiece-overlay">
-                <span class="showpiece-tag" style="color: var(--neon-gold-bright);">Regal Selection</span>
-                <h3 class="showpiece-title">TFH Gourmet Menu</h3>
-                <p class="showpiece-caption">Handcrafted with care — our signature pizzas, Kurkure momos, wraps, and pasta.</p>
-              </div>
+              <img src="assets/images/main-menu.jpg" alt="Official Gourmet Main Menu Sheet with Gold Borders at The Flex House Cafe" class="showpiece-img" loading="lazy">
+            </div>
+            <div class="menu-board-footer">
+              <span class="menu-board-pill">🍕 Pizzas, Chinese & Momos</span>
+              <span class="menu-board-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> Tap to View Fullscreen</span>
             </div>
           </article>
         </div>
@@ -1174,7 +1169,7 @@
   </button>
 
   <!-- Scripts (Cache-Busted) -->
-  <script src="assets/js/menu-data.js?v=flexhouse-5.0"></script>
-  <script src="assets/js/app.js?v=flexhouse-5.0"></script>
+  <script src="assets/js/menu-data.js?v=flexhouse-5.3"></script>
+  <script src="assets/js/app.js?v=flexhouse-5.3"></script>
 </body>
 </html>
