@@ -1,946 +1,1338 @@
 /**
- * Hell House Cafe - Interactive Showpiece App
- * Features: Ember Canvas, Interactive Digital Menu, Pizza Size Toggles,
- * Order Tray (WhatsApp Checkout), Table Reservation Flow, Web Audio FX, Lightbox
+ * The Flex House Cafe — Interactive Application Engine
+ * Pure Vanilla JavaScript: Fast, Robust, Zero-Dependency & Bug-Free
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initEmberCanvas();
-  initCursorSpotlight();
-  initMenuSystem();
-  initFlexTray();
-  initReservationSystem();
-  initLightbox();
-  initCardTilt();
-  initSoundFx();
-  initNavigation();
-});
+  // App State
+  const state = {
+    cart: [],
+    activeCategory: 'combos',
+    searchQuery: '',
+    selectedSizes: {}, // itemId -> 'S' | 'M' | 'L' | 'Half' | 'Full'
+    soundEnabled: true,
+    flexModeActive: false,
+    selectedZone: 'Neon Glow Lounge',
+    selectedGuests: '2 Guests',
+    selectedTimeSlot: '08:00 PM'
+  };
 
-/* ==========================================================================
-   1. EMBER & NEON SPARKS PARTICLE CANVAS
-   ========================================================================== */
-function initEmberCanvas() {
-  const canvas = document.getElementById('emberCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-
-  let width = (canvas.width = window.innerWidth);
-  let height = (canvas.height = window.innerHeight);
-
-  window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  });
-
-  const particles = [];
-  const particleCount = window.innerWidth < 768 ? 35 : 75;
-  const colors = [
-    'rgba(255, 30, 66, ',    // Neon red
-    'rgba(255, 153, 0, ',   // Neon amber
-    'rgba(255, 214, 10, ',   // Gold
-    'rgba(181, 23, 158, '    // Purple ember
-  ];
-
-  class Ember {
-    constructor() {
-      this.reset(true);
-    }
-    reset(initial = false) {
-      this.x = Math.random() * width;
-      this.y = initial ? Math.random() * height : height + 10;
-      this.size = Math.random() * 2.8 + 1.2;
-      this.speedY = Math.random() * 1.2 + 0.5;
-      this.speedX = (Math.random() - 0.5) * 0.8;
-      this.opacity = Math.random() * 0.7 + 0.2;
-      this.colorBase = colors[Math.floor(Math.random() * colors.length)];
-      this.wobble = Math.random() * Math.PI * 2;
-      this.wobbleSpeed = Math.random() * 0.04 + 0.01;
-    }
-    update() {
-      this.y -= this.speedY;
-      this.wobble += this.wobbleSpeed;
-      this.x += Math.sin(this.wobble) * 0.6 + this.speedX;
-
-      if (this.y < -10) {
-        this.reset();
+  // Sound Engine (Web Audio API - No external assets required)
+  const soundEngine = {
+    ctx: null,
+    init() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        this.ctx = new AudioContext();
+      } catch (e) {
+        console.warn('Web Audio API not supported', e);
       }
+    },
+    playTone(freq, type = 'sine', duration = 0.1, gainVal = 0.08) {
+      if (!state.soundEnabled) return;
+      if (!this.ctx) this.init();
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
+      if (!this.ctx) return;
+
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+      gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + duration);
+    },
+    click() {
+      this.playTone(620, 'sine', 0.08, 0.04);
+    },
+    addPlate() {
+      this.playTone(523.25, 'triangle', 0.1, 0.08);
+      setTimeout(() => this.playTone(659.25, 'triangle', 0.15, 0.08), 80);
+    },
+    fanfare() {
+      if (!state.soundEnabled) return;
+      const notes = [440, 554.37, 659.25, 880];
+      notes.forEach((freq, idx) => {
+        setTimeout(() => this.playTone(freq, 'triangle', 0.25, 0.1), idx * 120);
+      });
     }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = `${this.colorBase}${this.opacity})`;
-      ctx.shadowBlur = 12;
-      ctx.shadowColor = `${this.colorBase}0.8)`;
-      ctx.fill();
-      ctx.shadowBlur = 0; // reset
-    }
+  };
+
+  // DOM Elements
+  const menuContainer = document.getElementById('menuGridContainer');
+  const catFilterPills = document.querySelectorAll('.cat-pill');
+  const menuSearchInput = document.getElementById('menuSearchInput');
+  const cartTrigger = document.getElementById('cartTriggerBtn');
+  const cartBadge = document.getElementById('cartCountBadge');
+  const cartOverlay = document.getElementById('cartDrawerOverlay');
+  const cartCloseBtn = document.getElementById('cartCloseBtn');
+  const cartItemsContainer = document.getElementById('cartItemsList');
+  const cartSubtotalEl = document.getElementById('cartSubtotalAmount');
+  const checkoutWhatsAppBtn = document.getElementById('checkoutWhatsAppBtn');
+  const soundToggleBtn = document.getElementById('soundToggleBtn');
+  const flexCelebrationBtn = document.getElementById('flexCelebrationBtn');
+  const copyPlusCodeBtn = document.getElementById('copyPlusCodeBtn');
+  const plusCodeFeedback = document.getElementById('plusCodeFeedback');
+  const reservationForm = document.getElementById('tableBookingForm');
+  const bookingSuccessModal = document.getElementById('bookingModalBackdrop');
+  const bookingModalClose = document.getElementById('bookingModalClose');
+  const sendWhatsAppBookingBtn = document.getElementById('sendWhatsAppBookingBtn');
+  const menuLightboxModal = document.getElementById('menuLightboxModal');
+  const openMenuPhotosBtn = document.getElementById('openMenuPhotosBtn');
+  const lightboxModalClose = document.getElementById('lightboxModalClose');
+  const lightboxImg = document.getElementById('lightboxActiveImg');
+  const lightboxTabBtns = document.querySelectorAll('.lightbox-tab-btn');
+  const mobileNavToggle = document.getElementById('mobileNavToggle');
+  const navLinksContainer = document.getElementById('navLinks');
+  const cursorGlow = document.getElementById('cursorNeonGlow');
+
+  // Interactive Cursor Ambient Halo
+  if (cursorGlow && window.matchMedia('(pointer: fine)').matches) {
+    window.addEventListener('mousemove', (e) => {
+      cursorGlow.style.left = `${e.clientX}px`;
+      cursorGlow.style.top = `${e.clientY}px`;
+    });
   }
 
-  for (let i = 0; i < particleCount; i++) {
-    particles.push(new Ember());
-  }
+  // Live Open / Closes Status Indicator
+  function updateLiveStatus() {
+    const statusDot = document.getElementById('storeLiveDot');
+    const statusText = document.getElementById('storeLiveText');
+    if (!statusDot || !statusText) return;
 
-  let animationFrameId;
-  function animate() {
-    ctx.clearRect(0, 0, width, height);
-    for (let i = 0; i < particles.length; i++) {
-      particles[i].update();
-      particles[i].draw();
-    }
-    animationFrameId = requestAnimationFrame(animate);
-  }
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const timeInMins = hours * 60 + minutes;
 
-  // Performance: Pause when tab is inactive
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      cancelAnimationFrame(animationFrameId);
+    // Open from 11:00 AM (660 mins) to 11:30 PM (1410 mins)
+    const isOpen = timeInMins >= 660 && timeInMins <= 1410;
+
+    if (isOpen) {
+      statusDot.style.backgroundColor = 'var(--neon-green)';
+      statusDot.style.boxShadow = '0 0 10px var(--neon-green)';
+      statusText.innerHTML = '<strong>OPEN NOW</strong> · Closes 11:30 PM';
     } else {
-      animate();
+      statusDot.style.backgroundColor = '#EF4444';
+      statusDot.style.boxShadow = '0 0 10px #EF4444';
+      statusText.innerHTML = '<strong>CLOSED NOW</strong> · Opens 11:00 AM';
     }
-  });
-
-  animate();
-}
-
-/* ==========================================================================
-   2. CURSOR SPOTLIGHT TRACKING
-   ========================================================================== */
-function initCursorSpotlight() {
-  const spotlight = document.querySelector('.cursor-spotlight');
-  if (!spotlight || window.innerWidth < 1024) return;
-
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let currentX = mouseX;
-  let currentY = mouseY;
-
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  function follow() {
-    currentX += (mouseX - currentX) * 0.12;
-    currentY += (mouseY - currentY) * 0.12;
-    spotlight.style.left = `${currentX}px`;
-    spotlight.style.top = `${currentY}px`;
-    requestAnimationFrame(follow);
   }
-  follow();
-}
+  updateLiveStatus();
+  setInterval(updateLiveStatus, 60000);
 
-/* ==========================================================================
-   3. INTERACTIVE DIGITAL MENU SYSTEM
-   ========================================================================== */
-let currentCategory = 'all';
-let currentSearch = '';
-const pizzaSelectedSizes = {}; // { itemId: 'small' | 'medium' }
+  // Sound Toggle Handler
+  if (soundToggleBtn) {
+    soundToggleBtn.addEventListener('click', () => {
+      state.soundEnabled = !state.soundEnabled;
+      soundToggleBtn.innerHTML = state.soundEnabled ? '🔊' : '🔇';
+      soundToggleBtn.setAttribute('title', state.soundEnabled ? 'Mute Sound' : 'Unmute Sound');
+      if (state.soundEnabled) soundEngine.click();
+    });
+  }
 
-function initMenuSystem() {
-  const categoriesContainer = document.getElementById('categoryPills');
-  const searchInput = document.getElementById('menuSearchInput');
-  const itemsContainer = document.getElementById('menuItemsGrid');
+  // Mobile Navigation Toggle
+  if (mobileNavToggle && navLinksContainer) {
+    mobileNavToggle.addEventListener('click', () => {
+      navLinksContainer.classList.toggle('mobile-open');
+      soundEngine.click();
+    });
 
-  if (!categoriesContainer || !itemsContainer) return;
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinksContainer.classList.remove('mobile-open');
+      });
+    });
+  }
 
-  // Render category buttons
-  categoriesContainer.innerHTML = MENU_CATEGORIES.map(cat => `
-    <button class="category-pill ${cat.id === currentCategory ? 'active' : ''}" data-cat="${cat.id}">
-      <span>${cat.name}</span>
-    </button>
-  `).join('');
+  // Plus Code Copy
+  if (copyPlusCodeBtn) {
+    copyPlusCodeBtn.addEventListener('click', () => {
+      const code = 'GFGJ+99 Unnao, Uttar Pradesh';
+      navigator.clipboard.writeText(code).then(() => {
+        soundEngine.click();
+        plusCodeFeedback.textContent = 'Copied to Clipboard!';
+        plusCodeFeedback.style.display = 'inline-block';
+        setTimeout(() => {
+          plusCodeFeedback.style.display = 'none';
+        }, 2500);
+      });
+    });
+  }
 
-  // Event: Category Click
-  categoriesContainer.addEventListener('click', (e) => {
-    const btn = e.target.closest('.category-pill');
-    if (!btn) return;
-    const catId = btn.dataset.cat;
-    currentCategory = catId;
-
-    document.querySelectorAll('.category-pill').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderMenuItems();
+  // Category Filtering
+  catFilterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      soundEngine.click();
+      catFilterPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      state.activeCategory = pill.dataset.category;
+      renderMenuItems();
+    });
   });
 
-  // Event: Search Input
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      currentSearch = e.target.value.trim().toLowerCase();
+  // Search Input
+  if (menuSearchInput) {
+    menuSearchInput.addEventListener('input', (e) => {
+      state.searchQuery = e.target.value.toLowerCase().trim();
       renderMenuItems();
     });
   }
 
-  // Initial render
-  renderMenuItems();
-}
-
-const MAX_BATCH_LIMIT = 10;
-
-function showLimitToast(message = "Limit reached, order more in next batch.") {
-  const container = document.getElementById('toastContainer');
-  if (!container) return;
-
-  let existing = container.querySelector('.toast-message');
-  if (existing) {
-    existing.classList.remove('wobble');
-    void existing.offsetWidth;
-    existing.classList.add('wobble');
-    existing.querySelector('span').textContent = message;
-    clearTimeout(existing._timeoutId);
-    existing._timeoutId = setTimeout(() => existing.remove(), 3200);
-    playAudioBeep(260, 0.15);
-    return;
+  // Get current active price for item based on selected size
+  function getItemPrice(item) {
+    if (item.price) return item.price;
+    if (item.prices) {
+      const currentSize = state.selectedSizes[item.id] || Object.keys(item.prices)[0];
+      return item.prices[currentSize];
+    }
+    return 0;
   }
 
-  const toast = document.createElement('div');
-  toast.className = 'toast-message';
-  toast.innerHTML = `
-    <i class="fa-solid fa-triangle-exclamation"></i>
-    <span>${message}</span>
-  `;
+  // Render Menu Items
+  function renderMenuItems() {
+    if (!menuContainer) return;
 
-  container.appendChild(toast);
-  playAudioBeep(260, 0.15);
+    let itemsToDisplay = [];
 
-  toast._timeoutId = setTimeout(() => {
-    toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateY(-20px)';
-    setTimeout(() => toast.remove(), 300);
-  }, 3200);
-}
-
-function renderMenuItems() {
-  const itemsContainer = document.getElementById('menuItemsGrid');
-  if (!itemsContainer) return;
-
-  let filtered = MENU_ITEMS.filter(item => {
-    const matchesCat = currentCategory === 'all' || item.category === currentCategory;
-    const matchesSearch = !currentSearch ||
-      item.name.toLowerCase().includes(currentSearch) ||
-      item.description.toLowerCase().includes(currentSearch) ||
-      (item.badge && item.badge.toLowerCase().includes(currentSearch));
-    return matchesCat && matchesSearch;
-  });
-
-  if (filtered.length === 0) {
-    itemsContainer.innerHTML = `
-      <div class="menu-empty-state">
-        <i class="fa-solid fa-fire-flame-curved"></i>
-        <h3 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 0.5rem;">No Fiery Dishes Found</h3>
-        <p style="color: var(--text-muted);">Try searching for something else or reset category filters.</p>
-      </div>
-    `;
-    return;
-  }
-
-  const totalCount = cart.reduce((sum, i) => sum + i.quantity, 0);
-
-  itemsContainer.innerHTML = filtered.map(item => {
-    const isPizza = item.category === 'pizza' && item.prices;
-    const currentSize = pizzaSelectedSizes[item.id] || (isPizza ? item.defaultSize : null);
-    const displayPrice = isPizza ? item.prices[currentSize] : item.price;
-    const cartItemId = isPizza ? `${item.id}-${currentSize}` : item.id;
-    const cartItem = cart.find(ci => ci.key === cartItemId);
-    const itemQty = cartItem ? cartItem.quantity : 0;
-    const isAtLimit = totalCount >= MAX_BATCH_LIMIT || itemQty >= 10;
-
-    return `
-      <article class="menu-card jump-hover" data-id="${item.id}">
-        <div class="card-top-badges">
-          ${item.badge ? `<span class="item-badge ${item.badge.includes('🔥') ? 'signature' : ''}">${item.badge}</span>` : '<span></span>'}
-          <div class="veg-icon" title="100% Pure Veg Delicacy"></div>
-        </div>
-
-        <h3 class="menu-item-name">${item.name}</h3>
-        <p class="menu-item-desc">${item.description}</p>
-
-        ${isPizza ? `
-          <div class="pizza-size-toggle" data-item="${item.id}">
-            <button class="size-btn ${currentSize === 'small' ? 'active' : ''}" data-size="small">
-              Small (₹${item.prices.small})
-            </button>
-            <button class="size-btn ${currentSize === 'medium' ? 'active' : ''}" data-size="medium">
-              Medium (₹${item.prices.medium})
-            </button>
-          </div>
-        ` : ''}
-
-        <div class="menu-card-bottom">
-          <div class="item-price-box">
-            <span class="price-currency">Price</span>
-            <span class="price-amount" id="price-display-${item.id}">₹${displayPrice}</span>
-          </div>
-          <div class="order-stepper-control">
-            ${itemQty > 0 ? `
-              <div class="item-qty-stepper">
-                <button class="btn-stepper-minus" onclick="handleStepQty('${cartItemId}', -1)" aria-label="Decrease quantity">
-                  <i class="fa-solid fa-minus"></i>
-                </button>
-                <span class="stepper-val">${itemQty}</span>
-                <button class="btn-stepper-plus ${isAtLimit ? 'disabled' : ''}" onclick="handleStepQty('${cartItemId}', 1)" aria-label="Increase quantity">
-                  <i class="fa-solid fa-plus"></i>
-                </button>
-              </div>
-            ` : `
-              <button class="btn-add-tray ${totalCount >= MAX_BATCH_LIMIT ? 'disabled' : ''}" onclick="handleAddToCart('${item.id}')">
-                <i class="fa-solid fa-plus"></i> Add
-              </button>
-            `}
-          </div>
-        </div>
-      </article>
-    `;
-  }).join('');
-
-  // Attach size toggle handlers
-  document.querySelectorAll('.pizza-size-toggle').forEach(toggle => {
-    toggle.addEventListener('click', (e) => {
-      const btn = e.target.closest('.size-btn');
-      if (!btn) return;
-      const itemId = toggle.dataset.item;
-      const size = btn.dataset.size;
-      pizzaSelectedSizes[itemId] = size;
-
-      toggle.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const item = MENU_ITEMS.find(i => i.id === itemId);
-      if (item && item.prices) {
-        const priceEl = document.getElementById(`price-display-${itemId}`);
-        if (priceEl) priceEl.textContent = `₹${item.prices[size]}`;
+    if (state.searchQuery) {
+      itemsToDisplay = ALL_MENU_ITEMS.filter(item => {
+        const matchesName = item.name.toLowerCase().includes(state.searchQuery);
+        const matchesDesc = item.desc ? item.desc.toLowerCase().includes(state.searchQuery) : false;
+        return matchesName || matchesDesc;
+      });
+    } else {
+      switch (state.activeCategory) {
+        case 'combos':
+          itemsToDisplay = MENU_DATA.combos;
+          break;
+        case 'pizza':
+          itemsToDisplay = MENU_DATA.pizzas;
+          break;
+        case 'chinese':
+          itemsToDisplay = MENU_DATA.chinese;
+          break;
+        case 'momos':
+          itemsToDisplay = MENU_DATA.momos;
+          break;
+        case 'burgers':
+          itemsToDisplay = MENU_DATA.burgers;
+          break;
+        case 'sandwiches':
+          itemsToDisplay = MENU_DATA.sandwiches;
+          break;
+        case 'maggie-pasta':
+          itemsToDisplay = MENU_DATA.maggiePasta;
+          break;
+        case 'drinks':
+          itemsToDisplay = MENU_DATA.drinks;
+          break;
+        default:
+          itemsToDisplay = ALL_MENU_ITEMS;
       }
+    }
 
-      updateMenuCardSteppers();
-    });
-  });
-}
-
-function updateMenuCardSteppers() {
-  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-  document.querySelectorAll('.menu-card[data-id]').forEach(card => {
-    const itemId = card.dataset.id;
-    const item = MENU_ITEMS.find(i => i.id === itemId);
-    if (!item) return;
-
-    const isPizza = item.category === 'pizza' && item.prices;
-    const currentSize = pizzaSelectedSizes[itemId] || (isPizza ? item.defaultSize : null);
-    const cartItemId = isPizza ? `${itemId}-${currentSize}` : itemId;
-    const cartItem = cart.find(ci => ci.key === cartItemId);
-    const itemQty = cartItem ? cartItem.quantity : 0;
-    const isAtLimit = totalCount >= MAX_BATCH_LIMIT || itemQty >= 10;
-
-    const actionContainer = card.querySelector('.order-stepper-control');
-    if (!actionContainer) return;
-
-    if (itemQty > 0) {
-      actionContainer.innerHTML = `
-        <div class="item-qty-stepper">
-          <button class="btn-stepper-minus" onclick="handleStepQty('${cartItemId}', -1)" aria-label="Decrease quantity">
-            <i class="fa-solid fa-minus"></i>
-          </button>
-          <span class="stepper-val">${itemQty}</span>
-          <button class="btn-stepper-plus ${isAtLimit ? 'disabled' : ''}" onclick="handleStepQty('${cartItemId}', 1)" aria-label="Increase quantity">
-            <i class="fa-solid fa-plus"></i>
-          </button>
+    if (itemsToDisplay.length === 0) {
+      menuContainer.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--text-dim);">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+          <h3 style="color: #fff; margin-bottom: 0.5rem;">No items matched your search</h3>
+          <p>Try searching for Pizza, Noodles, Momos, Burger or Combos!</p>
         </div>
       `;
-    } else {
-      actionContainer.innerHTML = `
-        <button class="btn-add-tray ${totalCount >= MAX_BATCH_LIMIT ? 'disabled' : ''}" onclick="handleAddToCart('${item.id}')">
-          <i class="fa-solid fa-plus"></i> Add
-        </button>
-      `;
-    }
-  });
-}
-
-/* ==========================================================================
-   4. FLEX TRAY / ORDER CART (WITH WHATSAPP DISPATCH & LIMIT OF 10)
-   ========================================================================== */
-let cart = [];
-
-function initFlexTray() {
-  const cartToggleBtns = document.querySelectorAll('.btn-cart-toggle, #openTrayBtn');
-  const closeTrayBtn = document.getElementById('closeTrayBtn');
-  const trayDrawer = document.getElementById('trayDrawer');
-  const trayBackdrop = document.getElementById('trayBackdrop');
-  const whatsappOrderBtn = document.getElementById('whatsappOrderBtn');
-
-  function openTray() {
-    trayDrawer?.classList.add('active');
-    trayBackdrop?.classList.add('active');
-  }
-
-  function closeTray() {
-    trayDrawer?.classList.remove('active');
-    trayBackdrop?.classList.remove('active');
-  }
-
-  cartToggleBtns.forEach(btn => btn.addEventListener('click', openTray));
-  closeTrayBtn?.addEventListener('click', closeTray);
-  trayBackdrop?.addEventListener('click', closeTray);
-
-  if (whatsappOrderBtn) {
-    whatsappOrderBtn.addEventListener('click', dispatchWhatsAppOrder);
-  }
-
-  updateCartUI();
-}
-
-window.handleAddToCart = function(itemId) {
-  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  if (totalCount >= MAX_BATCH_LIMIT) {
-    showLimitToast("Limit reached, order more in next batch.");
-    return;
-  }
-
-  const item = MENU_ITEMS.find(i => i.id === itemId);
-  if (!item) return;
-
-  const isPizza = item.category === 'pizza' && item.prices;
-  const size = isPizza ? (pizzaSelectedSizes[itemId] || item.defaultSize) : null;
-  const price = isPizza ? item.prices[size] : item.price;
-  const cartItemId = isPizza ? `${itemId}-${size}` : itemId;
-  const displayName = isPizza ? `${item.name} (${size.toUpperCase()})` : item.name;
-
-  const existing = cart.find(ci => ci.key === cartItemId);
-  if (existing) {
-    if (existing.quantity >= 10) {
-      showLimitToast("Limit reached, order more in next batch.");
-      return;
-    }
-    existing.quantity += 1;
-  } else {
-    cart.push({
-      key: cartItemId,
-      id: item.id,
-      name: displayName,
-      price: price,
-      quantity: 1
-    });
-  }
-
-  // Visual animation bump on cart icons
-  document.querySelectorAll('.cart-counter').forEach(badge => {
-    badge.classList.remove('bump');
-    void badge.offsetWidth;
-    badge.classList.add('bump');
-  });
-
-  updateCartUI();
-  playAudioBeep(520, 0.08);
-};
-
-window.handleStepQty = function(cartItemId, delta) {
-  if (delta > 0) {
-    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-    if (totalCount >= MAX_BATCH_LIMIT) {
-      showLimitToast("Limit reached, order more in next batch.");
       return;
     }
 
-    const existing = cart.find(ci => ci.key === cartItemId);
-    if (existing && existing.quantity >= 10) {
-      showLimitToast("Limit reached, order more in next batch.");
-      return;
-    }
-  }
+    menuContainer.innerHTML = itemsToDisplay.map(item => {
+      const currentPrice = getItemPrice(item);
+      const isCombo = item.category === 'combos';
+      const hasSizes = !!item.prices;
+      const selectedSize = state.selectedSizes[item.id] || (hasSizes ? Object.keys(item.prices)[0] : '');
 
-  window.changeCartQty(cartItemId, delta);
-};
-
-function updateCartUI() {
-  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-  // Update counters
-  document.querySelectorAll('.cart-counter').forEach(el => {
-    el.textContent = totalCount;
-    el.style.display = totalCount > 0 ? 'flex' : 'none';
-  });
-
-  const itemsContainer = document.getElementById('trayItemsContainer');
-  const totalValEl = document.getElementById('trayTotalVal');
-
-  if (totalValEl) {
-    totalValEl.textContent = `₹${totalPrice}`;
-  }
-
-  // Update Batch Indicator in Tray
-  const batchIndicatorCount = document.getElementById('batchIndicatorCount');
-  const batchProgressFill = document.getElementById('batchProgressFill');
-  const batchLimitNotice = document.getElementById('batchLimitNotice');
-
-  if (batchIndicatorCount && batchProgressFill) {
-    batchIndicatorCount.textContent = `${totalCount} / ${MAX_BATCH_LIMIT} Items`;
-    const fillPercent = Math.min((totalCount / MAX_BATCH_LIMIT) * 100, 100);
-    batchProgressFill.style.width = `${fillPercent}%`;
-
-    if (totalCount >= MAX_BATCH_LIMIT) {
-      batchIndicatorCount.classList.add('limit-hit');
-      batchProgressFill.classList.add('limit-hit');
-      if (batchLimitNotice) batchLimitNotice.style.display = 'flex';
-    } else {
-      batchIndicatorCount.classList.remove('limit-hit');
-      batchProgressFill.classList.remove('limit-hit');
-      if (batchLimitNotice) batchLimitNotice.style.display = 'none';
-    }
-  }
-
-  if (itemsContainer) {
-    if (cart.length === 0) {
-      itemsContainer.innerHTML = `
-        <div class="tray-empty-view">
-          <i class="fa-solid fa-fire-burner"></i>
-          <h4 style="font-family: var(--font-heading); font-size: 1.15rem; color: #fff; margin-bottom: 0.35rem;">Your Flex Tray is Empty</h4>
-          <p style="font-size: 0.85rem;">Add some mouth-watering pizzas, burgers, or shakes from our menu!</p>
-        </div>
-      `;
-    } else {
-      itemsContainer.innerHTML = cart.map(item => {
-        const atItemLimit = item.quantity >= 10 || totalCount >= MAX_BATCH_LIMIT;
-        return `
-          <div class="tray-item-row">
-            <div class="tray-item-info">
-              <span class="tray-item-name">${item.name}</span>
-              <span class="tray-item-detail">₹${item.price} each</span>
-            </div>
-            <div class="tray-item-controls">
-              <button class="btn-qty minus" onclick="changeCartQty('${item.key}', -1)" aria-label="Decrease quantity">-</button>
-              <span class="qty-val">${item.quantity}</span>
-              <button class="btn-qty plus ${atItemLimit ? 'disabled' : ''}" onclick="changeCartQty('${item.key}', 1)" aria-label="Increase quantity">+</button>
-            </div>
+      let sizesHtml = '';
+      if (hasSizes) {
+        sizesHtml = `
+          <div class="size-selector-row">
+            ${Object.keys(item.prices).map(sizeKey => `
+              <button type="button" 
+                class="size-pill-btn ${selectedSize === sizeKey ? 'active' : ''}" 
+                data-item-id="${item.id}" 
+                data-size="${sizeKey}">
+                ${sizeKey} · ₹${item.prices[sizeKey]}
+              </button>
+            `).join('')}
           </div>
         `;
-      }).join('');
+      }
+
+      let comboBadgesHtml = '';
+      if (isCombo && item.items) {
+        comboBadgesHtml = `
+          <div class="combo-items-list">
+            ${item.items.map(sub => `<span class="combo-pill">✓ ${sub}</span>`).join('')}
+          </div>
+        `;
+      }
+
+      return `
+        <article class="menu-card" data-id="${item.id}">
+          <div class="menu-card-top">
+            <div class="menu-card-header">
+              <h3 class="menu-item-name">${item.name}</h3>
+              ${item.badge ? `<span class="menu-badge">${item.badge}</span>` : ''}
+            </div>
+            <p class="menu-item-desc">${item.desc || 'Freshly prepared with authentic ingredients at The Flex House.'}</p>
+            ${comboBadgesHtml}
+          </div>
+
+          <div>
+            ${sizesHtml}
+            <div class="menu-card-bottom">
+              <div class="menu-price-display">
+                <span class="price-currency">Price</span>
+                <span class="price-amount" id="price-val-${item.id}">₹${currentPrice}</span>
+              </div>
+              <button type="button" class="btn-add-plate" data-add-id="${item.id}">
+                <span>Add +</span>
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    // Attach Size Toggle Listeners
+    menuContainer.querySelectorAll('.size-pill-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        soundEngine.click();
+        const itemId = e.currentTarget.dataset.itemId;
+        const sizeKey = e.currentTarget.dataset.size;
+        state.selectedSizes[itemId] = sizeKey;
+
+        // Update UI pills
+        const parentCard = e.currentTarget.closest('.menu-card');
+        parentCard.querySelectorAll('.size-pill-btn').forEach(b => b.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+
+        // Update displayed price
+        const itemObj = ALL_MENU_ITEMS.find(i => i.id === itemId);
+        if (itemObj && itemObj.prices) {
+          const priceDisplay = parentCard.querySelector(`#price-val-${itemId}`);
+          if (priceDisplay) {
+            priceDisplay.textContent = `₹${itemObj.prices[sizeKey]}`;
+          }
+        }
+      });
+    });
+
+    // Attach Add to Cart Listeners
+    menuContainer.querySelectorAll('.btn-add-plate').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const itemId = e.currentTarget.dataset.addId;
+        addToCart(itemId);
+      });
+    });
+  }
+
+  // Cart Management
+  function addToCart(itemId) {
+    const item = ALL_MENU_ITEMS.find(i => i.id === itemId);
+    if (!item) return;
+
+    soundEngine.addPlate();
+
+    const size = item.prices ? (state.selectedSizes[itemId] || Object.keys(item.prices)[0]) : null;
+    const price = item.prices ? item.prices[size] : item.price;
+    const cartItemId = size ? `${itemId}-${size}` : itemId;
+
+    const existingIndex = state.cart.findIndex(c => c.cartItemId === cartItemId);
+    if (existingIndex > -1) {
+      state.cart[existingIndex].qty += 1;
+    } else {
+      state.cart.push({
+        cartItemId,
+        id: item.id,
+        name: item.name,
+        size: size,
+        price: price,
+        qty: 1
+      });
     }
+
+    updateCartUI();
+    showQuickNotification(`Added "${item.name}${size ? ' (' + size + ')' : ''}" to your order!`);
   }
 
-  // Sync steppers on visible menu cards
-  updateMenuCardSteppers();
-}
+  function updateCartUI() {
+    const totalCount = state.cart.reduce((sum, item) => sum + item.qty, 0);
+    if (cartBadge) {
+      cartBadge.textContent = totalCount;
+      cartBadge.style.display = totalCount > 0 ? 'flex' : 'none';
+      cartBadge.style.animation = 'none';
+      setTimeout(() => { cartBadge.style.animation = 'cartShake 0.4s var(--ease-spring)'; }, 10);
+    }
 
-window.changeCartQty = function(key, delta) {
-  const itemIndex = cart.findIndex(i => i.key === key);
-  if (itemIndex === -1) {
-    // If not found and delta > 0, find base itemId
-    return;
-  }
+    if (!cartItemsContainer) return;
 
-  if (delta > 0) {
-    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-    if (totalCount >= MAX_BATCH_LIMIT) {
-      showLimitToast("Limit reached, order more in next batch.");
+    if (state.cart.length === 0) {
+      cartItemsContainer.innerHTML = `
+        <div class="cart-empty-state">
+          <div class="cart-empty-icon">🛒</div>
+          <h4 style="color: #fff; margin-bottom: 0.4rem;">Your order is empty</h4>
+          <p>Explore our menu and add your favorite dishes to flex!</p>
+        </div>
+      `;
+      if (cartSubtotalEl) cartSubtotalEl.textContent = '₹0';
       return;
     }
-    if (cart[itemIndex].quantity >= 10) {
-      showLimitToast("Limit reached, order more in next batch.");
-      return;
-    }
+
+    let subtotal = 0;
+    cartItemsContainer.innerHTML = state.cart.map(item => {
+      const itemTotal = item.price * item.qty;
+      subtotal += itemTotal;
+      return `
+        <div class="cart-item-row">
+          <div class="cart-item-info">
+            <h5>${item.name}</h5>
+            <span>${item.size ? item.size + ' · ' : ''}₹${item.price} each</span>
+          </div>
+          <div class="cart-qty-controls">
+            <button type="button" class="qty-btn" data-cart-dec="${item.cartItemId}">-</button>
+            <span style="font-weight: 800; min-width: 22px; text-align: center;">${item.qty}</span>
+            <button type="button" class="qty-btn" data-cart-inc="${item.cartItemId}">+</button>
+          </div>
+          <div style="font-weight: 800; min-width: 50px; text-align: right; color: var(--neon-gold-bright);">
+            ₹${itemTotal}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    if (cartSubtotalEl) cartSubtotalEl.textContent = `₹${subtotal}`;
+
+    // Attach qty controls
+    cartItemsContainer.querySelectorAll('[data-cart-inc]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        soundEngine.click();
+        const cid = e.currentTarget.dataset.cartInc;
+        const item = state.cart.find(c => c.cartItemId === cid);
+        if (item) item.qty += 1;
+        updateCartUI();
+      });
+    });
+
+    cartItemsContainer.querySelectorAll('[data-cart-dec]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        soundEngine.click();
+        const cid = e.currentTarget.dataset.cartDec;
+        const itemIndex = state.cart.findIndex(c => c.cartItemId === cid);
+        if (itemIndex > -1) {
+          state.cart[itemIndex].qty -= 1;
+          if (state.cart[itemIndex].qty <= 0) {
+            state.cart.splice(itemIndex, 1);
+          }
+        }
+        updateCartUI();
+      });
+    });
   }
 
-  cart[itemIndex].quantity += delta;
-  if (cart[itemIndex].quantity <= 0) {
-    cart.splice(itemIndex, 1);
+  // Quick Notification Toast
+  function showQuickNotification(msg) {
+    const existing = document.getElementById('tfhToast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.id = 'tfhToast';
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(11, 15, 23, 0.95);
+      border: 1.5px solid var(--neon-gold);
+      color: #FFFFFF;
+      padding: 0.8rem 1.6rem;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px var(--neon-gold-glow);
+      z-index: 500;
+      transition: all 0.3s var(--ease-spring);
+      opacity: 0;
+      pointer-events: none;
+    `;
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+    }, 10);
+
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(-50%) translateY(20px)';
+      setTimeout(() => toast.remove(), 350);
+    }, 2400);
   }
 
-  updateCartUI();
-  playAudioBeep(delta > 0 ? 540 : 420, 0.06);
-};
+  // Cart Drawer open/close
+  if (cartTrigger && cartOverlay && cartCloseBtn) {
+    cartTrigger.addEventListener('click', () => {
+      soundEngine.click();
+      cartOverlay.classList.add('open');
+      updateCartUI();
+    });
 
-function dispatchWhatsAppOrder() {
-  if (cart.length === 0) {
-    alert("Please add items to your tray before ordering!");
-    return;
+    cartCloseBtn.addEventListener('click', () => {
+      soundEngine.click();
+      cartOverlay.classList.remove('open');
+    });
+
+    cartOverlay.addEventListener('click', (e) => {
+      if (e.target === cartOverlay) {
+        cartOverlay.classList.remove('open');
+      }
+    });
   }
 
-  const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  let orderMessage = `🔥 *NEW ORDER - HELL HOUSE CAFE* 🔥\n`;
-  orderMessage += `📍 Address: Hiran Nagar, Unnao\n\n`;
-  orderMessage += `*Order Items:*\n`;
+  // WhatsApp Order Checkout
+  if (checkoutWhatsAppBtn) {
+    checkoutWhatsAppBtn.addEventListener('click', () => {
+      if (state.cart.length === 0) {
+        alert('Please add some items to your cart before proceeding!');
+        return;
+      }
+      soundEngine.fanfare();
 
-  cart.forEach((item, idx) => {
-    orderMessage += `${idx + 1}. ${item.name} x ${item.quantity} = ₹${item.price * item.quantity}\n`;
+      const orderTypeInput = document.querySelector('input[name="orderType"]:checked');
+      const orderType = orderTypeInput ? orderTypeInput.value : 'Dine-In';
+
+      let itemsText = state.cart.map(c => 
+        `• ${c.name}${c.size ? ' (' + c.size + ')' : ''} x ${c.qty} = ₹${c.price * c.qty}`
+      ).join('\n');
+
+      const subtotal = state.cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+
+      const message = `👋 Hello *The Flex House Cafe*!\nI want to place an order from your website:\n\n*Order Type:* ${orderType}\n\n*Ordered Items:*\n${itemsText}\n\n*Total Amount:* ₹${subtotal}\n\n📍 *Cafe Location:* near galaxy hospital, PD Nagar, Nirala Nagar, Unnao\n📞 Customer Phone: (Please confirm delivery/table)\nThank you!`;
+
+      const encodedMsg = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/918400580216?text=${encodedMsg}`;
+      window.open(whatsappUrl, '_blank');
+    });
+  }
+
+  // Table Reservation Interactive Seating & Slot Selection
+  document.querySelectorAll('.zone-option-card').forEach(card => {
+    card.addEventListener('click', () => {
+      soundEngine.click();
+      document.querySelectorAll('.zone-option-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.selectedZone = card.dataset.zone;
+    });
   });
 
-  orderMessage += `\n💰 *Total Amount: ₹${totalPrice}*\n`;
-  orderMessage += `💬 Please confirm table / pickup order for Hell House Cafe!`;
+  document.querySelectorAll('.guest-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      soundEngine.click();
+      document.querySelectorAll('.guest-pill').forEach(p => p.classList.remove('selected'));
+      pill.classList.add('selected');
+      state.selectedGuests = pill.dataset.guests;
+    });
+  });
 
-  const encoded = encodeURIComponent(orderMessage);
-  window.open(`https://wa.me/${CAFE_DETAILS.phoneRaw}?text=${encoded}`, '_blank');
-}
-
-/* ==========================================================================
-   5. TABLE RESERVATION FLOW ("BOOK FROM WEBSITE ONLY")
-   ========================================================================== */
-function initReservationSystem() {
-  const dateInput = document.getElementById('resDate');
-  const partyChips = document.querySelectorAll('.party-chip');
-  const vibeSlots = document.querySelectorAll('.vibe-slot-card');
-  const timeBtns = document.querySelectorAll('.time-slot-btn');
-  const bookingForm = document.getElementById('tableBookingForm');
-  const modal = document.getElementById('bookingModal');
-  const closeModalBtn = document.getElementById('closeModalBtn');
-  const confirmWhatsAppBtn = document.getElementById('confirmWhatsAppBtn');
-
-  // Set date minimum to today
-  if (dateInput) {
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
-    dateInput.value = today;
-  }
-
-  let selectedParty = '2 People';
-  let selectedVibe = 'Hellfire Neon Lounge';
-  let selectedTime = '07:00 PM';
-
-  partyChips.forEach(chip => {
+  document.querySelectorAll('.time-slot-chip').forEach(chip => {
     chip.addEventListener('click', () => {
-      partyChips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      selectedParty = chip.dataset.party;
+      soundEngine.click();
+      document.querySelectorAll('.time-slot-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      state.selectedTimeSlot = chip.dataset.time;
     });
   });
 
-  vibeSlots.forEach(slot => {
-    slot.addEventListener('click', () => {
-      vibeSlots.forEach(s => s.classList.remove('active'));
-      slot.classList.add('active');
-      selectedVibe = slot.dataset.vibe;
-    });
-  });
+  // Table Reservation Form Submission
+  if (reservationForm) {
+    // Prefill date input with today's date formatted as YYYY-MM-DD
+    const dateInput = document.getElementById('bookingDate');
+    if (dateInput) {
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.value = today;
+      dateInput.min = today;
+    }
 
-  timeBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      timeBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      selectedTime = btn.dataset.time;
-    });
-  });
-
-  // Form Submit
-  if (bookingForm) {
-    bookingForm.addEventListener('submit', (e) => {
+    reservationForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const name = document.getElementById('resName').value.trim();
-      const phone = document.getElementById('resPhone').value.trim();
-      const date = document.getElementById('resDate').value;
-      const notes = document.getElementById('resNotes').value.trim() || 'No special request';
+      const nameInput = document.getElementById('bookingName');
+      const phoneInput = document.getElementById('bookingPhone');
+      const dateVal = dateInput ? dateInput.value : 'Today';
+      const notesInput = document.getElementById('bookingNotes');
 
-      if (!name || !phone) {
-        alert("Please enter your name and phone number to reserve your table!");
+      if (!nameInput.value || !phoneInput.value) {
+        alert('Please provide your name and phone number to complete reservation.');
         return;
       }
 
-      // Generate Unique Token
-      const randomCode = Math.floor(1000 + Math.random() * 9000);
-      const token = `HHC-${randomCode}`;
+      soundEngine.fanfare();
+      triggerConfetti();
 
-      // Populate Modal Fields
-      document.getElementById('ticketToken').textContent = token;
-      document.getElementById('ticketName').textContent = name;
-      document.getElementById('ticketParty').textContent = selectedParty;
-      document.getElementById('ticketDateTime').textContent = `${date} at ${selectedTime}`;
-      document.getElementById('ticketVibe').textContent = selectedVibe;
+      // Generate Unique Booking ID
+      const bookingId = `TFH-${Math.floor(1000 + Math.random() * 9000)}`;
 
-      // Prepare WhatsApp pre-filled link
-      const waMsg = `🔥 *TABLE RESERVATION REQUEST - HELL HOUSE CAFE* 🔥\n\n` +
-        `🎫 *Booking Code:* ${token}\n` +
-        `👤 *Name:* ${name}\n` +
-        `📞 *Phone:* ${phone}\n` +
-        `👥 *Party Size:* ${selectedParty}\n` +
-        `📅 *Date & Time:* ${date} @ ${selectedTime}\n` +
-        `✨ *Vibe/Area:* ${selectedVibe}\n` +
-        `📝 *Special Note:* ${notes}\n\n` +
-        `Please confirm our table reservation at Hell House Cafe, Hiran Nagar, Unnao!`;
+      // Update Modal
+      document.getElementById('modalTicketId').textContent = bookingId;
+      document.getElementById('modalTicketName').textContent = nameInput.value;
+      document.getElementById('modalTicketPhone').textContent = phoneInput.value;
+      document.getElementById('modalTicketDate').textContent = dateVal;
+      document.getElementById('modalTicketTime').textContent = state.selectedTimeSlot;
+      document.getElementById('modalTicketGuests').textContent = state.selectedGuests;
+      document.getElementById('modalTicketZone').textContent = state.selectedZone;
 
-      if (confirmWhatsAppBtn) {
-        confirmWhatsAppBtn.onclick = () => {
-          window.open(`https://wa.me/${CAFE_DETAILS.phoneRaw}?text=${encodeURIComponent(waMsg)}`, '_blank');
+      // Save to localStorage
+      const reservations = JSON.parse(localStorage.getItem('tfh_reservations') || '[]');
+      reservations.push({
+        id: bookingId,
+        name: nameInput.value,
+        phone: phoneInput.value,
+        date: dateVal,
+        time: state.selectedTimeSlot,
+        guests: state.selectedGuests,
+        zone: state.selectedZone,
+        notes: notesInput ? notesInput.value : '',
+        timestamp: new Date().toISOString()
+      });
+      localStorage.setItem('tfh_reservations', JSON.stringify(reservations));
+
+      // Setup WhatsApp Confirmation link
+      if (sendWhatsAppBookingBtn) {
+        sendWhatsAppBookingBtn.onclick = () => {
+          const msg = `🎉 *Table Reservation Request*\n\n*Booking ID:* ${bookingId}\n*Name:* ${nameInput.value}\n*Phone:* ${phoneInput.value}\n*Date:* ${dateVal}\n*Time Slot:* ${state.selectedTimeSlot}\n*Guests:* ${state.selectedGuests}\n*Ambience Zone:* ${state.selectedZone}\n*Special Request:* ${notesInput && notesInput.value ? notesInput.value : 'None'}\n\n📍 *The Flex House Cafe, Unnao*\nPlease confirm our table reservation!`;
+          const url = `https://wa.me/918400580216?text=${encodeURIComponent(msg)}`;
+          window.open(url, '_blank');
         };
       }
 
-      // Open Modal
-      modal?.classList.add('active');
-      playAudioBeep(640, 0.15);
+      // Show modal
+      if (bookingSuccessModal) {
+        bookingSuccessModal.classList.add('open');
+      }
     });
   }
 
-  closeModalBtn?.addEventListener('click', () => {
-    modal?.classList.remove('active');
-  });
+  // Booking Modal Close
+  if (bookingModalClose && bookingSuccessModal) {
+    bookingModalClose.addEventListener('click', () => {
+      soundEngine.click();
+      bookingSuccessModal.classList.remove('open');
+    });
 
-  modal?.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.classList.remove('active');
-    }
-  });
-}
+    bookingSuccessModal.addEventListener('click', (e) => {
+      if (e.target === bookingSuccessModal) {
+        bookingSuccessModal.classList.remove('open');
+      }
+    });
+  }
 
-/* ==========================================================================
-   6. LIGHTBOX FOR ORIGINAL CHALKBOARD & MENU CARDS
-   ========================================================================== */
-function initLightbox() {
-  const lightbox = document.getElementById('lightboxModal');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const closeBtn = document.getElementById('closeLightboxBtn');
-  const triggers = document.querySelectorAll('.lightbox-trigger');
+  // Menu Photo Lightbox Modal
+  if (openMenuPhotosBtn && menuLightboxModal) {
+    openMenuPhotosBtn.addEventListener('click', () => {
+      soundEngine.click();
+      menuLightboxModal.classList.add('open');
+    });
+  }
 
-  triggers.forEach(trigger => {
-    trigger.addEventListener('click', () => {
-      const src = trigger.dataset.fullsrc || trigger.querySelector('img')?.src;
-      if (src && lightboxImg) {
-        lightboxImg.src = src;
-        lightbox?.classList.add('active');
+  if (lightboxModalClose && menuLightboxModal) {
+    lightboxModalClose.addEventListener('click', () => {
+      soundEngine.click();
+      menuLightboxModal.classList.remove('open');
+    });
+
+    menuLightboxModal.addEventListener('click', (e) => {
+      if (e.target === menuLightboxModal) {
+        menuLightboxModal.classList.remove('open');
+      }
+    });
+  }
+
+  // Lightbox Tabs (Combos vs Main Menu)
+  lightboxTabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      soundEngine.click();
+      lightboxTabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const targetMenu = btn.dataset.menuPhoto;
+      if (lightboxImg) {
+        lightboxImg.src = targetMenu === 'combo' ? 'assets/images/combo-menu.jpg' : 'assets/images/main-menu.jpg';
       }
     });
   });
 
-  closeBtn?.addEventListener('click', () => {
-    lightbox?.classList.remove('active');
-  });
+  // Confetti Animation for Celebrations & Flex Mode
+  function triggerConfetti() {
+    const colors = ['#FFB703', '#FB8500', '#00F0FF', '#FF007F', '#00FFA3', '#FFFFFF'];
+    const count = 50;
 
-  lightbox?.addEventListener('click', (e) => {
-    if (e.target === lightbox) {
-      lightbox.classList.remove('active');
+    for (let i = 0; i < count; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'confetti-particle';
+      particle.style.left = `${Math.random() * 100}vw`;
+      particle.style.top = `-20px`;
+      particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      particle.style.width = `${Math.floor(Math.random() * 8 + 6)}px`;
+      particle.style.height = `${Math.floor(Math.random() * 12 + 6)}px`;
+      particle.style.animationDuration = `${Math.random() * 2 + 1.8}s`;
+      particle.style.animationDelay = `${Math.random() * 0.4}s`;
+
+      document.body.appendChild(particle);
+
+      setTimeout(() => particle.remove(), 3500);
     }
+  }
+
+  // "FLEX CELEBRATION MODE" Trigger Button
+  if (flexCelebrationBtn) {
+    flexCelebrationBtn.addEventListener('click', () => {
+      soundEngine.fanfare();
+      triggerConfetti();
+
+      state.flexModeActive = !state.flexModeActive;
+      document.body.classList.toggle('max-flex-mode', state.flexModeActive);
+
+      showQuickNotification(state.flexModeActive ? '🔥 FLEX MODE ACTIVATED! Welcome to The Flex House!' : 'Flex Mode Deactivated');
+    });
+  }
+
+  // Interactive Jumping Sticker Click Events
+  document.querySelectorAll('.jump-sticker').forEach(sticker => {
+    sticker.addEventListener('click', (e) => {
+      soundEngine.addPlate();
+      const stickerEl = e.currentTarget;
+      stickerEl.style.transform = 'translateY(-18px) scale(1.25) rotate(-10deg)';
+      setTimeout(() => {
+        stickerEl.style.transform = '';
+      }, 350);
+      const cat = stickerEl.dataset.jumpCategory;
+      if (cat) {
+        const catBtn = document.querySelector(`.cat-pill[data-category="${cat}"]`);
+        if (catBtn) catBtn.click();
+        const menuSec = document.getElementById('menu');
+        if (menuSec) menuSec.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
   });
-}
 
-/* ==========================================================================
-   7. 3D CARD TILT MICRO-INTERACTIONS
-   ========================================================================== */
-function initCardTilt() {
-  if (window.innerWidth < 1024) return;
-  const cards = document.querySelectorAll('.vibe-card, .mascot-card-hero, .showcase-banner-card');
+  // ==========================================================================
+  // TOP SCROLL PROGRESS BAR
+  // ==========================================================================
+  const scrollProgressBar = document.getElementById('scrollProgressBar');
+  if (scrollProgressBar) {
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+      scrollProgressBar.style.width = `${scrolled}%`;
+    }, { passive: true });
+  }
 
-  cards.forEach(card => {
+  // ==========================================================================
+  // SCROLL REVEAL OBSERVER (SMOOTH ENTRANCE ANIMATIONS)
+  // ==========================================================================
+  const revealElements = document.querySelectorAll('.reveal-on-scroll');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+  } else {
+    revealElements.forEach(el => el.classList.add('revealed'));
+  }
+
+  // ==========================================================================
+  // ANIMATED STATS COUNTER ON SCROLL
+  // ==========================================================================
+  const statsStrip = document.querySelector('.flex-stats-strip');
+  let statsCounted = false;
+  if (statsStrip && 'IntersectionObserver' in window) {
+    const statsObserver = new IntersectionObserver((entries) => {
+      if (entries[0] && entries[0].isIntersecting && !statsCounted) {
+        statsCounted = true;
+        document.querySelectorAll('.stat-number').forEach(stat => {
+          const target = parseFloat(stat.dataset.target);
+          if (isNaN(target)) return;
+          const isDecimal = target % 1 !== 0;
+          let current = 0;
+          const step = target / 35;
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+            if (isDecimal) {
+              stat.textContent = `${current.toFixed(1)} ★`;
+            } else if (target === 100) {
+              stat.textContent = `${Math.floor(current)}%`;
+            } else if (target === 29) {
+              stat.textContent = `₹${Math.floor(current)}`;
+            } else {
+              stat.textContent = `${Math.floor(current)}+`;
+            }
+          }, 30);
+        });
+      }
+    }, { threshold: 0.3 });
+    statsObserver.observe(statsStrip);
+  }
+
+  // ==========================================================================
+  // INTERACTIVE 3D CARD TILT ON MOUSE HOVER
+  // ==========================================================================
+  const tiltCards = document.querySelectorAll('.showpiece-card, .storefront-frame, .cinema-player-card, .hero-brand-crest');
+  tiltCards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-
-      const rotateX = ((y - centerY) / centerY) * -6;
-      const rotateY = ((x - centerX) / centerX) * 6;
-
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+      const rotateX = ((y - centerY) / centerY) * -5;
+      const rotateY = ((x - centerX) / centerX) * 5;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
     });
-
     card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+      card.style.transform = '';
     });
   });
-}
 
-/* ==========================================================================
-   8. SYNTHESIZED SOUND AMBIENCE & FX (WEB AUDIO API)
-   ========================================================================== */
-let audioCtx = null;
-let soundEnabled = false;
+  // ==========================================================================
+  // CINEMA & LIVE REEL STREAM ENGINE
+  // ==========================================================================
+  const cinemaVideo = document.getElementById('mainCinemaVideo');
+  const cinemaCanvas = document.getElementById('cinemaAmbientCanvas');
+  const cinemaIframeWrap = document.getElementById('cinemaIframeWrap');
+  const cinemaIframe = document.getElementById('cinemaIframe');
+  const cinemaBackdropGlow = document.getElementById('cinemaBackdropGlow');
+  const cinemaOverlay = document.getElementById('cinemaInteractiveOverlay');
+  const centerPlayIcon = document.getElementById('centerPlayIcon');
+  const ctrlPlayPause = document.getElementById('ctrlPlayPause');
+  const ctrlMuteToggle = document.getElementById('ctrlMuteToggle');
+  const ctrlVolumeSlider = document.getElementById('ctrlVolumeSlider');
+  const ctrlTimeDisplay = document.getElementById('ctrlTimeDisplay');
+  const videoScrubberWrap = document.getElementById('videoScrubberWrap');
+  const videoScrubberFill = document.getElementById('videoScrubberFill');
+  const videoScrubberBuffered = document.getElementById('videoScrubberBuffered');
+  const videoScrubberHandle = document.getElementById('videoScrubberHandle');
+  const ctrlLoopToggle = document.getElementById('ctrlLoopToggle');
+  const ctrlFullscreen = document.getElementById('ctrlFullscreen');
+  const streamScreenWrap = document.getElementById('cinemaScreenWrap');
+  const activeStreamTitle = document.getElementById('activeStreamTitle');
+  const activeChannelBadge = document.getElementById('activeChannelBadge');
+  const reelPills = document.querySelectorAll('.reel-pill');
 
-function initSoundFx() {
-  const soundBtn = document.getElementById('soundToggleBtn');
-  if (!soundBtn) return;
+  // Video Modals
+  const openVideoUploadModalBtn = document.getElementById('openVideoUploadModalBtn');
+  const openVideoHostingGuideBtn = document.getElementById('openVideoHostingGuideBtn');
+  const videoUploadModal = document.getElementById('videoUploadModal');
+  const videoUploadModalClose = document.getElementById('videoUploadModalClose');
+  const closeStudioBtn = document.getElementById('closeStudioBtn');
+  const videoGuideModal = document.getElementById('videoGuideModal');
+  const videoGuideModalClose = document.getElementById('videoGuideModalClose');
+  const openGuideFromStudioBtn = document.getElementById('openGuideFromStudioBtn');
+  const guideCloseAndUploadBtn = document.getElementById('guideCloseAndUploadBtn');
+  const videoDropZone = document.getElementById('videoDropZone');
+  const videoFileInput = document.getElementById('videoFileInput');
+  const btnTriggerFilePicker = document.getElementById('btnTriggerFilePicker');
+  const videoFileMeta = document.getElementById('videoFileMeta');
+  const metaFileName = document.getElementById('metaFileName');
+  const metaFileSize = document.getElementById('metaFileSize');
+  const directVideoUrlInput = document.getElementById('directVideoUrlInput');
+  const applyDirectUrlBtn = document.getElementById('applyDirectUrlBtn');
+  const socialVideoUrlInput = document.getElementById('socialVideoUrlInput');
+  const applySocialUrlBtn = document.getElementById('applySocialUrlBtn');
+  const studioTabBtns = document.querySelectorAll('.studio-tab-btn');
 
-  soundBtn.addEventListener('click', () => {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  // Reel Configuration Data
+  const REEL_CONFIGS = {
+    'reel-1': {
+      id: 'reel-1',
+      badge: 'TFH REEL 01',
+      title: '✨ Reel 01: Neon Vibe & Cafe Lounge Tour',
+      videoSrc: 'assets/videos/cafe-reel-1.mp4',
+      poster: 'assets/images/cafe-reel-1-poster.png',
+      glow: 'rgba(255, 183, 3, 0.45)',
+      themeColor: '#FFB703'
+    },
+    'reel-2': {
+      id: 'reel-2',
+      badge: 'TFH REEL 02',
+      title: '🔥 Reel 02: Sizzling Bites & Kitchen Cravings',
+      videoSrc: 'assets/videos/cafe-reel-2.mp4',
+      poster: 'assets/images/cafe-reel-2-poster.png',
+      glow: 'rgba(0, 240, 255, 0.4)',
+      themeColor: '#00F0FF'
+    },
+    pizza: {
+      id: 'pizza',
+      badge: 'TFH REEL 03',
+      title: '🍕 Signature Artisan Pizza & Cheese Pull',
+      videoSrc: 'assets/videos/cafe-reel-1.mp4',
+      poster: 'assets/images/flex-pizza.jpg',
+      glow: 'rgba(255, 183, 3, 0.45)',
+      themeColor: '#FFB703'
+    },
+    momos: {
+      id: 'momos',
+      badge: 'TFH REEL 04',
+      title: '🥟 Crispy Kurkure Momos & Flame-Wok Toss',
+      videoSrc: 'assets/videos/cafe-reel-2.mp4',
+      poster: 'assets/images/flex-momos-noodles.jpg',
+      glow: 'rgba(0, 240, 255, 0.4)',
+      themeColor: '#00F0FF'
     }
-    soundEnabled = !soundEnabled;
+  };
 
-    if (soundEnabled) {
-      soundBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-      soundBtn.style.color = 'var(--neon-red)';
-      soundBtn.style.boxShadow = '0 0 16px var(--neon-red-glow)';
-      playAudioBeep(440, 0.1);
-    } else {
-      soundBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
-      soundBtn.style.color = 'var(--text-muted)';
-      soundBtn.style.boxShadow = 'none';
+  let activeReelKey = 'reel-1';
+  let isCustomVideoLoaded = false;
+
+  // Generative Canvas Visualizer (Ambient Sizzle & Neon Lights)
+  let canvasCtx = null;
+  let canvasParticles = [];
+
+  function initCinemaCanvas() {
+    if (!cinemaCanvas) return;
+    canvasCtx = cinemaCanvas.getContext('2d');
+    resizeCinemaCanvas();
+    window.addEventListener('resize', resizeCinemaCanvas, { passive: true });
+
+    // Spawn ambient light particles
+    canvasParticles = [];
+    for (let i = 0; i < 35; i++) {
+      canvasParticles.push({
+        x: Math.random() * (cinemaCanvas.width || 800),
+        y: Math.random() * (cinemaCanvas.height || 450),
+        r: Math.random() * 4 + 1.5,
+        dx: (Math.random() - 0.5) * 0.8,
+        dy: -Math.random() * 1.5 - 0.5,
+        alpha: Math.random() * 0.7 + 0.3,
+        color: Math.random() > 0.5 ? '#FFB703' : '#00F0FF'
+      });
     }
-  });
-}
 
-function playAudioBeep(freq = 440, duration = 0.1) {
-  if (!soundEnabled || !audioCtx) return;
-  try {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-
-    osc.start();
-    osc.stop(audioCtx.currentTime + duration);
-  } catch (err) {
-    // audio context safety
+    renderCinemaCanvas();
   }
-}
 
-/* ==========================================================================
-   9. NAVIGATION SCROLL & ACTIVE TRACKING
-   ========================================================================== */
-function initNavigation() {
-  const header = document.querySelector('.site-header');
-  const mobileToggle = document.getElementById('mobileMenuToggle');
-  const navLinks = document.querySelector('.nav-links');
+  function resizeCinemaCanvas() {
+    if (!cinemaCanvas || !streamScreenWrap) return;
+    cinemaCanvas.width = streamScreenWrap.clientWidth || 960;
+    cinemaCanvas.height = streamScreenWrap.clientHeight || 540;
+  }
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
-      header?.classList.add('scrolled');
-    } else {
-      header?.classList.remove('scrolled');
+  function renderCinemaCanvas() {
+    if (!canvasCtx || !cinemaCanvas) return;
+
+    canvasCtx.clearRect(0, 0, cinemaCanvas.width, cinemaCanvas.height);
+
+    // Draw subtle rising particles
+    canvasParticles.forEach(p => {
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.y < 0) {
+        p.y = cinemaCanvas.height + 10;
+        p.x = Math.random() * cinemaCanvas.width;
+      }
+
+      canvasCtx.beginPath();
+      canvasCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      canvasCtx.fillStyle = p.color;
+      canvasCtx.globalAlpha = p.alpha * 0.6;
+      canvasCtx.shadowBlur = 10;
+      canvasCtx.shadowColor = p.color;
+      canvasCtx.fill();
+    });
+    canvasCtx.globalAlpha = 1.0;
+    canvasCtx.shadowBlur = 0;
+
+    requestAnimationFrame(renderCinemaCanvas);
+  }
+
+  initCinemaCanvas();
+
+  // Switch Reel
+  function switchReel(reelKey) {
+    const config = REEL_CONFIGS[reelKey];
+    if (!config) return;
+
+    activeReelKey = reelKey;
+
+    reelPills.forEach(pill => {
+      pill.classList.toggle('active', pill.dataset.reelId === reelKey);
+    });
+
+    if (activeStreamTitle) activeStreamTitle.textContent = config.title;
+    if (activeChannelBadge) activeChannelBadge.textContent = config.badge;
+
+    if (cinemaBackdropGlow) {
+      cinemaBackdropGlow.style.background = `radial-gradient(ellipse at center, ${config.glow} 0%, rgba(0, 240, 255, 0.1) 40%, transparent 70%)`;
     }
-  });
 
-  mobileToggle?.addEventListener('click', () => {
-    if (navLinks) {
-      const isVisible = navLinks.style.display === 'flex';
-      navLinks.style.display = isVisible ? 'none' : 'flex';
-      if (!isVisible) {
-        navLinks.style.position = 'absolute';
-        navLinks.style.top = '100%';
-        navLinks.style.left = '0';
-        navLinks.style.width = '100%';
-        navLinks.style.flexDirection = 'column';
-        navLinks.style.background = 'rgba(10, 6, 10, 0.98)';
-        navLinks.style.padding = '1.5rem';
-        navLinks.style.borderBottom = '1px solid var(--border-glow)';
+    if (cinemaVideo) {
+      if (config.videoSrc && !isCustomVideoLoaded) {
+        const curSrc = cinemaVideo.currentSrc || cinemaVideo.src || '';
+        if (!curSrc.includes(config.videoSrc)) {
+          cinemaVideo.src = config.videoSrc;
+          cinemaVideo.load();
+          cinemaVideo.play().then(() => updatePlayState(true)).catch(() => updatePlayState(false));
+        }
+      }
+      cinemaVideo.poster = config.poster;
+      if (!isCustomVideoLoaded) {
+        cinemaVideo.currentTime = 0;
       }
     }
-  });
 
-  // Close mobile nav when clicking a link
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      if (window.innerWidth <= 768 && navLinks) {
-        navLinks.style.display = 'none';
-      }
+    soundEngine.click();
+  }
+
+  reelPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      switchReel(pill.dataset.reelId);
     });
   });
 
-  // --- CAFE VIDEO DUAL-REEL SHOWCASE CONTROLLER ---
-  const cafeVideo = document.getElementById('cafeVideoPlayer');
-  const videoPlayPauseBtn = document.getElementById('videoPlayPauseBtn');
-  const videoAudioBtn = document.getElementById('videoAudioBtn');
-  const videoFullscreenBtn = document.getElementById('videoFullscreenBtn');
-  const videoFrameInner = document.getElementById('videoFrameInner');
-  const activeVideoTitle = document.getElementById('activeVideoTitle');
-  const videoBadgeText = document.getElementById('videoBadgeText');
-  const reelTabs = document.querySelectorAll('.video-reel-tab');
+  // Play / Pause Toggle
+  function toggleCinemaPlay() {
+    if (!cinemaVideo) return;
 
-  if (cafeVideo) {
-    // 1. Reel Switcher Tabs
-    reelTabs.forEach((tab, index) => {
-      tab.addEventListener('click', () => {
-        reelTabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-
-        const videoSrc = tab.getAttribute('data-video-src');
-        const posterSrc = tab.getAttribute('data-poster');
-        const titleText = tab.getAttribute('data-title');
-
-        if (activeVideoTitle && titleText) {
-          activeVideoTitle.textContent = titleText;
-        }
-
-        if (videoBadgeText) {
-          videoBadgeText.textContent = `NOW STREAMING REEL 0${index + 1}`;
-        }
-
-        if (posterSrc) {
-          cafeVideo.poster = posterSrc;
-        }
-
-        if (videoSrc) {
-          cafeVideo.src = videoSrc;
-          cafeVideo.load();
-          const playPromise = cafeVideo.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(err => {
-              console.log('Video playback error or policy restriction:', err);
-            });
-          }
-        }
-
-        if (videoPlayPauseBtn) {
-          videoPlayPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-        }
+    if (cinemaVideo.paused) {
+      cinemaVideo.play().then(() => {
+        updatePlayState(true);
+      }).catch(err => {
+        console.warn('Playback deferred', err);
+        updatePlayState(false);
       });
-    });
-
-    // 2. Play / Pause Control
-    if (videoPlayPauseBtn) {
-      videoPlayPauseBtn.addEventListener('click', () => {
-        if (cafeVideo.paused) {
-          cafeVideo.play();
-          videoPlayPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-        } else {
-          cafeVideo.pause();
-          videoPlayPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-        }
-      });
-
-      cafeVideo.addEventListener('play', () => {
-        videoPlayPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-      });
-
-      cafeVideo.addEventListener('pause', () => {
-        videoPlayPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-      });
-    }
-
-    // 3. Audio Mute / Unmute Control
-    if (videoAudioBtn) {
-      videoAudioBtn.addEventListener('click', () => {
-        cafeVideo.muted = !cafeVideo.muted;
-        if (!cafeVideo.muted) {
-          cafeVideo.volume = 1.0;
-        }
-        videoAudioBtn.innerHTML = cafeVideo.muted 
-          ? '<i class="fa-solid fa-volume-xmark"></i>' 
-          : '<i class="fa-solid fa-volume-high"></i>';
-        videoAudioBtn.title = cafeVideo.muted ? 'Unmute Audio' : 'Mute Audio';
-      });
-    }
-
-    // 4. Fullscreen Control
-    if (videoFullscreenBtn && videoFrameInner) {
-      videoFullscreenBtn.addEventListener('click', () => {
-        if (!document.fullscreenElement) {
-          if (videoFrameInner.requestFullscreen) {
-            videoFrameInner.requestFullscreen();
-          } else if (cafeVideo.webkitEnterFullscreen) {
-            cafeVideo.webkitEnterFullscreen();
-          }
-          videoFullscreenBtn.innerHTML = '<i class="fa-solid fa-compress"></i>';
-        } else {
-          if (document.exitFullscreen) {
-            document.exitFullscreen();
-          }
-          videoFullscreenBtn.innerHTML = '<i class="fa-solid fa-expand"></i>';
-        }
-      });
-
-      document.addEventListener('fullscreenchange', () => {
-        if (document.fullscreenElement) {
-          videoFullscreenBtn.innerHTML = '<i class="fa-solid fa-compress"></i>';
-        } else {
-          videoFullscreenBtn.innerHTML = '<i class="fa-solid fa-expand"></i>';
-        }
-      });
+    } else {
+      cinemaVideo.pause();
+      updatePlayState(false);
     }
   }
-}
+
+  function updatePlayState(isPlaying) {
+    if (ctrlPlayPause) ctrlPlayPause.textContent = isPlaying ? '⏸' : '▶';
+    if (centerPlayIcon) centerPlayIcon.textContent = isPlaying ? '⏸' : '▶';
+    if (cinemaOverlay) {
+      cinemaOverlay.style.opacity = isPlaying ? '0' : '1';
+      cinemaOverlay.style.pointerEvents = isPlaying ? 'none' : 'auto';
+    }
+  }
+
+  if (cinemaOverlay) cinemaOverlay.addEventListener('click', toggleCinemaPlay);
+  if (ctrlPlayPause) ctrlPlayPause.addEventListener('click', toggleCinemaPlay);
+
+  if (cinemaVideo) {
+    cinemaVideo.addEventListener('play', () => updatePlayState(true));
+    cinemaVideo.addEventListener('pause', () => updatePlayState(false));
+
+    // Time update & Scrubber
+    cinemaVideo.addEventListener('timeupdate', () => {
+      const cur = cinemaVideo.currentTime || 0;
+      const dur = cinemaVideo.duration || 30;
+      const pct = (cur / dur) * 100;
+
+      if (videoScrubberFill) videoScrubberFill.style.width = `${pct}%`;
+      if (videoScrubberHandle) videoScrubberHandle.style.left = `${pct}%`;
+
+      const formatTime = (sec) => {
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      };
+
+      if (ctrlTimeDisplay) {
+        ctrlTimeDisplay.textContent = `${formatTime(cur)} / ${formatTime(dur)}`;
+      }
+    });
+
+    cinemaVideo.addEventListener('progress', () => {
+      if (cinemaVideo.buffered.length > 0 && videoScrubberBuffered) {
+        const bufferedEnd = cinemaVideo.buffered.end(cinemaVideo.buffered.length - 1);
+        const dur = cinemaVideo.duration || 30;
+        videoScrubberBuffered.style.width = `${(bufferedEnd / dur) * 100}%`;
+      }
+    });
+  }
+
+  // Scrubber Seek
+  if (videoScrubberWrap && cinemaVideo) {
+    videoScrubberWrap.addEventListener('click', (e) => {
+      const rect = videoScrubberWrap.getBoundingClientRect();
+      const clickPos = (e.clientX - rect.left) / rect.width;
+      const dur = cinemaVideo.duration || 30;
+      cinemaVideo.currentTime = clickPos * dur;
+    });
+  }
+
+  // Mute / Unmute & Volume
+  if (ctrlMuteToggle && cinemaVideo) {
+    ctrlMuteToggle.addEventListener('click', () => {
+      cinemaVideo.muted = !cinemaVideo.muted;
+      ctrlMuteToggle.textContent = cinemaVideo.muted ? '🔇' : '🔊';
+      if (ctrlVolumeSlider) ctrlVolumeSlider.value = cinemaVideo.muted ? 0 : (cinemaVideo.volume || 1);
+    });
+  }
+
+  if (ctrlVolumeSlider && cinemaVideo) {
+    ctrlVolumeSlider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      cinemaVideo.volume = val;
+      cinemaVideo.muted = val === 0;
+      if (ctrlMuteToggle) ctrlMuteToggle.textContent = val === 0 ? '🔇' : '🔊';
+    });
+  }
+
+  // Loop Toggle
+  if (ctrlLoopToggle && cinemaVideo) {
+    ctrlLoopToggle.addEventListener('click', () => {
+      cinemaVideo.loop = !cinemaVideo.loop;
+      ctrlLoopToggle.style.color = cinemaVideo.loop ? 'var(--neon-green)' : '#FFFFFF';
+      showQuickNotification(cinemaVideo.loop ? '🔁 Video Loop Enabled' : 'Video Loop Disabled');
+    });
+  }
+
+  // Fullscreen
+  if (ctrlFullscreen && streamScreenWrap) {
+    ctrlFullscreen.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        streamScreenWrap.requestFullscreen().catch(err => {
+          console.warn('Fullscreen error:', err);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    });
+  }
+
+  // ==========================================================================
+  // VIDEO UPLOAD & STUDIO MODAL HANDLERS
+  // ==========================================================================
+  function openStudioModal(activeTab = 'local') {
+    if (!videoUploadModal) return;
+    videoUploadModal.classList.add('active');
+    switchStudioTab(activeTab);
+    soundEngine.click();
+  }
+
+  function closeStudioModal() {
+    if (!videoUploadModal) return;
+    videoUploadModal.classList.remove('active');
+  }
+
+  function openGuideModal() {
+    if (!videoGuideModal) return;
+    videoGuideModal.classList.add('active');
+    soundEngine.click();
+  }
+
+  function closeGuideModal() {
+    if (!videoGuideModal) return;
+    videoGuideModal.classList.remove('active');
+  }
+
+  if (openVideoUploadModalBtn) openVideoUploadModalBtn.addEventListener('click', () => openStudioModal('local'));
+  if (openVideoHostingGuideBtn) openVideoHostingGuideBtn.addEventListener('click', openGuideModal);
+  if (videoUploadModalClose) videoUploadModalClose.addEventListener('click', closeStudioModal);
+  if (closeStudioBtn) closeStudioBtn.addEventListener('click', closeStudioModal);
+  if (videoGuideModalClose) videoGuideModalClose.addEventListener('click', closeGuideModal);
+
+  if (openGuideFromStudioBtn) {
+    openGuideFromStudioBtn.addEventListener('click', () => {
+      closeStudioModal();
+      openGuideModal();
+    });
+  }
+
+  if (guideCloseAndUploadBtn) {
+    guideCloseAndUploadBtn.addEventListener('click', () => {
+      closeGuideModal();
+      openStudioModal('local');
+    });
+  }
+
+  // Quick Option Cards click bindings
+  const cardOptYoutube = document.getElementById('cardOptYoutube');
+  const cardOptCdn = document.getElementById('cardOptCdn');
+  const cardOptS3 = document.getElementById('cardOptS3');
+  const cardOptLocal = document.getElementById('cardOptLocal');
+
+  if (cardOptYoutube) cardOptYoutube.addEventListener('click', () => openStudioModal('embed'));
+  if (cardOptCdn) cardOptCdn.addEventListener('click', openGuideModal);
+  if (cardOptS3) cardOptS3.addEventListener('click', openGuideModal);
+  if (cardOptLocal) cardOptLocal.addEventListener('click', () => openStudioModal('local'));
+
+  // Studio Mode Tabs
+  function switchStudioTab(tabKey) {
+    studioTabBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === tabKey);
+    });
+
+    const paneLocal = document.getElementById('paneUploadLocal');
+    const paneUrl = document.getElementById('paneStreamUrl');
+    const paneEmbed = document.getElementById('paneEmbedSocial');
+
+    if (paneLocal) paneLocal.style.display = tabKey === 'local' ? 'block' : 'none';
+    if (paneUrl) paneUrl.style.display = tabKey === 'url' ? 'block' : 'none';
+    if (paneEmbed) paneEmbed.style.display = tabKey === 'embed' ? 'block' : 'none';
+  }
+
+  studioTabBtns.forEach(btn => {
+    btn.addEventListener('click', () => switchStudioTab(btn.dataset.tab));
+  });
+
+  // Local File Upload & Drag-and-Drop
+  if (btnTriggerFilePicker && videoFileInput) {
+    btnTriggerFilePicker.addEventListener('click', (e) => {
+      e.stopPropagation();
+      videoFileInput.click();
+    });
+  }
+
+  if (videoDropZone && videoFileInput) {
+    videoDropZone.addEventListener('click', () => videoFileInput.click());
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      videoDropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        videoDropZone.classList.add('dragover');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      videoDropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        videoDropZone.classList.remove('dragover');
+      }, false);
+    });
+
+    videoDropZone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files && files.length > 0) {
+        handleLocalVideoFile(files[0]);
+      }
+    });
+
+    videoFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        handleLocalVideoFile(e.target.files[0]);
+      }
+    });
+  }
+
+  function handleLocalVideoFile(file) {
+    if (!file || !file.type.startsWith('video/')) {
+      alert('Please select a valid video file (MP4, WebM, MOV).');
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    if (cinemaVideo) {
+      cinemaVideo.src = objectUrl;
+      cinemaVideo.muted = false;
+      cinemaVideo.load();
+      cinemaVideo.play().catch(e => console.log('Autoplay handled', e));
+
+      isCustomVideoLoaded = true;
+
+      if (cinemaIframeWrap) cinemaIframeWrap.style.display = 'none';
+      if (cinemaVideo) cinemaVideo.style.display = 'block';
+
+      if (activeStreamTitle) activeStreamTitle.textContent = `🎬 Custom Stream: ${file.name}`;
+      if (activeChannelBadge) activeChannelBadge.textContent = 'LOCAL STREAM';
+
+      if (videoFileMeta) videoFileMeta.style.display = 'flex';
+      if (metaFileName) metaFileName.textContent = file.name;
+      if (metaFileSize) metaFileSize.textContent = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+
+      showQuickNotification(`🎥 Live Stream Started: ${file.name}!`);
+      setTimeout(closeStudioModal, 800);
+      soundEngine.fanfare();
+    }
+  }
+
+  // Direct URL Streaming
+  if (applyDirectUrlBtn && directVideoUrlInput) {
+    applyDirectUrlBtn.addEventListener('click', () => {
+      const url = directVideoUrlInput.value.trim();
+      if (!url) return;
+
+      if (cinemaVideo) {
+        cinemaVideo.src = url;
+        cinemaVideo.muted = false;
+        cinemaVideo.load();
+        cinemaVideo.play().catch(e => console.log('Autoplay handled', e));
+
+        isCustomVideoLoaded = true;
+
+        if (cinemaIframeWrap) cinemaIframeWrap.style.display = 'none';
+        if (cinemaVideo) cinemaVideo.style.display = 'block';
+
+        if (activeStreamTitle) activeStreamTitle.textContent = `🌐 CDN Stream: ${url.split('/').pop() || 'Live URL'}`;
+        if (activeChannelBadge) activeChannelBadge.textContent = 'HLS / CDN';
+
+        showQuickNotification('🌐 Streaming from Direct CDN URL!');
+        closeStudioModal();
+        soundEngine.fanfare();
+      }
+    });
+  }
+
+  // YouTube / Social Embed Stream
+  if (applySocialUrlBtn && socialVideoUrlInput) {
+    applySocialUrlBtn.addEventListener('click', () => {
+      const rawUrl = socialVideoUrlInput.value.trim();
+      if (!rawUrl) return;
+
+      let embedUrl = '';
+      const ytMatch = rawUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([\w-]{11})/);
+      if (ytMatch && ytMatch[1]) {
+        embedUrl = `https://www.youtube-nocookie.com/embed/${ytMatch[1]}?autoplay=1&mute=0&rel=0&loop=1&playlist=${ytMatch[1]}`;
+      } else if (rawUrl.includes('vimeo.com/')) {
+        const vimeoId = rawUrl.split('/').filter(Boolean).pop();
+        embedUrl = `https://player.vimeo.com/video/${vimeoId}?autoplay=1&loop=1`;
+      } else {
+        embedUrl = rawUrl;
+      }
+
+      if (cinemaIframe && cinemaIframeWrap) {
+        cinemaIframe.src = embedUrl;
+        cinemaIframeWrap.style.display = 'block';
+        if (cinemaVideo) cinemaVideo.pause();
+
+        if (activeStreamTitle) activeStreamTitle.textContent = '▶️ Streaming Social Cinema Reel';
+        if (activeChannelBadge) activeChannelBadge.textContent = 'YOUTUBE / SOCIAL';
+
+        showQuickNotification('▶️ Embedded Stream Active!');
+        closeStudioModal();
+        soundEngine.fanfare();
+      }
+    });
+  }
+
+  // Initial Render
+  renderMenuItems();
+  updateCartUI();
+});
