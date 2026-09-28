@@ -60,7 +60,7 @@
   </script>
 
   <!-- Stylesheet (Cache-Busted) -->
-  <link rel="stylesheet" href="assets/css/style.css?v=flexhouse-5.3">
+  <link rel="stylesheet" href="assets/css/style.css?v=flexhouse-5.4">
 
   <!-- Structured Data / JSON-LD -->
   <script type="application/ld+json">
@@ -111,7 +111,9 @@
       id="bgSpaceVideo" 
       class="site-bg-video" 
       autoplay 
+      muted="muted"
       muted 
+      loop="loop"
       loop 
       playsinline 
       webkit-playsinline
@@ -119,7 +121,8 @@
       disableremoteplayback
       disablepictureinpicture
       preload="auto"
-      poster="assets/images/preview-reel-1.png">
+      poster="assets/images/preview-reel-1.png"
+      onended="this.currentTime=0;this.play()">
       <source src="assets/videos/cafe-reel-1.mp4" type="video/mp4">
     </video>
     <div class="site-bg-video-overlay"></div>
@@ -1169,7 +1172,7 @@
   </button>
 
   <!-- Scripts (Cache-Busted) -->
-  <script src="assets/js/menu-data.js?v=flexhouse-5.3"></script>
-  <script src="assets/js/app.js?v=flexhouse-5.3"></script>
+  <script src="assets/js/menu-data.js?v=flexhouse-5.4"></script>
+  <script src="assets/js/app.js?v=flexhouse-5.4"></script>
 </body>
 </html>

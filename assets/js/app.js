@@ -789,52 +789,80 @@ document.addEventListener('DOMContentLoaded', () => {
   const navOpenTourBtn = document.getElementById('navOpenTourBtn');
   const headerTourToggleBtn = document.getElementById('headerTourToggleBtn');
 
-  // Configure background video properties for seamless nonstop looping
+  // Configure background video properties for nonstop infinite loop
   if (bgSpaceVideo) {
     bgSpaceVideo.muted = true;
     bgSpaceVideo.defaultMuted = true;
+    bgSpaceVideo.volume = 0;
     bgSpaceVideo.playsInline = true;
     bgSpaceVideo.loop = true;
     bgSpaceVideo.setAttribute('loop', '');
     bgSpaceVideo.setAttribute('playsinline', '');
     bgSpaceVideo.setAttribute('webkit-playsinline', '');
+    bgSpaceVideo.setAttribute('muted', '');
 
-    const resumeBgVideo = () => {
-      if (bgSpaceVideo.paused && !document.hidden) {
-        bgSpaceVideo.play().catch(() => {});
+    // Disable any audio tracks at DOM level if exposed by browser
+    if (bgSpaceVideo.audioTracks) {
+      try {
+        for (let i = 0; i < bgSpaceVideo.audioTracks.length; i++) {
+          bgSpaceVideo.audioTracks[i].enabled = false;
+        }
+      } catch (e) {}
+    }
+
+    let isAttemptingPlay = false;
+    const playBgVideo = () => {
+      if (!bgSpaceVideo || document.hidden) return;
+      if (bgSpaceVideo.paused && !isAttemptingPlay) {
+        isAttemptingPlay = true;
+        const playPromise = bgSpaceVideo.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              isAttemptingPlay = false;
+            })
+            .catch(() => {
+              isAttemptingPlay = false;
+            });
+        } else {
+          isAttemptingPlay = false;
+        }
       }
     };
 
     // Immediate play attempt
-    bgSpaceVideo.play().catch(() => {});
+    playBgVideo();
 
-    // Guarantee continuous loop: if ended event triggers or video approaches finish, restart seamlessly
+    // Fallback: If browser ever fires 'ended' instead of looping natively, smoothly restart
     bgSpaceVideo.addEventListener('ended', () => {
       bgSpaceVideo.currentTime = 0;
-      bgSpaceVideo.play().catch(() => {});
+      playBgVideo();
     });
 
-    // Seamless loop fallback if mobile browser doesn't loop automatically
-    bgSpaceVideo.addEventListener('timeupdate', () => {
-      if (bgSpaceVideo.duration && bgSpaceVideo.currentTime >= bgSpaceVideo.duration - 0.2) {
-        bgSpaceVideo.currentTime = 0;
-        bgSpaceVideo.play().catch(() => {});
+    // If browser auto-pauses while page is active, auto-resume
+    bgSpaceVideo.addEventListener('pause', () => {
+      if (!document.hidden) {
+        setTimeout(playBgVideo, 50);
       }
     });
 
-    // If browser auto-pauses while page is active, resume immediately
-    bgSpaceVideo.addEventListener('pause', () => {
-      if (!document.hidden) {
-        bgSpaceVideo.play().catch(() => {});
+    // If stream stalls, kick it back into play
+    bgSpaceVideo.addEventListener('stalled', () => {
+      if (!document.hidden && bgSpaceVideo.paused) {
+        playBgVideo();
       }
     });
 
     // Watchdog heartbeat: verify continuous playback every 1.5 seconds
-    setInterval(resumeBgVideo, 1500);
+    setInterval(() => {
+      if (!document.hidden && bgSpaceVideo.paused) {
+        playBgVideo();
+      }
+    }, 1500);
 
-    // Resume on any interaction or scroll
-    ['click', 'touchstart', 'scroll', 'pointerdown'].forEach(evt => {
-      window.addEventListener(evt, resumeBgVideo, { passive: true });
+    // Resume on any user interaction or scroll (crucial for mobile autoplay policies)
+    ['click', 'touchstart', 'touchend', 'scroll', 'pointerdown', 'keydown'].forEach(evt => {
+      window.addEventListener(evt, playBgVideo, { passive: true });
     });
   }
 

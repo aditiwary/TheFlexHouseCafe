@@ -1,12 +1,12 @@
-const CACHE_NAME = 'flexhouse-v5.3';
+const CACHE_NAME = 'flexhouse-v5.4';
 const STATIC_ASSETS = [
   '/',
-  '/index.html?v=flexhouse-5.3',
-  '/manifest.json?v=flexhouse-5.3',
-  '/assets/css/style.css?v=flexhouse-5.3',
+  '/index.html?v=flexhouse-5.4',
+  '/manifest.json?v=flexhouse-5.4',
+  '/assets/css/style.css?v=flexhouse-5.4',
   '/assets/data/reviews.json?v=flexhouse-5.0',
-  '/assets/js/menu-data.js?v=flexhouse-5.3',
-  '/assets/js/app.js?v=flexhouse-5.3',
+  '/assets/js/menu-data.js?v=flexhouse-5.4',
+  '/assets/js/app.js?v=flexhouse-5.4',
   '/assets/images/flex-logo.png',
   '/assets/images/flex-logo.svg',
   '/assets/images/favicon.png',
