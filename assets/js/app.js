@@ -922,6 +922,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // ==========================================================================
+  // HIGH-SPEED GOOGLE MAP EMBED OPTIMIZATION & INSTANT SKELETON FADE
+  // ==========================================================================
+  const googleMapIframe = document.getElementById('googleMapIframe');
+  const mapSkeleton = document.getElementById('mapSkeleton');
+
+  if (googleMapIframe && mapSkeleton) {
+    let mapLoaded = false;
+    const hideMapSkeleton = () => {
+      if (mapLoaded) return;
+      mapLoaded = true;
+      mapSkeleton.classList.add('fade-out');
+      setTimeout(() => {
+        mapSkeleton.style.display = 'none';
+      }, 450);
+    };
+
+    googleMapIframe.addEventListener('load', hideMapSkeleton);
+
+    // Failsafe: ensure map becomes fully interactive even if iframe load event is delayed by 3rd party scripts
+    setTimeout(hideMapSkeleton, 3000);
+  }
+
   // Initial Render
   renderMenuItems();
   updateCartUI();

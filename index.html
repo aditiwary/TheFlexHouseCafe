@@ -34,6 +34,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+  <!-- High-Speed Preconnect for Google Maps Embed (Instant Loading) -->
+  <link rel="preconnect" href="https://www.google.com">
+  <link rel="preconnect" href="https://maps.google.com">
+  <link rel="preconnect" href="https://maps.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google.com">
+  <link rel="dns-prefetch" href="https://maps.google.com">
+
   <!-- Stylesheet -->
   <link rel="stylesheet" href="assets/css/style.css">
 
@@ -777,13 +784,37 @@
             </div>
           </div>
 
-          <!-- Embedded Map -->
-          <div class="map-embed-wrapper">
+          <!-- Embedded Map (Zero-Delay Instant Loading) -->
+          <div class="map-embed-wrapper" id="mapWrapper">
+            <!-- Instant Zero-Delay Pinpoint & Radar Skeleton -->
+            <div class="map-skeleton" id="mapSkeleton" aria-hidden="true">
+              <div class="map-skeleton-radar">
+                <div class="radar-circle radar-circle-1"></div>
+                <div class="radar-circle radar-circle-2"></div>
+                <div class="radar-circle radar-circle-3"></div>
+                <div class="radar-pin">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+              </div>
+              <div class="map-skeleton-info">
+                <span class="map-skeleton-badge">
+                  <span class="status-dot"></span> LIVE GPS PINPOINT
+                </span>
+                <h4 class="map-skeleton-title">The Flex House Cafe</h4>
+                <p class="map-skeleton-address">Near Galaxy Hospital, PD Nagar, Nirala Nagar, Unnao</p>
+                <a href="https://maps.google.com/?q=GFGJ%2B99+Unnao,+Uttar+Pradesh" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm map-instant-btn">
+                  <i class="fa-solid fa-diamond-turn-right"></i> Open in Google Maps
+                </a>
+              </div>
+            </div>
+
             <iframe 
+              id="googleMapIframe"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14300.0!2d80.488!3d26.549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDMyJzU2LjQiTiA4MMKwMjknMTYuOCJF!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin" 
               title="The Flex House Cafe Location Map in Unnao"
               allowfullscreen="" 
-              loading="lazy" 
+              loading="eager" 
+              fetchpriority="low"
               referrerpolicy="no-referrer-when-downgrade">
             </iframe>
           </div>

@@ -1700,14 +1700,145 @@ h1, h2, h3, h4, .font-heading {
   flex-wrap: wrap;
 }
 
-/* Map Wrapper */
+/* Map Wrapper & Instant Zero-Delay Skeleton */
 .map-embed-wrapper {
+  position: relative;
   border-radius: 26px;
   overflow: hidden;
-  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border: 1.5px solid rgba(0, 240, 255, 0.25);
   min-height: 450px;
-  box-shadow: var(--shadow-card);
+  background: #070a12;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 240, 255, 0.15);
+}
+
+.map-skeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  background: radial-gradient(circle at center, rgba(14, 21, 35, 0.95) 0%, rgba(6, 9, 16, 0.98) 100%);
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.map-skeleton.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.map-skeleton-radar {
   position: relative;
+  width: 90px;
+  height: 90px;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radar-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px solid var(--neon-cyan);
+  animation: radarWave 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+.radar-circle-1 {
+  width: 30px;
+  height: 30px;
+  animation-delay: 0s;
+}
+
+.radar-circle-2 {
+  width: 60px;
+  height: 60px;
+  animation-delay: 0.6s;
+}
+
+.radar-circle-3 {
+  width: 90px;
+  height: 90px;
+  animation-delay: 1.2s;
+}
+
+@keyframes radarWave {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.radar-pin {
+  position: relative;
+  z-index: 3;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--neon-cyan);
+  color: #07090E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 0 20px var(--neon-cyan-glow);
+  animation: floatPin 2s ease-in-out infinite alternate;
+}
+
+@keyframes floatPin {
+  from { transform: translateY(0); }
+  to { transform: translateY(-5px); }
+}
+
+.map-skeleton-info {
+  position: relative;
+  z-index: 3;
+  max-width: 420px;
+}
+
+.map-skeleton-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  padding: 4px 12px;
+  border-radius: 50px;
+  margin-bottom: 0.75rem;
+}
+
+.map-skeleton-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin-bottom: 0.35rem;
+}
+
+.map-skeleton-address {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.map-instant-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  padding: 0.65rem 1.4rem;
 }
 
 .map-embed-wrapper iframe {
@@ -1716,6 +1847,7 @@ h1, h2, h3, h4, .font-heading {
   min-height: 450px;
   border: 0;
   filter: invert(90%) hue-rotate(180deg) brightness(85%) contrast(90%);
+  display: block;
 }
 
 /* ==========================================================================
