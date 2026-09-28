@@ -1022,6 +1022,9 @@
     </div>
   </div>
 
+  <!-- Floating Tour Backdrop when Maximized -->
+  <div class="fc-window-backdrop" id="fcWindowBackdrop" aria-hidden="true"></div>
+
   <!-- ==========================================================================
        FLOATING STYLISH CAFE ENTRANCE / TOUR WINDOW (HOVERING AT BOTTOM)
        ========================================================================== -->
@@ -1034,6 +1037,9 @@
       <div class="fc-window-actions">
         <button type="button" class="fc-action-btn" id="fcAudioBtn" title="Toggle Sound" aria-label="Toggle Sound">
           <i class="fa-solid fa-volume-xmark"></i>
+        </button>
+        <button type="button" class="fc-action-btn" id="fcMaximizeBtn" title="Maximize Video" aria-label="Maximize Video">
+          <i class="fa-solid fa-expand"></i>
         </button>
         <button type="button" class="fc-action-btn" id="fcMinimizeBtn" title="Minimize Window" aria-label="Minimize Window">
           <i class="fa-solid fa-minus"></i>
@@ -1059,7 +1065,12 @@
       </video>
       <div class="fc-video-caption">
         <span>📍 Neon Vibe Lounge • Unnao</span>
-        <span class="fc-badge-pill">4K LIVE</span>
+        <div class="fc-caption-tags">
+          <button type="button" class="fc-fullscreen-chip" id="fcFullscreenChip" title="Device Fullscreen" aria-label="Device Fullscreen">
+            <i class="fa-solid fa-up-right-and-down-left-from-center"></i> Fullscreen
+          </button>
+          <span class="fc-badge-pill">4K LIVE</span>
+        </div>
       </div>
     </div>
   </aside>

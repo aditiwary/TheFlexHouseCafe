@@ -735,9 +735,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const floatingCafeWindow = document.getElementById('floatingCafeWindow');
   const floatingTourPill = document.getElementById('floatingTourPill');
   const fcEntranceVideo = document.getElementById('fcEntranceVideo');
+  const fcVideoFrame = document.getElementById('fcVideoFrame');
   const fcAudioBtn = document.getElementById('fcAudioBtn');
+  const fcMaximizeBtn = document.getElementById('fcMaximizeBtn');
   const fcMinimizeBtn = document.getElementById('fcMinimizeBtn');
   const fcCloseBtn = document.getElementById('fcCloseBtn');
+  const fcWindowBackdrop = document.getElementById('fcWindowBackdrop');
+  const fcFullscreenChip = document.getElementById('fcFullscreenChip');
   const navOpenTourBtn = document.getElementById('navOpenTourBtn');
   const headerTourToggleBtn = document.getElementById('headerTourToggleBtn');
 
@@ -764,7 +768,35 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', tryStartAutoplay, { once: true });
   document.addEventListener('touchstart', tryStartAutoplay, { once: true, passive: true });
 
-  // 2. Floating Cafe Entrance Window Controls
+  // 2. Floating Cafe Entrance Window Controls & Maximize Mode
+  function setFloatingTourMaximized(isMax) {
+    if (!floatingCafeWindow) return;
+    if (isMax) {
+      floatingCafeWindow.classList.add('is-maximized');
+      if (fcWindowBackdrop) fcWindowBackdrop.classList.add('active');
+      if (fcMaximizeBtn) {
+        fcMaximizeBtn.innerHTML = '<i class="fa-solid fa-compress"></i>';
+        fcMaximizeBtn.title = 'Restore Window Size';
+        fcMaximizeBtn.setAttribute('aria-label', 'Restore Window Size');
+      }
+    } else {
+      floatingCafeWindow.classList.remove('is-maximized');
+      if (fcWindowBackdrop) fcWindowBackdrop.classList.remove('active');
+      if (fcMaximizeBtn) {
+        fcMaximizeBtn.innerHTML = '<i class="fa-solid fa-expand"></i>';
+        fcMaximizeBtn.title = 'Maximize Video';
+        fcMaximizeBtn.setAttribute('aria-label', 'Maximize Video');
+      }
+    }
+  }
+
+  function toggleMaximizeFloatingTour() {
+    if (!floatingCafeWindow) return;
+    const isNowMaximized = !floatingCafeWindow.classList.contains('is-maximized');
+    setFloatingTourMaximized(isNowMaximized);
+    soundEngine.click();
+  }
+
   function openFloatingTour() {
     if (!floatingCafeWindow) return;
     floatingCafeWindow.style.display = 'block';
@@ -775,6 +807,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function minimizeFloatingTour() {
     if (!floatingCafeWindow) return;
+    setFloatingTourMaximized(false);
     floatingCafeWindow.style.display = 'none';
     if (floatingTourPill) floatingTourPill.style.display = 'inline-flex';
     soundEngine.click();
@@ -797,6 +830,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  if (fcMaximizeBtn) fcMaximizeBtn.addEventListener('click', toggleMaximizeFloatingTour);
   if (fcMinimizeBtn) fcMinimizeBtn.addEventListener('click', minimizeFloatingTour);
   if (fcCloseBtn) fcCloseBtn.addEventListener('click', closeFloatingTour);
   if (floatingTourPill) floatingTourPill.addEventListener('click', openFloatingTour);
@@ -808,6 +842,53 @@ document.addEventListener('DOMContentLoaded', () => {
       minimizeFloatingTour();
     }
   });
+
+  if (fcWindowBackdrop) {
+    fcWindowBackdrop.addEventListener('click', () => {
+      setFloatingTourMaximized(false);
+      soundEngine.click();
+    });
+  }
+
+  // Escape key to restore maximized video
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && floatingCafeWindow && floatingCafeWindow.classList.contains('is-maximized')) {
+      setFloatingTourMaximized(false);
+    }
+  });
+
+  // Double click video frame to toggle maximize
+  if (fcVideoFrame) {
+    fcVideoFrame.addEventListener('dblclick', toggleMaximizeFloatingTour);
+  }
+
+  // Click on video to toggle play/pause
+  if (fcEntranceVideo) {
+    fcEntranceVideo.addEventListener('click', () => {
+      if (fcEntranceVideo.paused) {
+        fcEntranceVideo.play().catch(() => {});
+      } else {
+        fcEntranceVideo.pause();
+      }
+    });
+  }
+
+  // Device Fullscreen toggle
+  if (fcFullscreenChip && fcEntranceVideo) {
+    fcFullscreenChip.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (fcEntranceVideo.requestFullscreen) {
+        fcEntranceVideo.requestFullscreen().catch(() => {});
+      } else if (fcEntranceVideo.webkitEnterFullscreen) {
+        fcEntranceVideo.webkitEnterFullscreen();
+      } else if (fcEntranceVideo.webkitRequestFullscreen) {
+        fcEntranceVideo.webkitRequestFullscreen().catch(() => {});
+      } else if (fcEntranceVideo.msRequestFullscreen) {
+        fcEntranceVideo.msRequestFullscreen().catch(() => {});
+      }
+      soundEngine.click();
+    });
+  }
 
   // ==========================================================================
   // PWA (PROGRESSIVE WEB APP) SERVICE WORKER & 1-TAP INSTALL

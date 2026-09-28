@@ -2588,6 +2588,96 @@ h1, h2, h3, h4, .font-heading {
   border-radius: 4px;
 }
 
+/* Floating Tour Backdrop when Maximized */
+.fc-window-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 5, 10, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 9995;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.fc-window-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Maximized Mode for Floating Cafe Window */
+.floating-cafe-window.is-maximized {
+  width: min(920px, 92vw);
+  max-width: 92vw;
+  max-height: 90vh;
+  top: 50%;
+  left: 50%;
+  bottom: auto;
+  right: auto;
+  transform: translate(-50%, -50%) !important;
+  z-index: 10000;
+  border-color: var(--neon-cyan);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.98), 0 0 55px rgba(0, 240, 255, 0.45);
+  border-radius: 20px;
+}
+
+.floating-cafe-window.is-maximized:hover {
+  transform: translate(-50%, -50%) !important;
+}
+
+.floating-cafe-window.is-maximized .fc-window-header {
+  padding: 0.85rem 1.25rem;
+  background: rgba(15, 21, 33, 0.98);
+}
+
+.floating-cafe-window.is-maximized .fc-title-text {
+  font-size: 0.9rem;
+}
+
+.floating-cafe-window.is-maximized .fc-action-btn {
+  width: 32px;
+  height: 32px;
+  font-size: 0.85rem;
+}
+
+.floating-cafe-window.is-maximized .fc-video-frame {
+  max-height: calc(90vh - 65px);
+  aspect-ratio: 16 / 9;
+}
+
+.fc-caption-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: auto;
+}
+
+.fc-fullscreen-chip {
+  background: rgba(0, 240, 255, 0.15);
+  border: 1px solid rgba(0, 240, 255, 0.5);
+  color: var(--neon-cyan);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  pointer-events: auto;
+}
+
+.fc-fullscreen-chip:hover {
+  background: var(--neon-cyan);
+  color: #07090E;
+  border-color: var(--neon-cyan);
+  transform: scale(1.05);
+}
+
 /* Floating Tour Pill (when minimized or on small screens) */
 .floating-tour-pill {
   position: fixed;
@@ -2634,10 +2724,16 @@ h1, h2, h3, h4, .font-heading {
    UNIVERSAL DEVICE & MOBILE COMPATIBILITY (ANDROID, TABLETS, IOS, WINDOWS)
    ========================================================================== */
 @media (max-width: 768px) {
-  .floating-cafe-window {
+  .floating-cafe-window:not(.is-maximized) {
     width: 270px;
     bottom: 20px;
     right: 14px;
+  }
+
+  .floating-cafe-window.is-maximized {
+    width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
+    border-radius: 16px;
   }
 
   .floating-tour-pill {
@@ -2653,10 +2749,16 @@ h1, h2, h3, h4, .font-heading {
 }
 
 @media (max-width: 480px) {
-  .floating-cafe-window {
+  .floating-cafe-window:not(.is-maximized) {
     width: calc(100vw - 28px);
     right: 14px;
     bottom: 16px;
+  }
+
+  .floating-cafe-window.is-maximized {
+    width: calc(100vw - 16px);
+    max-width: calc(100vw - 16px);
+    border-radius: 14px;
   }
 }
 
