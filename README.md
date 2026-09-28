@@ -1,64 +1,37 @@
-# The Flex House Cafe 🍕☕
+# 🔥 Hell House Cafe (Hellfire Hidden House)
 
-> **Good Food • Great Mood • Every Time**  
-> Unnao's premier cyber-neon cafe & restaurant located in PD Nagar, Nirala Nagar, Unnao.
-
----
-
-## 🍽️ Features & Experience
-
-Official responsive web application for **The Flex House Cafe**, featuring:
-- **🌌 Ambient Fullscreen Background Video:** Space-to-earth descent drone reel continuously playing in the background with cyber-dark overlays.
-- **⚡ Floating Stylish Cafe Tour Window:** PiP-style glowing neon window hovering at the bottom of the screen showcasing the cafe entrance, neon corridor, and lounge with audio toggle and minimize controls.
-- **📱 PWA & Universal Device Compatibility:** 1-tap installable Progressive Web App with offline caching (`manifest.json` + `sw.js`). Ultra-lightweight, smooth, and flexible on Android, iOS Safari, iPads, tablets, and Windows.
-- **🍕 Interactive Digital Menu & Filtering:** Handcrafted Pizzas, Burgers, Pastas, Crispy Kurkure Momos, Indo-Chinese Wok, Shakes, and 12+ Super Combos starting at ₹130.
-- **🗓️ Table Reservation & Party Booking System:** Instant booking request flow with time slots and direct WhatsApp confirmation.
-- **📍 Location & Contact:** Verified 5.0 Google rating, Google Maps integration, and 1-tap WhatsApp concierge.
+> **Unnao’s Trendiest Neon Cyber-Lounge & Restaurant**  
+> *"Good Food • Good Mood • Great Vibes"*
 
 ---
 
-## 🚀 Getting Started
+## 📍 About Hell House Cafe
+Hell House Cafe is the premier showpiece hangout spot in Unnao, Uttar Pradesh. Featuring hand-tossed artisan pizzas, overloaded cheesy burgers, sizzling starters, and electric neon mocktails, our cafe is designed for celebrations, foodies, and aesthetic vibes.
 
-### Local Development
-
-You can serve this website using any static HTTP server:
-
-```bash
-# Using Python
-python3 -m http.server 8899
-
-# Or using Node.js / npx
-npx serve .
-```
-
-Open [http://localhost:8899](http://localhost:8899) in your browser.
+- **Address:** Hiran Nagar (Opposite Bank of Baroda), Unnao, Uttar Pradesh
+- **Direct Contact / WhatsApp:** +91 8874056350
+- **Hours:** 11:00 AM – 11:00 PM (Monday – Sunday)
 
 ---
 
-## 📂 Project Structure
-
-```
-TheFlexHouseCafe/
-├── assets/
-│   ├── css/
-│   │   └── style.css           # Cyber-neon styling, floating window, animations
-│   ├── js/
-│   │   ├── app.js              # PWA lifecycle, video window controls, cart & UI
-│   │   └── menu-data.js        # Authentic The Flex House Cafe menu database
-│   ├── images/                 # Storefront, combos, food photos & flex-logo
-│   └── videos/
-│       ├── cafe-reel-1.mp4     # Space descent ambient background video
-│       └── cafe-reel-2.mp4     # Cafe entrance & lounge tour video
-├── index.html                  # Main landing page
-├── manifest.json               # PWA web app manifest
-├── sw.js                       # Service worker for offline caching & install
-├── vercel.json                 # Vercel deployment configuration
-├── .gitignore                  # Git ignore rules
-└── README.md                   # Project documentation
-```
+## ⚡ Features
+- **Neon Cyber-Inferno Atmosphere:** HTML5 Canvas particle ember engine, floating neon orbs, and cursor spotlight.
+- **Jumping Animations:** Playful bouncing mascot animation, jumping interactive badges, and spring-physics buttons.
+- **Direct Online Table Booking:** Customers can choose party size, date, time slot, and seating vibe (Hellfire Neon Lounge, Romantic Corner, Chill Pod, Birthday Bash Special) with instant WhatsApp confirmation.
+- **Interactive Digital Menu:** Real-time dish search, category filter pills, and small/medium pizza variant pricing.
+- **Flex Tray (Order Drawer):** Assemble orders with dynamic subtotal calculations and 1-click WhatsApp order dispatch.
+- **Founder Spotlight:** Highlighting the cafe's creator and vision in Unnao.
+- **Physical Menu Board Gallery:** Interactive zoom lightbox preview of the original chalkboard menu and cafe brochure.
+- **Location & Navigation:** Embedded map, 1-tap Google Maps directions, and direct phone dialer.
 
 ---
 
-## 📄 License
+## 🚀 Deployment to Vercel
+This project is optimized for instant deployment to [Vercel](https://vercel.com):
+1. Import this repository into Vercel.
+2. Framework Preset: **Other** / Static Site (Root directory `./`).
+3. Click **Deploy** — zero build commands needed!
 
-All rights reserved © The Flex House Cafe.
+---
+
+© 2026 Hell House Cafe. All Rights Reserved.

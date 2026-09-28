@@ -1,607 +1,594 @@
-// Authentic Menu Data for The Flex House Cafe
-// Sourced directly from official menus
+/**
+ * Hell House Cafe - Official Menu Data
+ * Address: Hiran Nagar (Opposite Bank of Baroda), Unnao, Uttar Pradesh
+ * Contact: +91 8874056350
+ */
 
-const MENU_DATA = {
-  categories: [
-    { id: 'combos', name: '🔥 Super Combos', count: 12, icon: '⚡' },
-    { id: 'pizza', name: '🍕 Handcrafted Pizzas', count: 12, icon: '🍕' },
-    { id: 'chinese', name: '🥢 Chinese Delights', count: 10, icon: '🥢' },
-    { id: 'momos', name: '🥟 Sizzling Momos', count: 5, icon: '🥟' },
-    { id: 'burgers', name: '🍔 Burgers & Burger Pizza', count: 4, icon: '🍔' },
-    { id: 'sandwiches', name: '🥪 Sandwiches & Wraps', count: 7, icon: '🥪' },
-    { id: 'maggie-pasta', name: '🍝 Maggie & Pasta', count: 7, icon: '🍝' },
-    { id: 'drinks', name: '☕ Beverages & Chillers', count: 4, icon: '☕' }
-  ],
-
-  combos: [
-    {
-      id: 'combo-1',
-      name: 'Onion Pizza + Aloo Patty Burger + Cold Drink',
-      category: 'combos',
-      price: 130,
-      badge: 'Bestseller',
-      desc: 'Crispy onion pizza paired with our classic spiced aloo patty burger and chilled refreshing soda.',
-      items: ['Onion Pizza', 'Aloo Patty Burger', 'Cold Drink'],
-      image: 'assets/images/flex-pizza.jpg'
-    },
-    {
-      id: 'combo-2',
-      name: 'Tomato Pizza + French Fries + Cold Drink',
-      category: 'combos',
-      price: 130,
-      badge: 'Popular',
-      desc: 'Juicy tomato pizza served with golden salted French fries and a refreshing cold drink.',
-      items: ['Tomato Pizza', 'French Fries', 'Cold Drink'],
-      image: 'assets/images/flex-burger-coffee.jpg'
-    },
-    {
-      id: 'combo-3',
-      name: 'Capsicum Pizza + Veg Noodles + Cold Drink',
-      category: 'combos',
-      price: 130,
-      badge: 'Pocket Friendly',
-      desc: 'Fresh crunchy capsicum pizza served alongside wok-tossed vegetable noodles and a cold drink.',
-      items: ['Capsicum Pizza', 'Veg Noodles', 'Cold Drink'],
-      image: 'assets/images/flex-momos-noodles.jpg'
-    },
-    {
-      id: 'combo-4',
-      name: 'Spicy Paneer Pizza + Cheese Burger + Cold Drink',
-      category: 'combos',
-      price: 260,
-      badge: 'Chef Choice 🔥',
-      desc: 'Zesty tandoori spiced paneer pizza coupled with our rich melted cheese burger and a cold drink.',
-      items: ['Spicy Paneer Pizza', 'Cheese Burger', 'Cold Drink'],
-      image: 'assets/images/flex-pizza.jpg'
-    },
-    {
-      id: 'combo-5',
-      name: 'Onion Paneer Pizza + Paneer Burger + Cold Drink',
-      category: 'combos',
-      price: 180,
-      badge: 'Paneer Flex 🧀',
-      desc: 'Loaded onion paneer pizza alongside a delicious crispy paneer patty burger and cold drink.',
-      items: ['Onion Paneer Pizza', 'Paneer Burger', 'Cold Drink'],
-      image: 'assets/images/flex-burger-coffee.jpg'
-    },
-    {
-      id: 'combo-6',
-      name: 'Sandwich + Veg Noodle + French Fries + Momo',
-      category: 'combos',
-      price: 170,
-      badge: 'Feast Box 🍱',
-      desc: 'The ultimate snack platter: toasted veg sandwich, tossed veg noodles, crispy fries, and steamed momos.',
-      items: ['Sandwich', 'Veg Noodle', 'French Fries', 'Momo'],
-      image: 'assets/images/flex-momos-noodles.jpg'
-    },
-    {
-      id: 'combo-7',
-      name: 'Plain Maggie + Spring Roll + Paneer Momo',
-      category: 'combos',
-      price: 150,
-      badge: 'Comfort Combo',
-      desc: 'Soul-warming hot Maggie paired with crispy vegetable spring rolls and tender paneer momos.',
-      items: ['Plain Maggie', 'Spring Roll', 'Paneer Momo'],
-      image: 'assets/images/flex-momos-noodles.jpg'
-    },
-    {
-      id: 'combo-8',
-      name: 'White Sauce Pasta + Kurkure Momos + Chilli Potato',
-      category: 'combos',
-      price: 230,
-      badge: 'Hot & Crunchy 🔥',
-      desc: 'Rich creamy Italian white sauce pasta with super crunchy Kurkure momos and fiery crispy chilli potato.',
-      items: ['White Sauce Pasta', 'Kurkure Momos', 'Chilli Potato'],
-      image: 'assets/images/flex-momos-noodles.jpg'
-    },
-    {
-      id: 'combo-9',
-      name: 'Cheese Sandwich + Paneer Pizza + Peri Peri Fries',
-      category: 'combos',
-      price: 200,
-      badge: 'Cheesy & Spiced',
-      desc: 'Golden toasted cheese sandwich, personal paneer pizza, and spicy zesty Peri Peri seasoned fries.',
-      items: ['Cheese Sandwich', 'Paneer Pizza', 'Peri Peri Fries'],
-      image: 'assets/images/flex-burger-coffee.jpg'
-    },
-    {
-      id: 'combo-10',
-      name: 'Hakka Noodles + Onion Pizza + Cold Coffee + Cold Drink',
-      category: 'combos',
-      price: 220,
-      badge: 'Double Drink Flex 🥤',
-      desc: 'Wok-fired Hakka noodles, crispy onion pizza, thick creamy cold coffee, and chilled soda!',
-      items: ['Hakka Noodles', 'Onion Pizza', 'Cold Coffee', 'Cold Drink'],
-      image: 'assets/images/flex-burger-coffee.jpg'
-    },
-    {
-      id: 'combo-11',
-      name: 'Kurkure Momos + Paneer Noodle + Mexican Wrap',
-      category: 'combos',
-      price: 220,
-      badge: 'Street Style Flex',
-      desc: 'Signature crunchy Kurkure momos, spicy wok paneer noodles, and a zesty grilled Mexican wrap.',
-      items: ['Kurkure Momos', 'Paneer Noodle', 'Mexican Wrap'],
-      image: 'assets/images/flex-momos-noodles.jpg'
-    },
-    {
-      id: 'combo-12',
-      name: 'Corn Capsicum Pizza + Kurkure Momos + White Sauce Pasta + Noodles',
-      category: 'combos',
-      price: 300,
-      badge: 'Grand Party Feast 👑',
-      desc: 'The complete mega spread: Cheesy corn & capsicum pizza, crunchy Kurkure momos, creamy pasta, and wok noodles.',
-      items: ['Corn Capsicum Pizza', 'Kurkure Momos', 'White Sauce Pasta', 'Noodles'],
-      image: 'assets/images/flex-pizza.jpg'
-    }
-  ],
-
-  pizzas: [
-    {
-      id: 'pz-onion',
-      name: 'Onion Pizza',
-      desc: 'Classic crisp red onions with house pizza sauce and melted mozzarella blend.',
-      category: 'pizza',
-      prices: { S: 69, M: 139, L: 199 },
-      badge: 'Classic',
-      veg: true
-    },
-    {
-      id: 'pz-tomato',
-      name: 'Tomato Pizza',
-      desc: 'Freshly sliced vine tomatoes on golden crust with herb seasoning and bubbling cheese.',
-      category: 'pizza',
-      prices: { S: 69, M: 139, L: 199 },
-      badge: 'Fresh',
-      veg: true
-    },
-    {
-      id: 'pz-corn',
-      name: 'Corn Pizza',
-      desc: 'Sweet golden American corn kernels smothered with mozzarella and Italian oregano.',
-      category: 'pizza',
-      prices: { S: 69, M: 139, L: 199 },
-      badge: 'Kid Favorite',
-      veg: true
-    },
-    {
-      id: 'pz-capsicum',
-      name: 'Capsicum Pizza',
-      desc: 'Crunchy bell peppers sliced fine on melted cheese and rich tomato basil base.',
-      category: 'pizza',
-      prices: { S: 69, M: 139, L: 199 },
-      badge: 'Crunchy',
-      veg: true
-    },
-    {
-      id: 'pz-onion-paneer',
-      name: 'Onion Paneer Pizza',
-      desc: 'Tender marinated paneer cubes and crunchy diced onions over a double cheese blanket.',
-      category: 'pizza',
-      prices: { S: 100, M: 199, L: 299 },
-      badge: 'Bestseller ⭐',
-      veg: true
-    },
-    {
-      id: 'pz-corn-capsicum',
-      name: 'Corn Capsicum Pizza',
-      desc: 'Delightful duo of sweet golden corn and crisp bell peppers loaded with premium cheese.',
-      category: 'pizza',
-      prices: { S: 100, M: 199, L: 299 },
-      badge: 'Popular',
-      veg: true
-    },
-    {
-      id: 'pz-farm-harvested',
-      name: 'Farm Harvested Pizza',
-      desc: 'Farm fresh garden medley: bell peppers, sweet corn, onions, tomatoes, and mushrooms on cheese.',
-      category: 'pizza',
-      prices: { S: 130, M: 250, L: 345 },
-      badge: 'Gourmet',
-      veg: true
-    },
-    {
-      id: 'pz-indian',
-      name: 'Indian Pizza',
-      desc: 'Desi spiced pizza with marinated tandoori paneer, spicy masala onions, capsicum, and chili flakes.',
-      category: 'pizza',
-      prices: { S: 130, M: 250, L: 345 },
-      badge: 'Desi Spice 🌶️',
-      veg: true
-    },
-    {
-      id: 'pz-country-gala',
-      name: 'Country Gala Pizza',
-      desc: 'Rustic country-style pizza loaded with herbs, vibrant veggies, and decadent mozzarella pull.',
-      category: 'pizza',
-      prices: { S: 130, M: 249, L: 345 },
-      badge: 'Specialty',
-      veg: true
-    },
-    {
-      id: 'pz-dil-ka-margherita',
-      name: 'Dil Ka Margherita',
-      desc: 'Heartfelt classic cheese margherita with extra melted cheese blend and signature sauce.',
-      category: 'pizza',
-      prices: { S: 130, M: 249, L: 345 },
-      badge: 'Cheese Heaven 🧀',
-      veg: true
-    },
-    {
-      id: 'pz-spicy-paneer',
-      name: 'Spicy Paneer Pizza',
-      desc: 'Generously topped with fiery peri-peri spiced paneer chunks, jalapenos, onions, and spicy herb oil.',
-      category: 'pizza',
-      prices: { S: 180, M: 350, L: 520 },
-      badge: 'Chef Favorite 🔥',
-      veg: true
-    },
-    {
-      id: 'pz-chef-special',
-      name: 'Chef Special Pizza',
-      desc: 'The ultimate Flex House showpiece: triple cheese, loaded paneer, corn, capsicum, olives & secret sauce.',
-      category: 'pizza',
-      prices: { S: 180, M: 350, L: 520 },
-      badge: 'The Flex Signature 👑',
-      veg: true
-    }
-  ],
-
-  chinese: [
-    {
-      id: 'ch-fries',
-      name: 'French Fries',
-      desc: 'Golden crisp potato batons tossed in sea salt, served with tangy dip.',
-      category: 'chinese',
-      prices: { Half: 29, Full: 50 },
-      veg: true
-    },
-    {
-      id: 'ch-periperi-fries',
-      name: 'Peri-Peri Fries',
-      desc: 'Crispy fries dusted with house special fiery African peri-peri spice mix.',
-      category: 'chinese',
-      prices: { Half: 49, Full: 90 },
-      badge: 'Spicy & Crispy 🌶️',
-      veg: true
-    },
-    {
-      id: 'ch-veg-noodles',
-      name: 'Veg Noodles',
-      desc: 'Wok-tossed noodles with shredded cabbage, carrots, bell peppers, and soy aromatics.',
-      category: 'chinese',
-      prices: { Half: 50, Full: 95 },
-      badge: 'Street Style',
-      veg: true
-    },
-    {
-      id: 'ch-paneer-noodles',
-      name: 'Paneer Noodle',
-      desc: 'Stir-fried long noodles enriched with tender sauteed paneer cubes and garlic chili sauce.',
-      category: 'chinese',
-      prices: { Half: 70, Full: 130 },
-      badge: 'Popular',
-      veg: true
-    },
-    {
-      id: 'ch-hakka-noodles',
-      name: 'Hakka Noodles',
-      desc: 'Authentic Calcutta-style Hakka noodles tossed over raging flame with crunchy scallions.',
-      category: 'chinese',
-      prices: { Half: 69, Full: 129 },
-      badge: 'Bestseller ⭐',
-      veg: true
-    },
-    {
-      id: 'ch-schezwan-noodles',
-      name: 'Schezwan Noodles',
-      desc: 'Fiery red wok noodles infused with Sichuan peppercorns, garlic chili paste, and fresh vegetables.',
-      category: 'chinese',
-      prices: { Half: 70, Full: 130 },
-      badge: 'Hot & Spicy 🔥',
-      veg: true
-    },
-    {
-      id: 'ch-honey-chilli-potato',
-      name: 'Honey Chilli Potato',
-      desc: 'Crispy fried potato fingers glazed in a sticky sweet honey chili sauce with roasted sesame seeds.',
-      category: 'chinese',
-      prices: { Half: 90, Full: 170 },
-      badge: 'Chef Special 🍯',
-      veg: true
-    },
-    {
-      id: 'ch-chilli-potato',
-      name: 'Chilli Potato',
-      desc: 'Tossed potato fingers in spicy Indo-Chinese gravy with crunchy bell peppers and green chilies.',
-      category: 'chinese',
-      prices: { Half: 80, Full: 160 },
-      veg: true
-    },
-    {
-      id: 'ch-hot-chilli-potato',
-      name: 'Hot Chilli Potato',
-      desc: 'Extra spicy fiery potato wedges tossed with crushed red chilies and dark garlic soy sauce.',
-      category: 'chinese',
-      prices: { Half: 90, Full: 180 },
-      badge: 'Extra Fiery 🌶️',
-      veg: true
-    },
-    {
-      id: 'ch-spring-roll',
-      name: 'Spring Roll',
-      desc: 'Golden crispy wrapper stuffed with seasoned vegetables and noodles, served with sweet chili dip.',
-      category: 'chinese',
-      price: 39,
-      badge: 'Crunchy Bite',
-      veg: true
-    }
-  ],
-
-  momos: [
-    {
-      id: 'mo-veg',
-      name: 'Veg Momo',
-      desc: 'Delicately steamed dumplings packed with finely minced spiced garden vegetables.',
-      category: 'momos',
-      prices: { Half: 50, Full: 100 },
-      badge: 'Classic Steamed',
-      veg: true
-    },
-    {
-      id: 'mo-fried',
-      name: 'Fried Momo',
-      desc: 'Crispy deep-fried momos golden on the outside with juicy seasoned filling inside.',
-      category: 'momos',
-      prices: { Half: 60, Full: 110 },
-      badge: 'Crunchy',
-      veg: true
-    },
-    {
-      id: 'mo-paneer',
-      name: 'Paneer Momo',
-      desc: 'Mouthwatering momos stuffed with rich crumbled paneer, spices, and fresh herbs.',
-      category: 'momos',
-      prices: { Half: 70, Full: 130 },
-      badge: 'Paneer Loaded 🧀',
-      veg: true
-    },
-    {
-      id: 'mo-kurkure',
-      name: 'Kurkure Momo',
-      desc: 'The iconic Flex House highlight: super crunchy crumb-coated momos fried to golden perfection with spicy red chutney & creamy mayo.',
-      category: 'momos',
-      prices: { Half: 80, Full: 150 },
-      badge: 'Super Bestseller 👑',
-      veg: true
-    },
-    {
-      id: 'mo-tandoori',
-      name: 'Tandoori Momo',
-      desc: 'Char-grilled tandoori marinated momos infused with smoky coal aroma and chaat masala.',
-      category: 'momos',
-      prices: { Half: 80, Full: 150 },
-      badge: 'Smoky & Spicy 🔥',
-      veg: true
-    }
-  ],
-
-  burgers: [
-    {
-      id: 'bg-veg-aloo',
-      name: 'Veg Aloo Patty Burger',
-      desc: 'Crisp golden potato patty, fresh onion slices, tomato, and creamy sauce in soft toasted sesame bun.',
-      category: 'burgers',
-      price: 49,
-      badge: 'Classic Favorite',
-      veg: true
-    },
-    {
-      id: 'bg-cheese-aloo',
-      name: 'Cheese Aloo Patty Burger',
-      desc: 'Our spiced aloo patty crowned with a thick slice of melting cheddar cheese and house burger sauce.',
-      category: 'burgers',
-      price: 70,
-      badge: 'Cheese Loaded 🧀',
-      veg: true
-    },
-    {
-      id: 'bg-cheese-paneer',
-      name: 'Cheese Paneer Patty Burger',
-      desc: 'Thick succulent crispy paneer slab topped with melting cheese, crisp lettuce, and smoky mayo.',
-      category: 'burgers',
-      price: 70,
-      badge: 'Bestseller ⭐',
-      veg: true
-    },
-    {
-      id: 'bg-burger-pizza',
-      name: 'Burger Pizza',
-      desc: 'The sensational hybrid: toasted burger bun baked with gooey pizza sauce, vegetables, and mozzarella.',
-      category: 'burgers',
-      price: 59,
-      badge: 'Chef Creation 🍕🍔',
-      veg: true
-    }
-  ],
-
-  sandwiches: [
-    {
-      id: 'sw-veg',
-      name: 'Veg Sandwich',
-      desc: 'Fresh bread filled with sliced cucumbers, tomatoes, onions, and zesty mint chutney.',
-      category: 'sandwiches',
-      price: 39,
-      veg: true
-    },
-    {
-      id: 'sw-cheese',
-      name: 'Cheese Sandwich',
-      desc: 'Grilled sandwich overflowing with melted cheddar and mozzarella cheese and herb butter.',
-      category: 'sandwiches',
-      price: 59,
-      badge: 'Gooey Cheese',
-      veg: true
-    },
-    {
-      id: 'sw-cheese-paneer',
-      name: 'Cheese Paneer Sandwich',
-      desc: 'Layered with marinated paneer slices, double cheese, and roasted capsicum in butter-toasted bread.',
-      category: 'sandwiches',
-      price: 69,
-      badge: 'Popular ⭐',
-      veg: true
-    },
-    {
-      id: 'sw-stuff-garlic',
-      name: 'Stuff Garlic Bread',
-      desc: 'Freshly baked baguette brushed with roasted garlic butter and stuffed with corn, jalapenos & cheese.',
-      category: 'sandwiches',
-      price: 70,
-      badge: 'Garlic Aroma 🧄',
-      veg: true
-    },
-    {
-      id: 'sw-cheese-garlic',
-      name: 'Cheese Garlic Bread',
-      desc: 'Crisp artisan bread topped with lashings of garlic herb butter and rich melted cheese.',
-      category: 'sandwiches',
-      price: 70,
-      badge: 'Cheesy',
-      veg: true
-    },
-    {
-      id: 'sw-mexican-wrap',
-      name: 'Mexican Wrap',
-      desc: 'Tortilla wrap rolled with seasoned Mexican beans, corn, onions, spicy salsa, and chipotle mayo.',
-      category: 'sandwiches',
-      price: 79,
-      badge: 'Zesty Mexican 🌯',
-      veg: true
-    },
-    {
-      id: 'sw-paneer-cheese-wrap',
-      name: 'Paneer Cheese Wrap',
-      desc: 'Warm tortilla wrapped around grilled spiced paneer chunks, crisp greens, and creamy cheese sauce.',
-      category: 'sandwiches',
-      price: 79,
-      badge: 'Bestseller Wrap ⭐',
-      veg: true
-    }
-  ],
-
-  maggiePasta: [
-    {
-      id: 'mg-plain',
-      name: 'Plain Maggie',
-      desc: 'Steaming hot classic masala Maggie cooked to nostalgic perfection.',
-      category: 'maggie-pasta',
-      price: 49,
-      badge: 'Nostalgia',
-      veg: true
-    },
-    {
-      id: 'mg-veg',
-      name: 'Veg Maggie',
-      desc: 'Masala Maggie cooked with sautéed green peas, carrots, onions, and fresh coriander.',
-      category: 'maggie-pasta',
-      price: 69,
-      veg: true
-    },
-    {
-      id: 'mg-cheese-paneer',
-      name: 'Cheese Paneer Maggie',
-      desc: 'Indulgent Maggie loaded with soft paneer cubes and molten processed cheese.',
-      category: 'maggie-pasta',
-      price: 80,
-      badge: 'Cheesy Paneer 🧀',
-      veg: true
-    },
-    {
-      id: 'mg-makhani-corn',
-      name: 'Makhani Corn Maggie',
-      desc: 'Creamy buttery makhani gravy infused Maggie with sweet American corn and butter.',
-      category: 'maggie-pasta',
-      price: 80,
-      badge: 'Makhani Twist 🧈',
-      veg: true
-    },
-    {
-      id: 'ps-red-sauce',
-      name: 'Red Sauce Pasta',
-      desc: 'Penne pasta tossed in tangy Italian tomato basil sauce with sauteed garlic and herbs.',
-      category: 'maggie-pasta',
-      price: 90,
-      badge: 'Italian Classic 🍅',
-      veg: true
-    },
-    {
-      id: 'ps-white-sauce',
-      name: 'White Sauce Pasta',
-      desc: 'Velvety smooth Alfredo white sauce penne pasta with garlic butter, sweet corn, and oregano.',
-      category: 'maggie-pasta',
-      price: 90,
-      badge: 'Creamy Alfredo ⭐',
-      veg: true
-    },
-    {
-      id: 'ps-garlic-white',
-      name: 'Garlic White Sauce Pasta',
-      desc: 'Creamy white sauce penne infused with roasted garlic chunks, cracked pepper, and herbs.',
-      category: 'maggie-pasta',
-      price: 90,
-      badge: 'Garlic Special 🧄',
-      veg: true
-    }
-  ],
-
-  drinks: [
-    {
-      id: 'dr-cold-coffee',
-      name: 'Cold Coffee',
-      desc: 'Signature rich blended iced cold coffee with creamy froth and chocolate syrup drizzle.',
-      category: 'drinks',
-      price: 70,
-      badge: 'TFH Signature ☕',
-      veg: true
-    },
-    {
-      id: 'dr-hot-coffee',
-      name: 'Hot Coffee',
-      desc: 'Steaming hot aromatic espresso blended with frothy milk and cocoa dust.',
-      category: 'drinks',
-      price: 40,
-      veg: true
-    },
-    {
-      id: 'dr-masala-chai',
-      name: 'Masala Chai',
-      desc: 'Freshly brewed kadak Indian tea infused with cardamom, ginger, cloves, and milk.',
-      category: 'drinks',
-      price: 25,
-      badge: 'Desi Kadak ☕',
-      veg: true
-    },
-    {
-      id: 'dr-cold-drink',
-      name: 'Cold Drink',
-      desc: 'Chilled carbonated soft drinks to pair perfectly with your hot pizzas & burgers.',
-      category: 'drinks',
-      price: 25,
-      badge: 'Chilled 🥤',
-      veg: true
-    }
-  ]
-};
-
-// Flattened helper list for search and lookup
-const ALL_MENU_ITEMS = [
-  ...MENU_DATA.combos,
-  ...MENU_DATA.pizzas,
-  ...MENU_DATA.chinese,
-  ...MENU_DATA.momos,
-  ...MENU_DATA.burgers,
-  ...MENU_DATA.sandwiches,
-  ...MENU_DATA.maggiePasta,
-  ...MENU_DATA.drinks
+const MENU_CATEGORIES = [
+  { id: 'all', name: '🔥 All Items', icon: 'fa-fire' },
+  { id: 'pizza', name: '🍕 Artisan Pizzas', icon: 'fa-pizza-slice' },
+  { id: 'burger', name: '🍔 Burgers & Fries', icon: 'fa-burger' },
+  { id: 'starter', name: '🥟 Starters & Momos', icon: 'fa-bowl-food' },
+  { id: 'sandwich', name: '🥪 Sandwiches', icon: 'fa-bread-slice' },
+  { id: 'maggi', name: '🍜 Maggi Bowls', icon: 'fa-fire-burner' },
+  { id: 'mocktails', name: '🍹 Mocktails & Shakes', icon: 'fa-martini-glass-citrus' },
+  { id: 'beverages', name: '☕ Beverages', icon: 'fa-mug-hot' }
 ];
+
+const MENU_ITEMS = [
+  // --- PIZZAS ---
+  {
+    id: 'pizza-1',
+    name: 'Hell House Special Pizza',
+    category: 'pizza',
+    description: 'The ultimate signature pizza loaded with premium mozzarella, spiced paneer, crisp veggies & secret hellfire spice blend.',
+    prices: { small: 170, medium: 300 },
+    defaultSize: 'small',
+    badge: "Chef's Signature 🔥",
+    isVeg: true,
+    isSpicy: true,
+    rating: 5.0,
+    tags: ['bestseller', 'special']
+  },
+  {
+    id: 'pizza-2',
+    name: 'Fully Loaded Pizza',
+    category: 'pizza',
+    description: 'Over-the-top loaded pizza packed with mozzarella, sweet corn, black olives, onions, capsicum & herbs.',
+    prices: { small: 160, medium: 200 },
+    defaultSize: 'small',
+    badge: 'Heavy Cheese 🧀',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.9,
+    tags: ['bestseller']
+  },
+  {
+    id: 'pizza-3',
+    name: 'Peppy Paneer Pizza',
+    category: 'pizza',
+    description: 'Juicy spiced paneer cubes, crisp capsicum, spicy red paprika & melted cheese drizzle.',
+    prices: { small: 120, medium: 180 },
+    defaultSize: 'small',
+    badge: 'Popular Vibe',
+    isVeg: true,
+    isSpicy: true,
+    rating: 4.8,
+    tags: ['popular']
+  },
+  {
+    id: 'pizza-4',
+    name: 'Tandoori Veggie Pizza',
+    category: 'pizza',
+    description: 'Smoky tandoori sauce combined with crunchy onion, capsicum and golden baked crust.',
+    prices: { small: 120, medium: 180 },
+    defaultSize: 'small',
+    badge: 'Tandoori Twist',
+    isVeg: true,
+    isSpicy: true,
+    rating: 4.7,
+    tags: []
+  },
+  {
+    id: 'pizza-5',
+    name: 'Moroccan Spicy Pizza',
+    category: 'pizza',
+    description: 'Exotic spicy combination crafted for adventurous tastebuds who crave an authentic fiery kick.',
+    prices: { small: 90, medium: 160 },
+    defaultSize: 'small',
+    badge: 'Fiery Kick 🌶️',
+    isVeg: true,
+    isSpicy: true,
+    rating: 4.7,
+    tags: ['spicy']
+  },
+  {
+    id: 'pizza-6',
+    name: 'Morican Pizza',
+    category: 'pizza',
+    description: 'Cheesy classic foundation baked with fresh sun-ripened tomatoes, sweet capsicum & herbs.',
+    prices: { small: 130, medium: 180 },
+    defaultSize: 'small',
+    badge: 'Classic Craft',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.6,
+    tags: []
+  },
+  {
+    id: 'pizza-7',
+    name: 'Cheese Corn Pizza',
+    category: 'pizza',
+    description: 'Golden sweet corn kernels swimming in gooey molten cheese on a crispy hand-stretched crust.',
+    prices: { small: 80, medium: 150 },
+    defaultSize: 'small',
+    badge: 'Kids & Gangs Fav',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.8,
+    tags: ['popular']
+  },
+  {
+    id: 'pizza-8',
+    name: 'Margherita Pizza',
+    category: 'pizza',
+    description: 'The timeless cheesy classic with rich tomato sauce and extra bubbling mozzarella cheese.',
+    prices: { small: 70, medium: 130 },
+    defaultSize: 'small',
+    badge: 'True Classic',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.6,
+    tags: []
+  },
+
+  // --- BURGERS & FRIES ---
+  {
+    id: 'burger-1',
+    name: 'Cheese Loaded Burger',
+    category: 'burger',
+    description: 'Double cheese drip, crispy patty, fresh crisp lettuce, juicy tomato and signature house relish.',
+    price: 90,
+    badge: 'Cheese Explosion 🧀',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.9,
+    tags: ['bestseller']
+  },
+  {
+    id: 'burger-2',
+    name: 'Paneer Burger',
+    category: 'burger',
+    description: 'Golden crumb-fried spiced paneer steak topped with crunchy onion rings and smoky burger mayo.',
+    price: 80,
+    badge: 'Paneer King',
+    isVeg: true,
+    isSpicy: true,
+    rating: 4.8,
+    tags: ['popular']
+  },
+  {
+    id: 'burger-3',
+    name: 'Cheesy Burger',
+    category: 'burger',
+    description: 'Crisp vegetable patty enveloped in molten processed cheese and creamy mayo sauce.',
+    price: 60,
+    badge: 'Cafe Standard',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.7,
+    tags: []
+  },
+  {
+    id: 'burger-4',
+    name: 'Veg Burger',
+    category: 'burger',
+    description: 'Classic spiced potato-herb patty inside toasted sesame bun with crisp veggies.',
+    price: 50,
+    badge: 'Pocket Friendly',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.5,
+    tags: []
+  },
+  {
+    id: 'fries-1',
+    name: 'Tandoori Fries',
+    category: 'burger',
+    description: 'Crisp salted fries drenched in rich smoky tandoori sauce and spiced seasoning.',
+    price: 120,
+    badge: 'Chef Pick 🔥',
+    isVeg: true,
+    isSpicy: true,
+    rating: 4.9,
+    tags: ['bestseller']
+  },
+  {
+    id: 'fries-2',
+    name: 'Cheesy Fries',
+    category: 'burger',
+    description: 'Golden french fries smothered with warm liquid cheese and herb seasoning.',
+    price: 90,
+    badge: 'Cheese Lover',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.8,
+    tags: ['popular']
+  },
+  {
+    id: 'fries-3',
+    name: 'Indian Spicy Masala Fries',
+    category: 'burger',
+    description: 'Tossed in a mouthwatering blend of chaat masala, peri-peri and desi spices.',
+    price: 70,
+    badge: 'Desi Crunch 🌶️',
+    isVeg: true,
+    isSpicy: true,
+    rating: 4.7,
+    tags: []
+  },
+  {
+    id: 'fries-4',
+    name: 'Classic Fries',
+    category: 'burger',
+    description: 'Skinny-cut golden fries, fried to crisp perfection, dusted with sea salt.',
+    price: 60,
+    badge: 'Always Fresh',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.6,
+    tags: []
+  },
+
+  // --- STARTERS & MOMOS ---
+  {
+    id: 'starter-1',
+    name: 'White Sauce Pasta',
+    category: 'starter',
+    description: 'Penne pasta tossed in rich, velvety garlic bechamel sauce with tender sweet corn and capsicum.',
+    price: 150,
+    badge: 'Crowd Favorite ✨',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.9,
+    tags: ['bestseller']
+  },
+  {
+    id: 'starter-2',
+    name: 'Red Sauce Pasta',
+    category: 'starter',
+    description: 'Penne simmered in robust Italian arrabbiata tomato sauce infused with basil and chilli flakes.',
+    price: 130,
+    badge: 'Fiery Italian',
+    isVeg: true,
+    isSpicy: true,
+    rating: 4.8,
+    tags: []
+  },
+  {
+    id: 'starter-3',
+    name: 'Chilli Potato',
+    category: 'starter',
+    description: 'Crispy finger potatoes wok-tossed with chopped garlic, green chillies, spring onions and schezwan glaze.',
+    price: 120,
+    badge: 'Street Style Flex',
+    isVeg: true,
+    isSpicy: true,
+    rating: 4.8,
+    tags: ['popular']
+  },
+  {
+    id: 'starter-4',
+    name: 'Gravy Momos',
+    category: 'starter',
+    description: 'Steamed dumplings coated in rich spicy tandoori schezwan gravy, garnished with coriander.',
+    price: 100,
+    badge: 'Must Try 🔥',
+    isVeg: true,
+    isSpicy: true,
+    rating: 4.9,
+    tags: ['bestseller']
+  },
+  {
+    id: 'starter-5',
+    name: 'Steam Momos',
+    category: 'starter',
+    description: 'Thin-skinned dumplings packed with spiced cabbage, carrot, paneer filling with fiery red chutney.',
+    price: 60,
+    badge: 'Hot & Steamy',
+    isVeg: true,
+    isSpicy: true,
+    rating: 4.7,
+    tags: []
+  },
+
+  // --- SANDWICHES ---
+  {
+    id: 'sandwich-1',
+    name: 'Cheese Sandwich',
+    category: 'sandwich',
+    description: 'Triple-decker bread stuffed with melted mozzarella, cheddar shreds, butter and herbs.',
+    price: 70,
+    badge: 'Cheesy Melt',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.8,
+    tags: ['popular']
+  },
+  {
+    id: 'sandwich-2',
+    name: 'Makhni Sandwich',
+    category: 'sandwich',
+    description: 'Toasted bread loaded with luscious butter makhni gravy, vegetables and paneer chunks.',
+    price: 65,
+    badge: 'Royal Flavor',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.8,
+    tags: ['bestseller']
+  },
+  {
+    id: 'sandwich-3',
+    name: 'Grill Sandwich',
+    category: 'sandwich',
+    description: 'Char-grilled buttery toast packed with spiced capsicum, cucumber, tomato & mint chutney.',
+    price: 60,
+    badge: 'Char Grilled',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.7,
+    tags: []
+  },
+  {
+    id: 'sandwich-4',
+    name: 'Veggie Sandwich',
+    category: 'sandwich',
+    description: 'Fresh farm veggies paired with creamy dressing between slices of toasted artisan bread.',
+    price: 60,
+    badge: 'Fresh & Light',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.6,
+    tags: []
+  },
+  {
+    id: 'sandwich-5',
+    name: 'Masala Sandwich',
+    category: 'sandwich',
+    description: 'Desi style spiced potato filling layered with green chutney and toasted till crisp.',
+    price: 50,
+    badge: 'Desi Masala',
+    isVeg: true,
+    isSpicy: true,
+    rating: 4.7,
+    tags: []
+  },
+
+  // --- MAGGI BOWLS ---
+  {
+    id: 'maggi-1',
+    name: 'Paneer Maggi',
+    category: 'maggi',
+    description: 'Rich bowl of noodles simmered in aromatic spices with fresh sautéed paneer cubes.',
+    price: 120,
+    badge: 'High Protein Flex',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.9,
+    tags: ['bestseller']
+  },
+  {
+    id: 'maggi-2',
+    name: 'Cheesy Maggi',
+    category: 'maggi',
+    description: 'Noodles cooked with bubbling melted cheese pull and secret magic seasoning.',
+    price: 90,
+    badge: 'Cheese Pull 🧀',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.9,
+    tags: ['bestseller']
+  },
+  {
+    id: 'maggi-3',
+    name: 'Red Chatkara Maggi',
+    category: 'maggi',
+    description: 'Extra tangy and spicy red chilli chatkara sauce tossed noodles for late-night cravings.',
+    price: 70,
+    badge: 'Spicy Kick 🌶️',
+    isVeg: true,
+    isSpicy: true,
+    rating: 4.8,
+    tags: ['popular']
+  },
+  {
+    id: 'maggi-4',
+    name: 'Veggie Maggi',
+    category: 'maggi',
+    description: 'Loaded with finely chopped peas, carrots, onions, tomatoes and classic tastemaker.',
+    price: 60,
+    badge: 'Loaded Veggies',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.6,
+    tags: []
+  },
+  {
+    id: 'maggi-5',
+    name: 'Classic Maggi',
+    category: 'maggi',
+    description: 'Pure 2-minute nostalgia cooked to perfection with original Maggi seasoning.',
+    price: 50,
+    badge: 'Original Vibe',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.7,
+    tags: []
+  },
+
+  // --- MOCKTAILS & SHAKES ---
+  {
+    id: 'mocktail-1',
+    name: 'Blue Sky Mocktail',
+    category: 'mocktails',
+    description: 'Electric blue curacao combined with sparkling fizz, lemon juice and mint leaves over crushed ice.',
+    price: 70,
+    badge: 'Neon Aesthetic 🌌',
+    isVeg: true,
+    isSpicy: false,
+    rating: 5.0,
+    tags: ['bestseller', 'special']
+  },
+  {
+    id: 'mocktail-2',
+    name: 'Kiwi Mocktail',
+    category: 'mocktails',
+    description: 'Exotic crushed kiwi puree with tangy lime soda and refreshing herbal notes.',
+    price: 90,
+    badge: 'Zesty Punch',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.8,
+    tags: []
+  },
+  {
+    id: 'mocktail-3',
+    name: 'Black Currant Mocktail',
+    category: 'mocktails',
+    description: 'Deep berry richness blended with chilled sparkle and citrus accents.',
+    price: 80,
+    badge: 'Berry Bliss',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.8,
+    tags: ['popular']
+  },
+  {
+    id: 'mocktail-4',
+    name: 'Green Apple Mocktail',
+    category: 'mocktails',
+    description: 'Crisp green apple twist mixed with ice-cold tonic and crushed mint leaves.',
+    price: 75,
+    badge: 'Crisp & Cool',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.7,
+    tags: []
+  },
+  {
+    id: 'mocktail-5',
+    name: 'Classic Mocktail',
+    category: 'mocktails',
+    description: 'House special blend of citrus notes, grenadine splash and sparkling fizz.',
+    price: 65,
+    badge: 'Refreshing',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.7,
+    tags: []
+  },
+  {
+    id: 'shake-1',
+    name: 'Butterscotch Shake',
+    category: 'mocktails',
+    description: 'Creamy thick shake with real butterscotch crunch praline and vanilla bean cream.',
+    price: 120,
+    badge: 'Crunch Delight',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.9,
+    tags: ['bestseller']
+  },
+  {
+    id: 'shake-2',
+    name: 'Vanilla Shake',
+    category: 'mocktails',
+    description: 'Silky smooth Madagascar vanilla blended with chilled whole milk and whip.',
+    price: 110,
+    badge: 'Smooth Classic',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.7,
+    tags: []
+  },
+  {
+    id: 'shake-3',
+    name: 'Dark Chocolate Shake',
+    category: 'mocktails',
+    description: 'Intense 70% dark cocoa indulgence with chocolate drizzle and fudge shavings.',
+    price: 100,
+    badge: 'Pure Chocoholic 🍫',
+    isVeg: true,
+    isSpicy: false,
+    rating: 5.0,
+    tags: ['bestseller']
+  },
+  {
+    id: 'shake-4',
+    name: 'Kitkat Shake',
+    category: 'mocktails',
+    description: 'Crispy wafer KitKat bars crushed and blended into ultra-thick chocolate cream.',
+    price: 100,
+    badge: 'Break Time Treat',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.9,
+    tags: ['popular']
+  },
+  {
+    id: 'shake-5',
+    name: 'Oreo Shake',
+    category: 'mocktails',
+    description: 'Crushed Oreo cookies blended with creamy ice cream, crowned with cookie crumble.',
+    price: 90,
+    badge: 'All-Time Favorite',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.9,
+    tags: ['bestseller']
+  },
+  {
+    id: 'shake-6',
+    name: 'Cold Coffee',
+    category: 'mocktails',
+    description: 'Rich frothy espresso brewed cold and blended with sweetened milk and chocolate syrup swirl.',
+    price: 70,
+    badge: 'Cafe Essential ☕',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.9,
+    tags: ['bestseller']
+  },
+
+  // --- BEVERAGES ---
+  {
+    id: 'bev-1',
+    name: 'Hot Coffee',
+    category: 'beverages',
+    description: 'Freshly frothed aromatic dark roast coffee prepared hot with creamy steamed milk.',
+    price: 35,
+    badge: 'Warm Hug',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.8,
+    tags: ['popular']
+  },
+  {
+    id: 'bev-2',
+    name: 'Coke (Chilled)',
+    category: 'beverages',
+    description: 'Ice-cold carbonated beverage served chilled in glass with lemon slice.',
+    price: 30,
+    badge: 'Chilled Can',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.7,
+    tags: []
+  },
+  {
+    id: 'bev-3',
+    name: 'Packaged Drinking Water',
+    category: 'beverages',
+    description: 'Sealed mineral water bottle for pure hydration.',
+    price: 30,
+    badge: 'Pure & Cold',
+    isVeg: true,
+    isSpicy: false,
+    rating: 4.8,
+    tags: []
+  }
+];
+
+// Cafe Business Details
+const CAFE_DETAILS = {
+  name: "Hell House Cafe",
+  subtitle: "Hellfire Hidden House • Restaurant & Cafe",
+  tagline: "Good Food • Good Mood • Great Vibes",
+  phone: "+91 8874056350",
+  phoneRaw: "918874056350",
+  address: "Hiran Nagar (Opposite Bank of Baroda), Unnao, Uttar Pradesh",
+  hours: "11:00 AM – 11:00 PM (Monday – Sunday)",
+  mapsUrl: "https://maps.google.com/?q=Hiran+Nagar+Opposite+Bank+of+Baroda+Unnao+Uttar+Pradesh",
+  instagram: "https://instagram.com",
+  whatsappUrl: "https://wa.me/918874056350"
+};

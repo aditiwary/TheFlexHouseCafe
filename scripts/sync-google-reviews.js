@@ -104,8 +104,7 @@ async function sync() {
       place_address: placeData.formatted_address || 'Near Galaxy Hospital, PD Nagar, Nirala Nagar, Unnao, UP 209801',
       rating: placeData.rating || 5.0,
       user_ratings_total: placeData.user_ratings_total || 100,
-      google_maps_url: placeData.url || 'https://maps.app.goo.gl/kS8d6xCMx64cDsP26',
-      review_url: 'https://maps.app.goo.gl/kS8d6xCMx64cDsP26',
+      google_maps_url: placeData.url || 'https://maps.google.com/?q=GFGJ%2B99+Unnao,+Uttar+Pradesh',
       last_synced: new Date().toISOString(),
       reviews: filteredReviews
     };
