@@ -1008,6 +1008,12 @@ document.addEventListener('DOMContentLoaded', () => {
         reviewsSyncPill.innerHTML = `<span class="status-dot"></span> Synced with Google Maps (${Number(data.rating).toFixed(1)} ★ • ${data.user_ratings_total || 100}+ reviews)`;
       }
 
+      // Update Google Review action button URL if provided
+      const reviewGoogleBtn = document.querySelector('.review-google-btn');
+      if (reviewGoogleBtn && (data.review_url || data.google_maps_url)) {
+        reviewGoogleBtn.href = data.review_url || data.google_maps_url;
+      }
+
       reviewsGrid.innerHTML = data.reviews.map(review => {
         const stars = '★'.repeat(Math.min(5, Math.max(1, Math.round(review.rating || 5))));
         const avatarStyle = review.avatar_gradient ? `style="background: ${review.avatar_gradient};"` : '';
