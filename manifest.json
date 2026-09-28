@@ -1,0 +1,38 @@
+{
+  "name": "Hell House Cafe",
+  "short_name": "Hell House",
+  "description": "Unnao's trendiest neon cafe & lounge. Artisan pizzas, cheesy burgers, mocktails & table reservation.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#060406",
+  "theme_color": "#ff1e42",
+  "orientation": "any",
+  "categories": ["food", "lifestyle"],
+  "icons": [
+    {
+      "src": "assets/images/logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Fiery Menu",
+      "url": "/#menu",
+      "description": "Explore artisan pizzas, burgers, shakes and snacks"
+    },
+    {
+      "name": "Book Table",
+      "url": "/#reservation",
+      "description": "Reserve VIP lounge table online"
+    }
+  ]
+}
