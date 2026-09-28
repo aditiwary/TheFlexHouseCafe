@@ -41,8 +41,26 @@
   <link rel="dns-prefetch" href="https://www.google.com">
   <link rel="dns-prefetch" href="https://maps.google.com">
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Instant Legacy Cache Invalidation Script -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        for (var r of regs) r.update();
+      });
+    }
+    if ('caches' in window) {
+      caches.keys().then(function(names) {
+        for (var name of names) {
+          if (!name.startsWith('flexhouse-v5')) {
+            caches.delete(name);
+          }
+        }
+      });
+    }
+  </script>
+
+  <!-- Stylesheet (Cache-Busted) -->
+  <link rel="stylesheet" href="assets/css/style.css?v=flexhouse-5.0">
 
   <!-- Structured Data / JSON-LD -->
   <script type="application/ld+json">
@@ -1155,8 +1173,8 @@
     <span>Cafe Tour</span>
   </button>
 
-  <!-- Scripts -->
-  <script src="assets/js/menu-data.js"></script>
-  <script src="assets/js/app.js"></script>
+  <!-- Scripts (Cache-Busted) -->
+  <script src="assets/js/menu-data.js?v=flexhouse-5.0"></script>
+  <script src="assets/js/app.js?v=flexhouse-5.0"></script>
 </body>
 </html>

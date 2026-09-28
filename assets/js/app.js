@@ -940,7 +940,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js').catch(err => {
+      navigator.serviceWorker.register('./sw.js?v=flexhouse-5.0').then(reg => {
+        reg.update();
+      }).catch(err => {
         console.log('ServiceWorker registration skipped:', err);
       });
     });

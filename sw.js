@@ -1,12 +1,12 @@
-const CACHE_NAME = 'flex-house-cafe-v2.2';
+const CACHE_NAME = 'flexhouse-v5.0';
 const STATIC_ASSETS = [
   '/',
-  '/index.html',
-  '/manifest.json',
-  '/assets/css/style.css',
-  '/assets/data/reviews.json',
-  '/assets/js/menu-data.js',
-  '/assets/js/app.js',
+  '/index.html?v=flexhouse-5.0',
+  '/manifest.json?v=flexhouse-5.0',
+  '/assets/css/style.css?v=flexhouse-5.0',
+  '/assets/data/reviews.json?v=flexhouse-5.0',
+  '/assets/js/menu-data.js?v=flexhouse-5.0',
+  '/assets/js/app.js?v=flexhouse-5.0',
   '/assets/images/flex-logo.png',
   '/assets/images/flex-logo.svg',
   '/assets/images/favicon.png',
@@ -19,16 +19,17 @@ const STATIC_ASSETS = [
   '/assets/images/main-menu.jpg'
 ];
 
-// Install: Cache core application shell
+// Install: Cache core application shell & skip waiting immediately
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(STATIC_ASSETS);
-    }).then(() => self.skipWaiting())
+    })
   );
 });
 
-// Activate: Clean up old caches
+// Activate: Clean up ALL legacy caches instantly
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -43,31 +44,28 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: Stale-While-Revalidate strategy for lightning-fast loads
+// Fetch: Strict Network-First Strategy ensuring freshest assets
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
 
-  // For same-origin requests
   if (url.origin === self.location.origin) {
     event.respondWith(
-      caches.open(CACHE_NAME).then((cache) => {
-        return cache.match(event.request).then((cachedResponse) => {
-          const fetchPromise = fetch(event.request).then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              cache.put(event.request, networkResponse.clone());
-            }
-            return networkResponse;
-          }).catch(() => {
-            // Offline fallback
-            return cachedResponse;
-          });
-
-          return cachedResponse || fetchPromise;
-        });
-      })
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseClone);
+            });
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          // Offline fallback only when network fails
+          return caches.match(event.request);
+        })
     );
   }
 });
