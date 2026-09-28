@@ -138,16 +138,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Mobile Navigation Toggle
+  const mobileDrawerTourBtn = document.getElementById('mobileDrawerTourBtn');
+
+  function closeMobileNav() {
+    if (navLinksContainer) navLinksContainer.classList.remove('mobile-open');
+    if (mobileNavToggle) {
+      mobileNavToggle.classList.remove('active');
+      mobileNavToggle.setAttribute('aria-expanded', 'false');
+    }
+  }
+
   if (mobileNavToggle && navLinksContainer) {
     mobileNavToggle.addEventListener('click', () => {
-      navLinksContainer.classList.toggle('mobile-open');
+      const isOpen = navLinksContainer.classList.toggle('mobile-open');
+      mobileNavToggle.classList.toggle('active', isOpen);
+      mobileNavToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       soundEngine.click();
     });
 
     document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinksContainer.classList.remove('mobile-open');
-      });
+      link.addEventListener('click', closeMobileNav);
+    });
+
+    document.querySelectorAll('.mobile-drawer-btn').forEach(btn => {
+      btn.addEventListener('click', closeMobileNav);
     });
   }
 
@@ -676,7 +690,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Confetti Animation for Celebrations & Flex Mode
   function triggerConfetti() {
-    const colors = ['#FFB703', '#FB8500', '#00F0FF', '#FF007F', '#00FFA3', '#FFFFFF'];
+    const colors = ['#FFB703', '#FB8500', '#00F0FF', '#00E5FF', '#FFD166', '#00FFA3', '#FFFFFF'];
     const count = 50;
 
     for (let i = 0; i < count; i++) {
@@ -744,6 +758,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const fcFullscreenChip = document.getElementById('fcFullscreenChip');
   const navOpenTourBtn = document.getElementById('navOpenTourBtn');
   const headerTourToggleBtn = document.getElementById('headerTourToggleBtn');
+
+  // Configure background video properties for seamless mobile Safari / Chrome autoplay
+  if (bgSpaceVideo) {
+    bgSpaceVideo.muted = true;
+    bgSpaceVideo.defaultMuted = true;
+    bgSpaceVideo.playsInline = true;
+  }
+  if (fcEntranceVideo) {
+    fcEntranceVideo.muted = true;
+    fcEntranceVideo.defaultMuted = true;
+    fcEntranceVideo.playsInline = true;
+  }
+
+  // Mobile initial state: minimize floating tour so it never obstructs the mobile viewport
+  if (window.innerWidth <= 768 && floatingCafeWindow && floatingTourPill) {
+    floatingCafeWindow.style.display = 'none';
+    floatingTourPill.style.display = 'inline-flex';
+  }
 
   // 1. Battery & Tab Lifecycle optimization for videos
   document.addEventListener('visibilitychange', () => {
@@ -842,6 +874,16 @@ document.addEventListener('DOMContentLoaded', () => {
       minimizeFloatingTour();
     }
   });
+
+  if (mobileDrawerTourBtn) {
+    mobileDrawerTourBtn.addEventListener('click', () => {
+      closeMobileNav();
+      openFloatingTour();
+      if (window.innerWidth <= 768) {
+        setFloatingTourMaximized(true);
+      }
+    });
+  }
 
   if (fcWindowBackdrop) {
     fcWindowBackdrop.addEventListener('click', () => {

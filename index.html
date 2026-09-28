@@ -97,6 +97,8 @@
       loop 
       playsinline 
       webkit-playsinline
+      disableremoteplayback
+      disablepictureinpicture
       preload="auto"
       poster="assets/images/preview-reel-1.png">
       <source src="assets/videos/cafe-reel-1.mp4" type="video/mp4">
@@ -115,17 +117,19 @@
 
   <!-- Announcement & Quick Contact Top Bar -->
   <div class="top-announcement-bar">
-    <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 0.5rem;">
+    <div class="container announcement-container">
       <div class="announcement-item" id="storeStatusContainer">
         <span class="status-dot" id="storeLiveDot"></span>
         <span id="storeLiveText"><strong>OPEN NOW</strong> · Closes 11:30 PM</span>
       </div>
-      <div class="announcement-item" style="color: var(--neon-gold-bright);">
+      <div class="announcement-item announcement-address" style="color: var(--neon-gold-bright);">
         <span>📍 Near Galaxy Hospital, PD Nagar, Nirala Nagar, Unnao</span>
       </div>
-      <div class="announcement-item">
+      <div class="announcement-item announcement-contact">
         <a href="tel:08400580216" style="color: #FFFFFF; text-decoration: none; font-weight: 700;">
-          📞 Call / WhatsApp: <span style="color: var(--neon-cyan);">084005 80216</span>
+          <span class="desktop-contact-label">📞 Call / WhatsApp: </span>
+          <span class="mobile-contact-label">📞 </span>
+          <span style="color: var(--neon-cyan);">084005 80216</span>
         </a>
       </div>
     </div>
@@ -151,15 +155,31 @@
           </div>
         </a>
 
-        <!-- Desktop Navigation Links -->
+        <!-- Desktop Navigation Links & Mobile Drawer -->
         <ul class="nav-links" id="navLinks">
           <li><a href="#home" class="nav-link active">Home</a></li>
-          <li><a href="javascript:void(0)" class="nav-link" id="navOpenTourBtn">🎬 Live Tour</a></li>
           <li><a href="#flex-showcase" class="nav-link">Showpiece</a></li>
-          <li><a href="#menu" class="nav-link">Full Menu</a></li>
-          <li><a href="#reservation" class="nav-link">Book a Table</a></li>
-          <li><a href="#gallery" class="nav-link">Vibe Gallery</a></li>
-          <li><a href="#location" class="nav-link">Contact & Maps</a></li>
+          <li><a href="#menu" class="nav-link">Menu</a></li>
+          <li><a href="#reservation" class="nav-link">Book Table</a></li>
+          <li><a href="#gallery" class="nav-link">Gallery</a></li>
+          <li><a href="#location" class="nav-link">Location</a></li>
+
+          <!-- Mobile Drawer Action Buttons (Visible only inside mobile drawer) -->
+          <li class="mobile-drawer-cta">
+            <a href="#reservation" class="btn btn-primary mobile-drawer-btn" style="width: 100%; justify-content: center;">
+              <span>⚡ Book a Table</span>
+            </a>
+          </li>
+          <li class="mobile-drawer-cta">
+            <a href="tel:08400580216" class="btn btn-secondary mobile-drawer-btn" style="width: 100%; justify-content: center;">
+              <span>📞 Call Cafe: 084005 80216</span>
+            </a>
+          </li>
+          <li class="mobile-drawer-cta">
+            <button type="button" class="btn btn-secondary mobile-drawer-btn" id="mobileDrawerTourBtn" style="width: 100%; justify-content: center;">
+              <span>🎬 Watch Cafe Entrance Tour</span>
+            </button>
+          </li>
         </ul>
 
         <!-- Action Buttons -->
@@ -169,8 +189,8 @@
             📲
           </button>
 
-          <!-- Live Tour Toggle Button -->
-          <button type="button" class="icon-btn" id="headerTourToggleBtn" title="Toggle Live Cafe Tour" aria-label="Live Cafe Tour">
+          <!-- Live Tour Toggle Button (Desktop Only) -->
+          <button type="button" class="icon-btn desktop-only-btn" id="headerTourToggleBtn" title="Toggle Live Cafe Tour" aria-label="Live Cafe Tour">
             🎬
           </button>
 
@@ -179,8 +199,8 @@
             🔊
           </button>
 
-          <!-- Flex Celebration Mode Button -->
-          <button type="button" class="icon-btn" id="flexCelebrationBtn" title="Activate Flex Celebration" aria-label="Activate Flex Mode">
+          <!-- Flex Celebration Mode Button (Desktop Only) -->
+          <button type="button" class="icon-btn desktop-only-btn" id="flexCelebrationBtn" title="Activate Flex Celebration" aria-label="Activate Flex Mode">
             🔥
           </button>
 
@@ -190,14 +210,16 @@
             <span class="cart-count-badge" id="cartCountBadge" style="display: none;">0</span>
           </button>
 
-          <!-- Quick Reserve CTA -->
-          <a href="#reservation" class="btn btn-primary btn-jump" style="padding: 0.55rem 1.25rem; font-size: 0.88rem;">
+          <!-- Quick Reserve CTA (Desktop Only) -->
+          <a href="#reservation" class="btn btn-primary btn-jump desktop-only-btn" style="padding: 0.55rem 1.25rem; font-size: 0.88rem;">
             <span>⚡ Book Table</span>
           </a>
 
-          <!-- Mobile Nav Toggle -->
-          <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu">
-            ☰
+          <!-- Mobile Nav Toggle Hamburger -->
+          <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
           </button>
         </div>
       </nav>
@@ -211,7 +233,7 @@
       <div class="marquee-item">🍕 AUTHENTIC HANDCRAFTED PIZZAS <span class="marquee-dot">◆</span></div>
       <div class="marquee-item"><span class="highlight-cyan">🥟 SIGNATURE CRISPY KURKURE MOMOS</span> <span class="marquee-dot">◆</span></div>
       <div class="marquee-item">🥢 FLAME-WOK INDO-CHINESE & HAKKA NOODLES <span class="marquee-dot">◆</span></div>
-      <div class="marquee-item"><span class="highlight-magenta">⚡ 12+ SUPER COMBOS STARTING @ ₹130</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-gold">⚡ 12+ SUPER COMBOS STARTING @ ₹130</span> <span class="marquee-dot">◆</span></div>
       <div class="marquee-item">☕ THICK BLENDED COLD COFFEE <span class="marquee-dot">◆</span></div>
       <div class="marquee-item"><span class="highlight-gold">⭐ 5.0 STAR RATED ON GOOGLE</span> <span class="marquee-dot">◆</span></div>
       <div class="marquee-item">📍 NEAR GALAXY HOSPITAL, PD NAGAR, UNNAO <span class="marquee-dot">◆</span></div>
@@ -220,7 +242,7 @@
       <div class="marquee-item">🍕 AUTHENTIC HANDCRAFTED PIZZAS <span class="marquee-dot">◆</span></div>
       <div class="marquee-item"><span class="highlight-cyan">🥟 SIGNATURE CRISPY KURKURE MOMOS</span> <span class="marquee-dot">◆</span></div>
       <div class="marquee-item">🥢 FLAME-WOK INDO-CHINESE & HAKKA NOODLES <span class="marquee-dot">◆</span></div>
-      <div class="marquee-item"><span class="highlight-magenta">⚡ 12+ SUPER COMBOS STARTING @ ₹130</span> <span class="marquee-dot">◆</span></div>
+      <div class="marquee-item"><span class="highlight-gold">⚡ 12+ SUPER COMBOS STARTING @ ₹130</span> <span class="marquee-dot">◆</span></div>
       <div class="marquee-item">☕ THICK BLENDED COLD COFFEE <span class="marquee-dot">◆</span></div>
       <div class="marquee-item"><span class="highlight-gold">⭐ 5.0 STAR RATED ON GOOGLE</span> <span class="marquee-dot">◆</span></div>
       <div class="marquee-item">📍 NEAR GALAXY HOSPITAL, PD NAGAR, UNNAO <span class="marquee-dot">◆</span></div>
