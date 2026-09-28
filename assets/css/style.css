@@ -1349,6 +1349,200 @@ button {
   transform: scale(0.96);
 }
 
+/* Order Quantity Stepper with Plus & Minus Buttons */
+.order-stepper-control {
+  display: flex;
+  align-items: center;
+}
+
+.item-qty-stepper {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(12, 7, 12, 0.95);
+  border: 1.5px solid var(--neon-red);
+  border-radius: 50px;
+  padding: 3px 5px;
+  box-shadow: 0 0 16px var(--neon-red-glow);
+  gap: 5px;
+  animation: devilJumpBounce 0.35s var(--spring-bounce);
+}
+
+.btn-stepper-minus,
+.btn-stepper-plus {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 30, 66, 0.2);
+  border: 1px solid var(--border-glow);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  transition: all 0.2s var(--spring-bounce);
+  cursor: pointer;
+}
+
+.btn-stepper-minus:hover,
+.btn-stepper-plus:hover:not(.disabled) {
+  background: var(--neon-red);
+  box-shadow: 0 0 12px var(--neon-red);
+  transform: scale(1.15);
+}
+
+.btn-stepper-minus:active,
+.btn-stepper-plus:active:not(.disabled) {
+  transform: scale(0.9);
+}
+
+.btn-stepper-plus.disabled,
+.btn-qty.plus.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none !important;
+}
+
+.stepper-val {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--neon-gold);
+  min-width: 24px;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(255, 214, 10, 0.6);
+  user-select: none;
+}
+
+/* Toast Notification for Limit Reached */
+.toast-container {
+  position: fixed;
+  top: 92px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: center;
+  pointer-events: none;
+  width: 92%;
+  max-width: 480px;
+}
+
+.toast-message {
+  pointer-events: auto;
+  background: rgba(20, 8, 16, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 2px solid var(--neon-red);
+  border-radius: 50px;
+  padding: 0.85rem 1.5rem;
+  color: #fff;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.95rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 35px var(--neon-red-glow);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  animation: toastBounceIn 0.45s var(--spring-bounce);
+  text-align: center;
+}
+
+.toast-message i {
+  color: var(--neon-amber);
+  font-size: 1.25rem;
+  animation: flameWave 1.5s infinite;
+}
+
+.toast-message.wobble {
+  animation: toastWobble 0.4s var(--spring-bounce);
+}
+
+@keyframes toastBounceIn {
+  0% {
+    transform: translateY(-40px) scale(0.85);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes toastWobble {
+  0%, 100% { transform: scale(1) translateX(0); }
+  25% { transform: scale(1.05) translateX(-8px); }
+  75% { transform: scale(1.05) translateX(8px); }
+}
+
+/* Tray Batch Limit Indicator */
+.tray-batch-indicator {
+  padding: 0.9rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.batch-indicator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-family: var(--font-heading);
+}
+
+.batch-indicator-label {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.batch-indicator-count {
+  font-weight: 800;
+  color: var(--neon-amber);
+}
+
+.batch-indicator-count.limit-hit {
+  color: var(--neon-red);
+  text-shadow: 0 0 10px var(--neon-red);
+}
+
+.batch-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.batch-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, var(--neon-amber));
+  border-radius: 10px;
+  transition: width 0.3s var(--smooth-curve), background 0.3s ease;
+}
+
+.batch-progress-fill.limit-hit {
+  background: var(--neon-red);
+  box-shadow: 0 0 10px var(--neon-red);
+}
+
+.batch-limit-notice {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--neon-red);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+  animation: devilJumpBounce 0.5s var(--spring-bounce);
+}
+
 /* Empty search state */
 .menu-empty-state {
   grid-column: 1 / -1;
@@ -2647,3 +2841,4 @@ button {
     justify-content: flex-start;
   }
 }
+

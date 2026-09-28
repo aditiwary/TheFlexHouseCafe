@@ -174,6 +174,42 @@ function initMenuSystem() {
   renderMenuItems();
 }
 
+const MAX_BATCH_LIMIT = 10;
+
+function showLimitToast(message = "Limit reached, order more in next batch.") {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+
+  let existing = container.querySelector('.toast-message');
+  if (existing) {
+    existing.classList.remove('wobble');
+    void existing.offsetWidth;
+    existing.classList.add('wobble');
+    existing.querySelector('span').textContent = message;
+    clearTimeout(existing._timeoutId);
+    existing._timeoutId = setTimeout(() => existing.remove(), 3200);
+    playAudioBeep(260, 0.15);
+    return;
+  }
+
+  const toast = document.createElement('div');
+  toast.className = 'toast-message';
+  toast.innerHTML = `
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span>${message}</span>
+  `;
+
+  container.appendChild(toast);
+  playAudioBeep(260, 0.15);
+
+  toast._timeoutId = setTimeout(() => {
+    toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(-20px)';
+    setTimeout(() => toast.remove(), 300);
+  }, 3200);
+}
+
 function renderMenuItems() {
   const itemsContainer = document.getElementById('menuItemsGrid');
   if (!itemsContainer) return;
@@ -198,10 +234,16 @@ function renderMenuItems() {
     return;
   }
 
+  const totalCount = cart.reduce((sum, i) => sum + i.quantity, 0);
+
   itemsContainer.innerHTML = filtered.map(item => {
     const isPizza = item.category === 'pizza' && item.prices;
     const currentSize = pizzaSelectedSizes[item.id] || (isPizza ? item.defaultSize : null);
     const displayPrice = isPizza ? item.prices[currentSize] : item.price;
+    const cartItemId = isPizza ? `${item.id}-${currentSize}` : item.id;
+    const cartItem = cart.find(ci => ci.key === cartItemId);
+    const itemQty = cartItem ? cartItem.quantity : 0;
+    const isAtLimit = totalCount >= MAX_BATCH_LIMIT || itemQty >= 10;
 
     return `
       <article class="menu-card jump-hover" data-id="${item.id}">
@@ -229,9 +271,23 @@ function renderMenuItems() {
             <span class="price-currency">Price</span>
             <span class="price-amount" id="price-display-${item.id}">₹${displayPrice}</span>
           </div>
-          <button class="btn-add-tray" onclick="handleAddToCart('${item.id}')">
-            <i class="fa-solid fa-plus"></i> Add
-          </button>
+          <div class="order-stepper-control">
+            ${itemQty > 0 ? `
+              <div class="item-qty-stepper">
+                <button class="btn-stepper-minus" onclick="handleStepQty('${cartItemId}', -1)" aria-label="Decrease quantity">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <span class="stepper-val">${itemQty}</span>
+                <button class="btn-stepper-plus ${isAtLimit ? 'disabled' : ''}" onclick="handleStepQty('${cartItemId}', 1)" aria-label="Increase quantity">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            ` : `
+              <button class="btn-add-tray ${totalCount >= MAX_BATCH_LIMIT ? 'disabled' : ''}" onclick="handleAddToCart('${item.id}')">
+                <i class="fa-solid fa-plus"></i> Add
+              </button>
+            `}
+          </div>
         </div>
       </article>
     `;
@@ -254,12 +310,54 @@ function renderMenuItems() {
         const priceEl = document.getElementById(`price-display-${itemId}`);
         if (priceEl) priceEl.textContent = `₹${item.prices[size]}`;
       }
+
+      updateMenuCardSteppers();
     });
   });
 }
 
+function updateMenuCardSteppers() {
+  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  document.querySelectorAll('.menu-card[data-id]').forEach(card => {
+    const itemId = card.dataset.id;
+    const item = MENU_ITEMS.find(i => i.id === itemId);
+    if (!item) return;
+
+    const isPizza = item.category === 'pizza' && item.prices;
+    const currentSize = pizzaSelectedSizes[itemId] || (isPizza ? item.defaultSize : null);
+    const cartItemId = isPizza ? `${itemId}-${currentSize}` : itemId;
+    const cartItem = cart.find(ci => ci.key === cartItemId);
+    const itemQty = cartItem ? cartItem.quantity : 0;
+    const isAtLimit = totalCount >= MAX_BATCH_LIMIT || itemQty >= 10;
+
+    const actionContainer = card.querySelector('.order-stepper-control');
+    if (!actionContainer) return;
+
+    if (itemQty > 0) {
+      actionContainer.innerHTML = `
+        <div class="item-qty-stepper">
+          <button class="btn-stepper-minus" onclick="handleStepQty('${cartItemId}', -1)" aria-label="Decrease quantity">
+            <i class="fa-solid fa-minus"></i>
+          </button>
+          <span class="stepper-val">${itemQty}</span>
+          <button class="btn-stepper-plus ${isAtLimit ? 'disabled' : ''}" onclick="handleStepQty('${cartItemId}', 1)" aria-label="Increase quantity">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+      `;
+    } else {
+      actionContainer.innerHTML = `
+        <button class="btn-add-tray ${totalCount >= MAX_BATCH_LIMIT ? 'disabled' : ''}" onclick="handleAddToCart('${item.id}')">
+          <i class="fa-solid fa-plus"></i> Add
+        </button>
+      `;
+    }
+  });
+}
+
 /* ==========================================================================
-   4. FLEX TRAY / ORDER CART (WITH WHATSAPP DISPATCH)
+   4. FLEX TRAY / ORDER CART (WITH WHATSAPP DISPATCH & LIMIT OF 10)
    ========================================================================== */
 let cart = [];
 
@@ -292,6 +390,12 @@ function initFlexTray() {
 }
 
 window.handleAddToCart = function(itemId) {
+  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  if (totalCount >= MAX_BATCH_LIMIT) {
+    showLimitToast("Limit reached, order more in next batch.");
+    return;
+  }
+
   const item = MENU_ITEMS.find(i => i.id === itemId);
   if (!item) return;
 
@@ -303,6 +407,10 @@ window.handleAddToCart = function(itemId) {
 
   const existing = cart.find(ci => ci.key === cartItemId);
   if (existing) {
+    if (existing.quantity >= 10) {
+      showLimitToast("Limit reached, order more in next batch.");
+      return;
+    }
     existing.quantity += 1;
   } else {
     cart.push({
@@ -317,14 +425,30 @@ window.handleAddToCart = function(itemId) {
   // Visual animation bump on cart icons
   document.querySelectorAll('.cart-counter').forEach(badge => {
     badge.classList.remove('bump');
-    void badge.offsetWidth; // trigger reflow
+    void badge.offsetWidth;
     badge.classList.add('bump');
   });
 
   updateCartUI();
-
-  // Play subtle feedback sound if audio enabled
   playAudioBeep(520, 0.08);
+};
+
+window.handleStepQty = function(cartItemId, delta) {
+  if (delta > 0) {
+    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    if (totalCount >= MAX_BATCH_LIMIT) {
+      showLimitToast("Limit reached, order more in next batch.");
+      return;
+    }
+
+    const existing = cart.find(ci => ci.key === cartItemId);
+    if (existing && existing.quantity >= 10) {
+      showLimitToast("Limit reached, order more in next batch.");
+      return;
+    }
+  }
+
+  window.changeCartQty(cartItemId, delta);
 };
 
 function updateCartUI() {
@@ -344,37 +468,78 @@ function updateCartUI() {
     totalValEl.textContent = `₹${totalPrice}`;
   }
 
-  if (!itemsContainer) return;
+  // Update Batch Indicator in Tray
+  const batchIndicatorCount = document.getElementById('batchIndicatorCount');
+  const batchProgressFill = document.getElementById('batchProgressFill');
+  const batchLimitNotice = document.getElementById('batchLimitNotice');
 
-  if (cart.length === 0) {
-    itemsContainer.innerHTML = `
-      <div class="tray-empty-view">
-        <i class="fa-solid fa-fire-burner"></i>
-        <h4 style="font-family: var(--font-heading); font-size: 1.15rem; color: #fff; margin-bottom: 0.35rem;">Your Flex Tray is Empty</h4>
-        <p style="font-size: 0.85rem;">Add some mouth-watering pizzas, burgers, or shakes from our menu!</p>
-      </div>
-    `;
-    return;
+  if (batchIndicatorCount && batchProgressFill) {
+    batchIndicatorCount.textContent = `${totalCount} / ${MAX_BATCH_LIMIT} Items`;
+    const fillPercent = Math.min((totalCount / MAX_BATCH_LIMIT) * 100, 100);
+    batchProgressFill.style.width = `${fillPercent}%`;
+
+    if (totalCount >= MAX_BATCH_LIMIT) {
+      batchIndicatorCount.classList.add('limit-hit');
+      batchProgressFill.classList.add('limit-hit');
+      if (batchLimitNotice) batchLimitNotice.style.display = 'flex';
+    } else {
+      batchIndicatorCount.classList.remove('limit-hit');
+      batchProgressFill.classList.remove('limit-hit');
+      if (batchLimitNotice) batchLimitNotice.style.display = 'none';
+    }
   }
 
-  itemsContainer.innerHTML = cart.map(item => `
-    <div class="tray-item-row">
-      <div class="tray-item-info">
-        <span class="tray-item-name">${item.name}</span>
-        <span class="tray-item-detail">₹${item.price} each</span>
-      </div>
-      <div class="tray-item-controls">
-        <button class="btn-qty" onclick="changeCartQty('${item.key}', -1)">-</button>
-        <span class="qty-val">${item.quantity}</span>
-        <button class="btn-qty" onclick="changeCartQty('${item.key}', 1)">+</button>
-      </div>
-    </div>
-  `).join('');
+  if (itemsContainer) {
+    if (cart.length === 0) {
+      itemsContainer.innerHTML = `
+        <div class="tray-empty-view">
+          <i class="fa-solid fa-fire-burner"></i>
+          <h4 style="font-family: var(--font-heading); font-size: 1.15rem; color: #fff; margin-bottom: 0.35rem;">Your Flex Tray is Empty</h4>
+          <p style="font-size: 0.85rem;">Add some mouth-watering pizzas, burgers, or shakes from our menu!</p>
+        </div>
+      `;
+    } else {
+      itemsContainer.innerHTML = cart.map(item => {
+        const atItemLimit = item.quantity >= 10 || totalCount >= MAX_BATCH_LIMIT;
+        return `
+          <div class="tray-item-row">
+            <div class="tray-item-info">
+              <span class="tray-item-name">${item.name}</span>
+              <span class="tray-item-detail">₹${item.price} each</span>
+            </div>
+            <div class="tray-item-controls">
+              <button class="btn-qty minus" onclick="changeCartQty('${item.key}', -1)" aria-label="Decrease quantity">-</button>
+              <span class="qty-val">${item.quantity}</span>
+              <button class="btn-qty plus ${atItemLimit ? 'disabled' : ''}" onclick="changeCartQty('${item.key}', 1)" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+
+  // Sync steppers on visible menu cards
+  updateMenuCardSteppers();
 }
 
 window.changeCartQty = function(key, delta) {
   const itemIndex = cart.findIndex(i => i.key === key);
-  if (itemIndex === -1) return;
+  if (itemIndex === -1) {
+    // If not found and delta > 0, find base itemId
+    return;
+  }
+
+  if (delta > 0) {
+    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    if (totalCount >= MAX_BATCH_LIMIT) {
+      showLimitToast("Limit reached, order more in next batch.");
+      return;
+    }
+    if (cart[itemIndex].quantity >= 10) {
+      showLimitToast("Limit reached, order more in next batch.");
+      return;
+    }
+  }
 
   cart[itemIndex].quantity += delta;
   if (cart[itemIndex].quantity <= 0) {
@@ -382,6 +547,7 @@ window.changeCartQty = function(key, delta) {
   }
 
   updateCartUI();
+  playAudioBeep(delta > 0 ? 540 : 420, 0.06);
 };
 
 function dispatchWhatsAppOrder() {
@@ -778,4 +944,3 @@ function initNavigation() {
     }
   }
 }
-

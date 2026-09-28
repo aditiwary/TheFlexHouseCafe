@@ -36,6 +36,9 @@
   <!-- Mouse Spotlight Glow -->
   <div class="cursor-spotlight"></div>
 
+  <!-- Toast Notification Container for Order Limits -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
   <!-- SITE HEADER / NAVBAR -->
   <header class="site-header" id="siteHeader">
     <div class="container nav-wrapper">
@@ -778,6 +781,20 @@
       <button class="btn-close-tray" id="closeTrayBtn" aria-label="Close Tray">
         <i class="fa-solid fa-xmark"></i>
       </button>
+    </div>
+
+    <!-- Batch Limit Indicator (Limit of 10) -->
+    <div class="tray-batch-indicator" id="trayBatchIndicator">
+      <div class="batch-indicator-header">
+        <span class="batch-indicator-label"><i class="fa-solid fa-layer-group"></i> Batch Limit</span>
+        <span class="batch-indicator-count" id="batchIndicatorCount">0 / 10 Items</span>
+      </div>
+      <div class="batch-progress-bar">
+        <div class="batch-progress-fill" id="batchProgressFill" style="width: 0%;"></div>
+      </div>
+      <div class="batch-limit-notice" id="batchLimitNotice" style="display: none;">
+        <i class="fa-solid fa-triangle-exclamation"></i> Limit reached, order more in next batch.
+      </div>
     </div>
 
     <div class="tray-items-container" id="trayItemsContainer">

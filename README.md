@@ -1,69 +1,38 @@
-# ☕ Hell House Cafe Website
+# 🔥 Hell House Cafe (Hellfire Hidden House)
 
-The ultimate flex & showpiece website for **Hell House Cafe** (Unnao) — featuring a cyber-luxury neon aesthetic, 4K reel video streaming showcase, interactive food & beverage menu with live search & filtering, booking reservation modal, and WhatsApp ordering integration.
-
----
-
-## ✨ Features
-
-- **🎬 4K Dual Reel Showcase**:
-  - Live dual-reel stream player featuring official cafe videos:
-    - `Reel 01`: Hell House Neon Vibe & Lounge Tour (`cafe-reel-1.mp4`)
-    - `Reel 02`: Sizzling Bites & Kitchen Craving (`cafe-reel-2.mp4`)
-  - Channel switcher tabs, custom play/pause, instant sound toggle, and fullscreen mode.
-- **🔥 Cyberpunk / Crimson Flame Aesthetics**:
-  - Deep obsidian dark palette with crimson & amber embers.
-  - Interactive ember particle canvas and smooth reveal micro-animations.
-  - Glassmorphic navigation bar with scroll detection and mobile responsive menu.
-- **🍕 Interactive Digital Menu**:
-  - Complete categorization: Pizzas, Burgers, Sandwiches, Fries, Maggi, Momos, Shakes, Hot Brews, Coolers, and Desserts.
-  - Instant search filter and dietary indicators (Veg/Non-Veg badges, Chef's Special tag).
-- **📲 Direct WhatsApp Ordering & Table Booking**:
-  - One-click WhatsApp concierge with pre-formatted message dispatch.
-  - Interactive table reservation modal with validation.
-- **📍 Location & Google Maps Integration**:
-  - Direct directions link to the Unnao cafe location.
+> **Unnao’s Trendiest Neon Cyber-Lounge & Restaurant**  
+> *"Good Food • Good Mood • Great Vibes"*
 
 ---
 
-## 📂 Project Structure
+## 📍 About Hell House Cafe
+Hell House Cafe is the premier showpiece hangout spot in Unnao, Uttar Pradesh. Featuring hand-tossed artisan pizzas, overloaded cheesy burgers, sizzling starters, and electric neon mocktails, our cafe is designed for celebrations, foodies, and aesthetic vibes.
 
-```
-├── index.html                  # Main landing page
-├── vercel.json                 # Vercel deployment configuration
-├── assets/
-│   ├── css/
-│   │   └── style.css           # Custom luxury design system & responsive styling
-│   ├── js/
-│   │   ├── app.js              # Application logic, reel switcher, modals, UI interactions
-│   │   └── menu-data.js        # Structured cafe menu data
-│   ├── images/                 # Logo, posters, food showcase photography
-│   └── videos/
-│       ├── cafe-reel-1.mp4     # Reel 01: Neon Vibe & Lounge
-│       └── cafe-reel-2.mp4     # Reel 02: Sizzling Bites
-└── README.md
-```
+- **Address:** Hiran Nagar (Opposite Bank of Baroda), Unnao, Uttar Pradesh
+- **Direct Contact / WhatsApp:** +91 8874056350
+- **Hours:** 11:00 AM – 11:00 PM (Monday – Sunday)
 
 ---
 
-## 🚀 Running Locally
-
-You can preview the website locally using any static HTTP server:
-
-```bash
-# Python 3
-python3 -m http.server 8899
-
-# Or using Node http-server / npx serve
-npx serve .
-```
-
-Then open `http://localhost:8899` in your browser.
+## ⚡ Features
+- **🎬 4K Dual Reel Stream Showcase:** Integrated live dual-channel video player featuring official cafe reels (`Reel 01: Neon Vibe & Lounge Tour` and `Reel 02: Sizzling Bites & Kitchen Craving`) with instant channel switching, audio toggle, and fullscreen mode.
+- **Neon Cyber-Inferno Atmosphere:** HTML5 Canvas particle ember engine, floating neon orbs, and cursor spotlight.
+- **Jumping Animations:** Playful bouncing mascot animation, jumping interactive badges, and spring-physics buttons.
+- **Direct Online Table Booking:** Customers can choose party size, date, time slot, and seating vibe (Hellfire Neon Lounge, Romantic Corner, Chill Pod, Birthday Bash Special) with instant WhatsApp confirmation.
+- **Interactive Digital Menu:** Real-time dish search, category filter pills, and small/medium pizza variant pricing.
+- **Flex Tray (Order Drawer):** Assemble orders with dynamic subtotal calculations and 1-click WhatsApp order dispatch.
+- **Founder Spotlight:** Highlighting the cafe's creator and vision in Unnao.
+- **Physical Menu Board Gallery:** Interactive zoom lightbox preview of the original chalkboard menu and cafe brochure.
+- **Location & Navigation:** Embedded map, 1-tap Google Maps directions, and direct phone dialer.
 
 ---
 
-## 🌐 Deployment
+## 🚀 Deployment to Vercel
+This project is optimized for instant deployment to [Vercel](https://vercel.com):
+1. Import this repository into Vercel.
+2. Framework Preset: **Other** / Static Site (Root directory `./`).
+3. Click **Deploy** — zero build commands needed!
 
-The repository is pre-configured for **Vercel**, **GitHub Pages**, or **Netlify**:
-- Simply connect this repository to Vercel or run `vercel --prod`.
-- Static HTML5/CSS3/Vanilla JS with zero build steps required.
+---
+
+© 2026 Hell House Cafe. All Rights Reserved.
